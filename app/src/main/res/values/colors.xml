@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    //Basic colours
+    <color name="backgroundColour">#E4F6FF</color>
+    <color name="textColour">#4E4A4A</color>
+
+    //Home Page
+    <color name="clearBlue">#E5FDFF</color>
+    <color name="lightBlue">#9BCDE3</color>
+    <color name="tealBlue">#4898BA</color>
+    <color name="editbtn">#3A86FF</color>
+    <color name="foodCard">#F98B29</color>
+    <color name="yellow">#FFBB00</color>
+    <color name="exerciseCard">#9FCE1D</color>
+    <color name="sleepCard">#EF7DDD</color>
+    <color name="leaderboardBtn">#CF10F5</color>
+    <color name="virtualBtn">#8338EC</color>
+
+    //fitness Page
+    <color name="stepscolor">#7FEB6F</color>
+    <color name="moveminutescolors">#1CB2B3</color>
+    <color name="exercisecolors">#FF7E41</color>
+
+    <color name="beginner">#FFBE0B</color>
+    <color name="intermediate">#FF006E</color>
+    <color name="advanced">#A784D8</color>
+
+    <color name="moveminutesprogress">#49E5E2</color>
+
+    <color name="exprogressbar">#FFF01F</color>
+    <color name="viewprogressex">#4FF835</color>
+    <color name="exgoals">#63CB53</color>
+
+
+
+
+</resources>
