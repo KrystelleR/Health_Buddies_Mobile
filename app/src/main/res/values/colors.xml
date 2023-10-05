@@ -28,16 +28,22 @@
     <color name="stepscolor">#7FEB6F</color>
     <color name="moveminutescolors">#1CB2B3</color>
     <color name="exercisecolors">#FF7E41</color>
-
     <color name="beginner">#FFBE0B</color>
     <color name="intermediate">#FF006E</color>
     <color name="advanced">#A784D8</color>
-
     <color name="moveminutesprogress">#49E5E2</color>
-
     <color name="exprogressbar">#FFF01F</color>
     <color name="viewprogressex">#4FF835</color>
     <color name="exgoals">#63CB53</color>
+
+    //sleep page
+    <color name="meditationcolor">#C8DE4E</color>
+    <color name="meditation1">#9FCE1D</color>
+    <color name="melodiescolor">#E7BED0</color>
+    <color name="melodies1">#EA95BA</color>
+    <color name="breathingcolor">#34ADB5</color>
+    <color name="breathing1">#9BCDE3</color>
+
 
 
 

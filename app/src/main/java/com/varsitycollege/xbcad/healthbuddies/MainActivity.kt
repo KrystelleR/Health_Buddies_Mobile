@@ -10,10 +10,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val cardView = findViewById<CardView>(R.id.exercisecardbtn)
+        val foodcard = findViewById<CardView>(R.id.foodcardbtn)
+        val exercisecard = findViewById<CardView>(R.id.exercisecardbtn)
+        val sleepcard = findViewById<CardView>(R.id.sleepcardbtn)
 
-        cardView.setOnClickListener {
+        exercisecard.setOnClickListener {
             val intent = Intent(this, fitnesspage::class.java)
+            startActivity(intent)
+        }
+
+        sleepcard.setOnClickListener {
+            val intent = Intent(this, sleeppage::class.java)
             startActivity(intent)
         }
     }

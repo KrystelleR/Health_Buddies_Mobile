@@ -12,6 +12,9 @@
         android:theme="@style/Theme.HealthBuddies"
         tools:targetApi="31">
         <activity
+            android:name=".sleeppage"
+            android:exported="false" />
+        <activity
             android:name=".fitnesspage"
             android:exported="false" />
         <activity

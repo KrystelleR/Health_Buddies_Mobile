@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sleepaidbg"
+    tools:context=".sleeppage">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:textSize="25dp"
+            android:text="Choose your Sleep Aid below:" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/meditationcard"
+            android:layout_width="350dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="20dp"
+            android:layout_height="170dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/meditationcolor">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="150dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    app:cardCornerRadius="20dp"
+                    android:backgroundTint="@color/meditation1"
+                    android:layout_height="115dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
+                        android:textSize="25dp"
+                        android:text="Relaxing Meditation Videos" />
+                </androidx.cardview.widget.CardView>
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/meditationfrog" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="350dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="20dp"
+            android:layout_height="170dp"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/melodiescard"
+            android:backgroundTint="@color/melodiescolor">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="93dp"
+                    app:srcCompat="@drawable/melodiesband" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="295dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:layout_height="40dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    android:backgroundTint="@color/melodies1" >
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:textSize="20dp"
+                        android:textColor="@color/white"
+                        android:text="Calming Melodies Collection" />
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="350dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="20dp"
+            android:layout_height="170dp"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/breathingcard"
+            android:backgroundTint="@color/breathingcolor">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="157dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/cloudbreathing" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="143dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="10dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    android:backgroundTint="@color/breathing1"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/white"
+                        android:text="Guided Breathing Exercises" />
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
