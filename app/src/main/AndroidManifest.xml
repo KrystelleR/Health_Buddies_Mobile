@@ -12,6 +12,12 @@
         android:theme="@style/Theme.HealthBuddies"
         tools:targetApi="31">
         <activity
+            android:name=".melodiespage"
+            android:exported="false" />
+        <activity
+            android:name=".settingspage"
+            android:exported="false" />
+        <activity
             android:name=".sleeppage"
             android:exported="false" />
         <activity
@@ -27,5 +33,7 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

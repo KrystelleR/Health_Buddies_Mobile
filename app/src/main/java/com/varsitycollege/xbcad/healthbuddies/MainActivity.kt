@@ -14,6 +14,11 @@ class MainActivity : AppCompatActivity() {
         val exercisecard = findViewById<CardView>(R.id.exercisecardbtn)
         val sleepcard = findViewById<CardView>(R.id.sleepcardbtn)
 
+        foodcard.setOnClickListener {
+            val intent = Intent(this, melodiespage::class.java)
+            startActivity(intent)
+        }
+
         exercisecard.setOnClickListener {
             val intent = Intent(this, fitnesspage::class.java)
             startActivity(intent)
