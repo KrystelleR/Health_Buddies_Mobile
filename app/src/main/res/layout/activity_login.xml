@@ -28,14 +28,14 @@
         android:textSize="20sp"/>
 
     <EditText
-        android:id="@+id/usernameTxtBox"
+        android:id="@+id/emailtxt"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:textSize="20dp"
-        android:hint="Username"
+        android:hint="Email"
         android:paddingHorizontal="20dp"
         android:fontFamily="@font/itim"
         android:textColorHint="@color/lightgrey"
@@ -44,7 +44,7 @@
         android:inputType="textEmailAddress" />
 
     <EditText
-        android:id="@+id/passwordTxtBox"
+        android:id="@+id/passwordtxt"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="30dp"
@@ -59,6 +59,7 @@
         android:background="@drawable/loginstyle"
         android:inputType="textPassword" />
     <TextView
+        android:id="@+id/forgotTxtView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -70,7 +71,7 @@
         android:textSize="20sp"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/loginBttn"
+        android:id="@+id/loginbtn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
@@ -167,7 +168,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/regTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="90dp"

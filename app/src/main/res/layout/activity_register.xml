@@ -28,7 +28,7 @@
                 android:textSize="20sp"/>
 
             <EditText
-                android:id="@+id/usernameTxtBox"
+                android:id="@+id/usernametxt"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="20dp"
@@ -44,7 +44,7 @@
                 android:inputType="textEmailAddress" />
 
             <EditText
-                android:id="@+id/emailTxtBox"
+                android:id="@+id/emailtxt"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="30dp"
@@ -60,7 +60,7 @@
                 android:inputType="textEmailAddress" />
 
             <EditText
-                android:id="@+id/passwordTxtBox"
+                android:id="@+id/passwordtxt"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="30dp"
@@ -76,7 +76,7 @@
                 android:inputType="textPassword" />
 
             <EditText
-                android:id="@+id/confpasswordTxtBox"
+                android:id="@+id/confpasswordtxt"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="30dp"
@@ -92,14 +92,14 @@
                 android:inputType="textPassword" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/loginBttn"
+                android:id="@+id/registerbtn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:textSize="20dp"
-                android:text="Login"
+                android:text="Register"
                 android:textColor="@color/white"
                 android:background="@drawable/gradient_bttn"/>
 
