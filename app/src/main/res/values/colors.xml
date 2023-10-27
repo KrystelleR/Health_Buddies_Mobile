@@ -44,6 +44,19 @@
     <color name="breathingcolor">#34ADB5</color>
     <color name="breathing1">#9BCDE3</color>
 
+    //settings page
+    <color name="profileheading">#C65BF9</color>
+    <color name="profilebg">#DA9BF8</color>
+    <color name="switchcolor">#F2D7FF</color>
+    <color name="trackcolor">#CCCCCC</color>
+
+    <color name="goalsheading">#FF8C39</color>
+    <color name="goalbg">#FCB37E</color>
+
+    //melodies page
+    <color name="musicboxcolor">#A1647A</color>
+    <color name="whitenoisecolor">#006F80</color>
+    <color name="disneycolor">#7F7F7F</color>
 
 
 
