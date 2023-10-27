@@ -8,6 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+
+    //LOGIN
+    <color name="lightgrey">#A0B3BD</color>
+    <color name="blue">#204E66</color>
+
     //Basic colours
     <color name="backgroundColour">#E4F6FF</color>
     <color name="textColour">#4E4A4A</color>
