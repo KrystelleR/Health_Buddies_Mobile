@@ -188,14 +188,14 @@
                     style="?android:attr/borderlessButtonStyle"/>
             </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="20sp"
-        android:fontFamily="@font/itim"
-        android:textColor="@color/blue"
-        android:layout_gravity="center"
-        android:text="Don't have an account? Register here" />
+    <Button
+        android:id="@+id/Signinbtn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="@color/teal_200"
+        android:background="@android:color/transparent"
+        android:backgroundTint="@android:color/transparent"
+        android:text="@string/signIn"
+        android:textAllCaps="false"
+        android:textSize="12dp" />
 </LinearLayout>

@@ -42,6 +42,12 @@ class Register : AppCompatActivity() {
         var isPassword = false
         var isConfirmPassword = false
 
+        val loginbtn = findViewById<Button>(R.id.Signinbtn)
+        loginbtn.setOnClickListener(){
+            val Intent = Intent(this, Login::class.java)
+            startActivity(Intent)
+        }
+
         emailEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 val email = s.toString()
@@ -110,7 +116,7 @@ class Register : AppCompatActivity() {
             val usernameEditText = findViewById<EditText>(R.id.usernametxt)
             val usernameText = usernameEditText.text.toString()
 
-            val emailEditText = findViewById<TextInputEditText>(R.id.emailtxt)
+            val emailEditText = findViewById<EditText>(R.id.emailtxt)
             val emailText = emailEditText.text.toString()
 
             val passswordEditText = findViewById<EditText>(R.id.passwordtxt)

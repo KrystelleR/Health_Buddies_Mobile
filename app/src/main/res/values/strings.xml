@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">HealthBuddies</string>
+    <string name="signUp"><u>Don\'t have an account yet? Register here</u></string>
+    <string name="signIn"><u>Already have an account? Login here</u></string>
 </resources>
