@@ -12,6 +12,8 @@ class melodiespage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_melodiespage)
+
+
         // Find the WebViews by their IDs
         val webView1: WebView = findViewById(R.id.spotifyWebView1)
         val webView2: WebView = findViewById(R.id.spotifyWebView2)

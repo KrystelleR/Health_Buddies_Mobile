@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/melodiesbg"
+    android:background="@drawable/sleepaidbg"
     android:layout_height="match_parent"
     tools:context=".melodiespage">
 
@@ -30,8 +30,7 @@
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
                 android:layout_height="135dp"
-                android:layout_marginBottom="20dp"
-                app:srcCompat="@drawable/musicband" />
+                app:srcCompat="@drawable/melodiesband" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="220dp"

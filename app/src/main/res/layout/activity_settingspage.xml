@@ -24,323 +24,391 @@
                 android:layout_marginTop="50dp"
                 android:layout_gravity="center">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_image"
-                    android:layout_width="170dp"
-                    android:layout_height="170dp"
-                    android:layout_centerHorizontal="true"
-                    android:elevation="15dp"
-                    android:src="@drawable/profile"
-                    app:civ_border_color="#9BCDE3"
-                    app:civ_border_width="8dp" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_centerHorizontal="true"
+                android:elevation="15dp"
+                android:src="@drawable/profile"
+                app:civ_border_color="#9BCDE3"
+                app:civ_border_width="8dp" />
 
-                <androidx.cardview.widget.CardView
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="70dp"
+                app:cardBackgroundColor="@color/backgroundColour"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="70dp"
-                    app:cardBackgroundColor="@color/backgroundColour"
-                    app:cardCornerRadius="40dp"
-                    app:cardElevation="0dp">
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="120dp">
 
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="370dp"
+                            android:layout_height="270dp"
+                            android:layout_below="@id/card1"
+                            android:layout_centerHorizontal="true"
+                            app:cardBackgroundColor="@color/profilebg"
                             android:layout_gravity="center"
-                            android:layout_marginTop="120dp">
+                            android:layout_marginTop="-25dp"
+                            app:cardCornerRadius="20dp" >
 
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="370dp"
-                                android:layout_height="270dp"
-                                android:layout_below="@id/card1"
-                                android:layout_centerHorizontal="true"
-                                app:cardBackgroundColor="@color/profilebg"
+                            <LinearLayout
+                                android:layout_marginTop="30dp"
+                                android:layout_marginBottom="20dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
                                 android:layout_gravity="center"
-                                android:layout_marginTop="-25dp"
-                                app:cardCornerRadius="20dp" >
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
 
                                 <LinearLayout
-                                    android:layout_marginTop="30dp"
-                                    android:layout_marginBottom="20dp"
-                                    android:layout_marginLeft="20dp"
-                                    android:layout_marginRight="20dp"
-                                    android:layout_gravity="center"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="vertical">
+                                    android:orientation="horizontal">
+
 
                                     <LinearLayout
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:orientation="horizontal">
+                                        android:orientation="vertical">
 
-
-                                        <LinearLayout
+                                        <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:orientation="vertical">
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:paddingStart="5dp"
-                                                android:text="Username"
-                                                android:textStyle="bold"
-                                                android:textSize="15dp" />
-
-                                            <EditText
-                                                android:id="@+id/usernametxt"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:background="@drawable/rounded_edittext"
-                                                android:ems="10"
-                                                android:hint="Username"
-                                                android:inputType="textPersonName"
-                                                android:paddingStart="16dp"
-                                                android:text="Johnny" />
-
-                                        </LinearLayout>
-
-                                        <LinearLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="20dp"
-                                            android:orientation="vertical">
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:paddingStart="5dp"
-                                                android:text="Age"
-                                                android:textStyle="bold"
-                                                android:textSize="15dp" />
-
-                                            <EditText
-                                                android:id="@+id/Agetxt"
-                                                android:layout_width="79dp"
-                                                android:layout_height="wrap_content"
-                                                android:background="@drawable/rounded_edittext"
-                                                android:ems="10"
-                                                android:hint="Age"
-                                                android:inputType="textPersonName"
-                                                android:paddingStart="16dp"
-                                                android:text="9" />
-
-                                        </LinearLayout>
-
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="10dp"
-                                        android:orientation="horizontal">
-                                        <LinearLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:orientation="vertical">
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:paddingStart="5dp"
-                                                android:text="Height"
-                                                android:textStyle="bold"
-                                                android:textSize="15dp" />
-
-                                            <EditText
-                                                android:id="@+id/heighttxt"
-                                                android:layout_width="100dp"
-                                                android:layout_height="wrap_content"
-                                                android:background="@drawable/rounded_edittext"
-                                                android:ems="10"
-                                                android:hint="Height"
-                                                android:inputType="textPersonName"
-                                                android:paddingStart="16dp"
-                                                android:text="130cm" />
-
-                                        </LinearLayout>
-                                        <LinearLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="20dp"
-                                            android:orientation="vertical">
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:paddingStart="5dp"
-                                                android:text="Weight"
-                                                android:textStyle="bold"
-                                                android:textSize="15dp" />
-
-                                            <EditText
-                                                android:id="@+id/weighttxt"
-                                                android:layout_width="100dp"
-                                                android:layout_height="wrap_content"
-                                                android:background="@drawable/rounded_edittext"
-                                                android:ems="10"
-                                                android:hint="Weight"
-                                                android:inputType="textPersonName"
-                                                android:paddingStart="16dp"
-                                                android:text="34kg" />
-
-                                        </LinearLayout>
-                                        <LinearLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="20dp"
-                                            android:orientation="vertical">
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:text="Gender"
-                                                android:textStyle="bold"
-                                                android:textSize="15dp" />
-
-                                            <EditText
-                                                android:id="@+id/gendertxt"
-                                                android:layout_width="51dp"
-                                                android:layout_height="wrap_content"
-                                                android:background="@drawable/rounded_edittext"
-                                                android:ems="10"
-                                                android:hint="Gender"
-                                                android:inputType="textPersonName"
-                                                android:paddingStart="16dp"
-                                                android:text="M" />
-
-                                        </LinearLayout>
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="10dp"
-                                        android:orientation="horizontal">
-                                        <LinearLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:orientation="vertical">
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:paddingStart="5dp"
-                                                android:text="Email"
-                                                android:textStyle="bold"
-                                                android:textSize="15dp" />
-
-                                            <EditText
-                                                android:id="@+id/emailtxt"
-                                                android:layout_width="300dp"
-                                                android:layout_height="wrap_content"
-                                                android:background="@drawable/rounded_edittext"
-                                                android:ems="10"
-                                                android:hint="email address"
-                                                android:inputType="textPersonName"
-                                                android:paddingStart="16dp"
-                                                android:text="Johnnysmum@gmail.com" />
-
-                                        </LinearLayout>
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="15dp"
-                                        android:orientation="horizontal">
-
-
-                                        <LinearLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:orientation="vertical">
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:paddingStart="5dp"
-                                                android:text="Measurement System"
-                                                android:textSize="15dp"
-                                                android:textStyle="bold" />
-                                            <Switch
-                                                android:id="@+id/systemswitch"
-                                                android:layout_width="125dp"
-                                                android:layout_height="wrap_content"
-                                                android:background="@drawable/rounded_switch_background"
-                                                android:paddingStart="16dp"
-                                                android:text="Metric"
-                                                android:thumbTint="@color/profileheading"
-                                                />
-
-                                        </LinearLayout>
-
-                                        <androidx.appcompat.widget.AppCompatButton
-                                            android:id="@+id/button"
-                                            android:layout_marginLeft="20dp"
-                                            android:layout_width="80dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_weight="1"
                                             android:paddingStart="5dp"
-                                            android:textColor="@color/white"
-                                            android:background="@drawable/curved_button_5"
-                                            android:text="Change Password" />
+                                            android:text="Username"
+                                            android:textStyle="bold"
+                                            android:textSize="15dp" />
+
+                                        <EditText
+                                            android:id="@+id/usernametxt"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/rounded_edittext"
+                                            android:ems="10"
+                                            android:hint="Username"
+                                            android:inputType="textPersonName"
+                                            android:paddingStart="16dp"
+                                            android:text="Johnny" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingStart="5dp"
+                                            android:text="Age"
+                                            android:textStyle="bold"
+                                            android:textSize="15dp" />
+
+                                        <EditText
+                                            android:id="@+id/Agetxt"
+                                            android:layout_width="79dp"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/rounded_edittext"
+                                            android:ems="10"
+                                            android:hint="Age"
+                                            android:inputType="textPersonName"
+                                            android:paddingStart="16dp"
+                                            android:text="9" />
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:orientation="horizontal">
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingStart="5dp"
+                                            android:text="Height"
+                                            android:textStyle="bold"
+                                            android:textSize="15dp" />
+
+                                        <EditText
+                                            android:id="@+id/heighttxt"
+                                            android:layout_width="100dp"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/rounded_edittext"
+                                            android:ems="10"
+                                            android:hint="Height"
+                                            android:inputType="textPersonName"
+                                            android:paddingStart="16dp"
+                                            android:text="130cm" />
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingStart="5dp"
+                                            android:text="Weight"
+                                            android:textStyle="bold"
+                                            android:textSize="15dp" />
+
+                                        <EditText
+                                            android:id="@+id/weighttxt"
+                                            android:layout_width="100dp"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/rounded_edittext"
+                                            android:ems="10"
+                                            android:hint="Weight"
+                                            android:inputType="textPersonName"
+                                            android:paddingStart="16dp"
+                                            android:text="34kg" />
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Gender"
+                                            android:textStyle="bold"
+                                            android:textSize="15dp" />
+
+                                        <EditText
+                                            android:id="@+id/gendertxt"
+                                            android:layout_width="51dp"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/rounded_edittext"
+                                            android:ems="10"
+                                            android:hint="Gender"
+                                            android:inputType="textPersonName"
+                                            android:paddingStart="16dp"
+                                            android:text="M" />
 
                                     </LinearLayout>
                                 </LinearLayout>
-                            </androidx.cardview.widget.CardView>
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/card1"
-                                android:layout_width="200dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="20dp"
-                                app:cardBackgroundColor="@color/profileheading"
-                                app:cardCornerRadius="20dp" >
-
-                                <TextView
+                                <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:textSize="25dp"
-                                    android:textStyle="bold"
-                                    android:textColor="@color/white"
-                                    android:text="User Profile" />
-                            </androidx.cardview.widget.CardView>
+                                    android:layout_marginTop="10dp"
+                                    android:orientation="horizontal">
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
 
-                        </RelativeLayout>
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingStart="5dp"
+                                            android:text="Email"
+                                            android:textStyle="bold"
+                                            android:textSize="15dp" />
 
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
+                                        <EditText
+                                            android:id="@+id/emailtxt"
+                                            android:layout_width="300dp"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/rounded_edittext"
+                                            android:ems="10"
+                                            android:hint="email address"
+                                            android:inputType="textPersonName"
+                                            android:paddingStart="16dp"
+                                            android:text="Johnnysmum@gmail.com" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="15dp"
+                                    android:orientation="horizontal">
+
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:paddingStart="5dp"
+                                            android:text="Measurement System"
+                                            android:textSize="15dp"
+                                            android:textStyle="bold" />
+                                        <Switch
+                                            android:id="@+id/systemswitch"
+                                            android:layout_width="125dp"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/rounded_switch_background"
+                                            android:paddingStart="16dp"
+                                            android:text="Metric"
+                                            android:thumbTint="@color/profileheading"
+                                        />
+
+                                    </LinearLayout>
+
+                                    <androidx.appcompat.widget.AppCompatButton
+                                        android:id="@+id/button"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_width="80dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingStart="5dp"
+                                        android:textColor="@color/white"
+                                        android:background="@drawable/curved_button_5"
+                                        android:text="Change Password" />
+
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card1"
+                            android:layout_width="200dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="20dp">
+                            android:layout_marginLeft="20dp"
+                            app:cardBackgroundColor="@color/profileheading"
+                            app:cardCornerRadius="20dp" >
 
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="370dp"
-                                android:layout_height="200dp"
-                                android:layout_below="@id/card2"
-                                android:layout_centerHorizontal="true"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                app:cardBackgroundColor="@color/goalbg"
-                                android:layout_marginTop="-25dp"
-                                android:layout_marginBottom="20dp"
-                                app:cardCornerRadius="20dp" >
+                                android:textSize="25dp"
+                                android:textStyle="bold"
+                                android:textColor="@color/white"
+                                android:text="User Profile" />
+                        </androidx.cardview.widget.CardView>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="370dp"
+                            android:layout_height="200dp"
+                            android:layout_below="@id/card2"
+                            android:layout_centerHorizontal="true"
+                            android:layout_gravity="center"
+                            app:cardBackgroundColor="@color/goalbg"
+                            android:layout_marginTop="-25dp"
+                            android:layout_marginBottom="20dp"
+                            app:cardCornerRadius="20dp" >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="30dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:orientation="horizontal">
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:layout_marginTop="30dp"
-                                    android:layout_marginLeft="20dp"
-                                    android:layout_marginRight="20dp"
-                                    android:orientation="horizontal">
+                                    android:orientation="vertical">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingStart="5dp"
+                                        android:text="Daily Steps"
+                                        android:textStyle="bold"
+                                        android:textSize="15dp" />
 
+                                    <EditText
+                                        android:id="@+id/stepstxt"
+                                        android:layout_width="150dp"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/rounded_edittext"
+                                        android:ems="10"
+                                        android:hint="Steps"
+                                        android:inputType="textPersonName"
+                                        android:paddingStart="16dp"
+                                        android:text="10 000 steps" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingStart="5dp"
+                                        android:layout_marginTop="10dp"
+                                        android:text="Move Minutes"
+                                        android:textStyle="bold"
+                                        android:textSize="15dp" />
+
+                                    <EditText
+                                        android:id="@+id/minutestxt"
+                                        android:layout_width="150dp"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/rounded_edittext"
+                                        android:ems="10"
+                                        android:hint="Move Minutes"
+                                        android:inputType="textPersonName"
+                                        android:paddingStart="16dp"
+                                        android:text="30 minutes" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingStart="5dp"
+                                        android:layout_marginTop="10dp"
+                                        android:text="Email"
+                                        android:textStyle="bold"
+                                        android:textSize="15dp" />
+
+                                    <EditText
+                                        android:id="@+id/caloriestxt"
+                                        android:layout_width="150dp"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/rounded_edittext"
+                                        android:ems="10"
+                                        android:hint="Daily calories"
+                                        android:inputType="textPersonName"
+                                        android:paddingStart="16dp"
+                                        android:text="1800 cals" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="20dp"
+                                    android:orientation="vertical">
                                     <LinearLayout
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
@@ -349,181 +417,113 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:paddingStart="5dp"
-                                            android:text="Daily Steps"
+                                            android:text="Weight"
                                             android:textStyle="bold"
                                             android:textSize="15dp" />
 
                                         <EditText
-                                            android:id="@+id/stepstxt"
+                                            android:id="@+id/myweighttxt"
                                             android:layout_width="150dp"
                                             android:layout_height="wrap_content"
                                             android:background="@drawable/rounded_edittext"
                                             android:ems="10"
-                                            android:hint="Steps"
+                                            android:hint="Weight"
                                             android:inputType="textPersonName"
                                             android:paddingStart="16dp"
-                                            android:text="10 000 steps" />
+                                            android:text="30kg" />
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:paddingStart="5dp"
                                             android:layout_marginTop="10dp"
-                                            android:text="Move Minutes"
+                                            android:text="Daily Water Amount"
                                             android:textStyle="bold"
                                             android:textSize="15dp" />
 
                                         <EditText
-                                            android:id="@+id/minutestxt"
+                                            android:id="@+id/dailywatertxt"
                                             android:layout_width="150dp"
                                             android:layout_height="wrap_content"
                                             android:background="@drawable/rounded_edittext"
                                             android:ems="10"
-                                            android:hint="Move Minutes"
+                                            android:hint="Daily Water"
                                             android:inputType="textPersonName"
                                             android:paddingStart="16dp"
-                                            android:text="30 minutes" />
+                                            android:text="2.3l" />
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:paddingStart="5dp"
                                             android:layout_marginTop="10dp"
-                                            android:text="Email"
+                                            android:text="Hours of Sleep"
                                             android:textStyle="bold"
                                             android:textSize="15dp" />
 
                                         <EditText
-                                            android:id="@+id/caloriestxt"
+                                            android:id="@+id/sleeptxt"
                                             android:layout_width="150dp"
                                             android:layout_height="wrap_content"
                                             android:background="@drawable/rounded_edittext"
                                             android:ems="10"
-                                            android:hint="Daily calories"
+                                            android:hint="Hours of Sleep"
                                             android:inputType="textPersonName"
                                             android:paddingStart="16dp"
                                             android:text="1800 cals" />
 
                                     </LinearLayout>
 
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginLeft="20dp"
-                                        android:orientation="vertical">
-                                        <LinearLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="match_parent"
-                                            android:orientation="vertical">
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:paddingStart="5dp"
-                                                android:text="Weight"
-                                                android:textStyle="bold"
-                                                android:textSize="15dp" />
-
-                                            <EditText
-                                                android:id="@+id/myweighttxt"
-                                                android:layout_width="150dp"
-                                                android:layout_height="wrap_content"
-                                                android:background="@drawable/rounded_edittext"
-                                                android:ems="10"
-                                                android:hint="Weight"
-                                                android:inputType="textPersonName"
-                                                android:paddingStart="16dp"
-                                                android:text="30kg" />
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:paddingStart="5dp"
-                                                android:layout_marginTop="10dp"
-                                                android:text="Daily Water Amount"
-                                                android:textStyle="bold"
-                                                android:textSize="15dp" />
-
-                                            <EditText
-                                                android:id="@+id/dailywatertxt"
-                                                android:layout_width="150dp"
-                                                android:layout_height="wrap_content"
-                                                android:background="@drawable/rounded_edittext"
-                                                android:ems="10"
-                                                android:hint="Daily Water"
-                                                android:inputType="textPersonName"
-                                                android:paddingStart="16dp"
-                                                android:text="2.3l" />
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:paddingStart="5dp"
-                                                android:layout_marginTop="10dp"
-                                                android:text="Hours of Sleep"
-                                                android:textStyle="bold"
-                                                android:textSize="15dp" />
-
-                                            <EditText
-                                                android:id="@+id/sleeptxt"
-                                                android:layout_width="150dp"
-                                                android:layout_height="wrap_content"
-                                                android:background="@drawable/rounded_edittext"
-                                                android:ems="10"
-                                                android:hint="Hours of Sleep"
-                                                android:inputType="textPersonName"
-                                                android:paddingStart="16dp"
-                                                android:text="1800 cals" />
-
-                                        </LinearLayout>
-
-                                    </LinearLayout>
                                 </LinearLayout>
+                            </LinearLayout>
 
-                            </androidx.cardview.widget.CardView>
+                        </androidx.cardview.widget.CardView>
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/card2"
-                                android:layout_width="200dp"
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card2"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            app:cardBackgroundColor="@color/goalsheading"
+                            app:cardCornerRadius="20dp" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="20dp"
-                                app:cardBackgroundColor="@color/goalsheading"
-                                app:cardCornerRadius="20dp" >
+                                android:textSize="25dp"
+                                android:textStyle="bold"
+                                android:textColor="@color/white"
+                                android:text="My Goals" />
+                        </androidx.cardview.widget.CardView>
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:textSize="25dp"
-                                    android:textStyle="bold"
-                                    android:textColor="@color/white"
-                                    android:text="My Goals" />
-                            </androidx.cardview.widget.CardView>
+                    </RelativeLayout>
 
-                        </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="20dp"
+                        android:orientation="horizontal">
 
-                        <LinearLayout
+                        <Button
+                            android:id="@+id/editbtn"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="20dp"
-                            android:orientation="horizontal">
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="20dp"
+                            android:backgroundTint="@color/moveminutescolors"
+                            android:text="Edit" />
 
-                            <Button
-                                android:id="@+id/editbtn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="20dp"
-                                android:backgroundTint="@color/moveminutescolors"
-                                android:text="Edit" />
-
-                            <Button
-                                android:id="@+id/savebtn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/stepscolor"
-                                android:text="Save" />
-                        </LinearLayout>
-
-
+                        <Button
+                            android:id="@+id/savebtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/stepscolor"
+                            android:text="Save" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
