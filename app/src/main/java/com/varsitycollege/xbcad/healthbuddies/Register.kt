@@ -1,0 +1,214 @@
+package com.varsitycollege.xbcad.healthbuddies
+
+import android.content.ContentValues
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
+import android.util.Patterns
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.textfield.TextInputEditText
+import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import org.w3c.dom.Text
+
+class Register : AppCompatActivity() {
+
+    private lateinit var auth: FirebaseAuth
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+// Hide the ActionBar
+        supportActionBar?.hide()
+        setContentView(R.layout.activity_register)
+
+        auth = Firebase.auth
+
+        val btnRegister = findViewById<Button>(R.id.registerbtn)
+        val emailEditText = findViewById<EditText>(R.id.emailtxt)
+        val passwordEditText = findViewById<EditText>(R.id.passwordtxt)
+        val confirmPasswordEditText = findViewById<EditText>(R.id.confpasswordtxt)
+
+
+        var isEmail = false
+        var isPassword = false
+        var isConfirmPassword = false
+
+        emailEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val email = s.toString()
+
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    emailEditText.error =("Please enter a valid email address")
+                    isEmail = false
+                }  else {
+                    emailEditText.error = null // Clear the error
+                    isEmail = true
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
+
+        passwordEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val password = s.toString()
+
+                val passwordRegex = "(?=.*[A-Z])(?=.*[0-9]).{6,}".toRegex()
+
+                if (!passwordRegex.matches(password)) {
+                    passwordEditText.error = "Password must be at least 6 characters long, contain a capital letter, and a numerical value"
+                    isPassword = false
+                } else {
+                    passwordEditText.error = null // Clear the error
+                    isPassword = true
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
+
+
+        confirmPasswordEditText.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                val confirmPassword = s.toString()
+                val password = passwordEditText.text.toString() // Retrieve the password from passwordEditText
+
+                if (confirmPassword != password) { // Compare the passwords
+                    confirmPasswordEditText.error = "Passwords do not match" // Set error on confirmPassText
+                    isConfirmPassword = false
+                } else {
+                    confirmPasswordEditText.error = null // Clear the error
+                    isConfirmPassword = true
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
+
+        btnRegister.setOnClickListener {
+            val usernameEditText = findViewById<EditText>(R.id.usernametxt)
+            val usernameText = usernameEditText.text.toString()
+
+            val emailEditText = findViewById<TextInputEditText>(R.id.emailtxt)
+            val emailText = emailEditText.text.toString()
+
+            val passswordEditText = findViewById<EditText>(R.id.passwordtxt)
+            val passswordText = passswordEditText.text.toString()
+
+            val passswordConfirmEditText = findViewById<EditText>(R.id.confpasswordtxt)
+            val passswordConfirmText = passswordConfirmEditText.text.toString()
+
+            // Check if all fields are not empty and formatted correctly
+            if (usernameText.isNotEmpty() && emailText.isNotEmpty() && passswordText.isNotEmpty() && passswordConfirmText.isNotEmpty() && isEmail && isConfirmPassword && isPassword) {
+                // Check if the email is already registered
+                auth.fetchSignInMethodsForEmail(emailText)
+                    .addOnCompleteListener { fetchTask ->
+                        if (fetchTask.isSuccessful) {
+                            val signInMethods = fetchTask.result?.signInMethods
+                            if (signInMethods != null && signInMethods.isNotEmpty()) {
+                                // Email is already registered
+                                Toast.makeText(
+                                    baseContext,
+                                    "Email already registered. Go to Login Page.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                // Email is not registered, proceed with registration
+                                auth.createUserWithEmailAndPassword(emailText, passswordText)
+                                    .addOnCompleteListener(this) { task ->
+                                        if (task.isSuccessful) {
+                                            // Sign in success, update user's profile with the name
+                                            val user = auth.currentUser
+                                            val profileUpdates = UserProfileChangeRequest.Builder()
+                                                .setDisplayName(usernameText) // Set the display name
+                                                .build()
+
+                                            user?.updateProfile(profileUpdates)
+                                                ?.addOnCompleteListener { profileUpdateTask ->
+                                                    if (profileUpdateTask.isSuccessful) {
+                                                        Log.d(ContentValues.TAG, "User profile updated.")
+                                                        auth.currentUser?.sendEmailVerification()
+                                                            ?.addOnSuccessListener {
+                                                                Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show()
+                                                            }
+                                                            ?.addOnFailureListener{
+                                                                Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+                                                            }
+                                                        //updateUI()
+                                                    } else {
+                                                        Log.w(ContentValues.TAG, "Failed to update user profile.")
+                                                        // Handle the error here
+                                                    }
+                                                }
+                                        } else {
+                                            // If sign in fails, display a message to the user.
+                                            Log.w(ContentValues.TAG, "createUserWithEmail:failure", task.exception)
+                                            // Authentication failed because of some other reason
+                                            Toast.makeText(
+                                                baseContext,
+                                                "Authentication failed.",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+                            }
+                        } else {
+                            // Error occurred while checking if email is registered
+                            Log.w(ContentValues.TAG, "fetchSignInMethodsForEmail:failure", fetchTask.exception)
+                            Toast.makeText(
+                                baseContext,
+                                "Error checking email availability.",
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                        }
+                    }
+            } else {
+                // If fields are incorrectly formatted or empty, show an error message
+                Toast.makeText(
+                    baseContext,
+                    "Please fill in all fields correctly.",
+                    Toast.LENGTH_SHORT,
+                ).show()
+            }
+        }
+    }
+
+    //to-do
+
+    //see why authentication failed (email taken)
+
+    private fun updateUI() {
+        val Intent = Intent(this, MainActivity::class.java)
+        startActivity(Intent)
+    }
+
+    public override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            updateUI()
+        }
+    }
+}
