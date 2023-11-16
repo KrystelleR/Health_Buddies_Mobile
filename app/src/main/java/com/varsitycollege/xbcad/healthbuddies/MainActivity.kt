@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.cardview.widget.CardView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,12 +17,15 @@ class MainActivity : AppCompatActivity() {
         val sleepcard = findViewById<CardView>(R.id.sleepcardbtn)
 
         foodcard.setOnClickListener {
-            val intent = Intent(this, melodiespage::class.java)
+            Firebase.auth.signOut()
+            val intent = Intent(this, Login::class.java)
             startActivity(intent)
+            //val intent = Intent(this, melodiespage::class.java)
+            //startActivity(intent)
         }
 
         exercisecard.setOnClickListener {
-            val intent = Intent(this, fitnesspage::class.java)
+            val intent = Intent(this, settingspage::class.java)
             startActivity(intent)
         }
 

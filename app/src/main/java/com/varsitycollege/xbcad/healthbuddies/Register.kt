@@ -1,6 +1,7 @@
 package com.varsitycollege.xbcad.healthbuddies
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import org.w3c.dom.Text
 
@@ -30,6 +32,7 @@ class Register : AppCompatActivity() {
         supportActionBar?.hide()
         setContentView(R.layout.activity_register)
 
+        val database = FirebaseDatabase.getInstance()
         auth = Firebase.auth
 
         val btnRegister = findViewById<Button>(R.id.registerbtn)
@@ -146,6 +149,33 @@ class Register : AppCompatActivity() {
                                         if (task.isSuccessful) {
                                             // Sign in success, update user's profile with the name
                                             val user = auth.currentUser
+                                            val usersRef = database.getReference("Users")
+                                            // Set user details in your data class
+                                            val userDetails = data.UserDetails(
+                                                id  = user?.uid ?: "",
+                                                Username  = usernameText,
+                                                Email = emailText,
+                                                Age=5,
+                                                Height="100 cm",
+                                                Weight="10 Kg",
+                                                Metric=  true,
+                                                Imperial=false,
+                                                ProfileImage="",
+                                                setDetails = false,
+                                                Gender ="M",
+                                                AboutMe = ""
+                                            )
+
+                                            // Set user goals in your data class
+                                            val userGoals = data.UserGoals(
+                                                DailySteps =1000,
+                                                GoalWeight  ="15 Kg",
+                                                MoveMinutes =30,
+                                                Sleep  =8,
+                                                DailyWaterAmount  =1500,
+                                                DailyCalories =2000,
+                                            )
+
                                             val profileUpdates = UserProfileChangeRequest.Builder()
                                                 .setDisplayName(usernameText) // Set the display name
                                                 .build()
@@ -156,6 +186,25 @@ class Register : AppCompatActivity() {
                                                         Log.d(ContentValues.TAG, "User profile updated.")
                                                         auth.currentUser?.sendEmailVerification()
                                                             ?.addOnSuccessListener {
+
+                                                                // Add the user details to Realtime Database
+                                                                usersRef.child(userDetails.id).setValue(userDetails)
+                                                                    .addOnSuccessListener {
+                                                                        Log.d(TAG, "User details added to Realtime Database successfully")
+                                                                    }
+                                                                    .addOnFailureListener { e ->
+                                                                        Log.w(TAG, "Error adding user details to Realtime Database", e)
+                                                                    }
+
+                                                                // Add the user goals to Realtime Database
+                                                                // Assuming you have a "user_goals" child under the user's UID
+                                                                usersRef.child(userDetails.id).child("user_goals").setValue(userGoals)
+                                                                    .addOnSuccessListener {
+                                                                        Log.d(TAG, "User goals added to Realtime Database successfully")
+                                                                    }
+                                                                    .addOnFailureListener { e ->
+                                                                        Log.w(TAG, "Error adding user goals to Realtime Database", e)
+                                                                    }
                                                                 Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show()
                                                             }
                                                             ?.addOnFailureListener{

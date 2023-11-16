@@ -2,4 +2,22 @@
     <string name="app_name">HealthBuddies</string>
     <string name="signUp"><u>Don\'t have an account yet? Register here</u></string>
     <string name="signIn"><u>Already have an account? Login here</u></string>
+
+    <string-array name="age_array">
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+    </string-array>
+
 </resources>
