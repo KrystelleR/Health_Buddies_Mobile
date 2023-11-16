@@ -117,17 +117,17 @@ class settingspage : AppCompatActivity() {
                         // Now you can use the userDetails object as needed
                         if (userDetails != null) {
                             myuid = currentUser.uid
-                            myusername = userDetails.Username
-                            myemail = userDetails.Email
-                            myage = userDetails.Age
-                            myheight = userDetails.Height
-                            myweight = userDetails.Weight
-                            mymetric = userDetails.Metric
-                            myimperial = userDetails.Imperial
-                            myprofileimg = userDetails.ProfileImage
+                            myusername = userDetails.username
+                            myemail = userDetails.email
+                            myage = userDetails.age
+                            myheight = userDetails.height
+                            myweight = userDetails.weight
+                            mymetric = userDetails.metric
+                            myimperial = userDetails.imperial
+                            myprofileimg = userDetails.profileImage
                             mysetDetails = userDetails.setDetails
-                            mygender = userDetails.Gender
-                            myaboutme = userDetails.AboutMe
+                            mygender = userDetails.gender
+                            myaboutme = userDetails.aboutMe
 
                             Toast.makeText(this@settingspage, "my height: ${myheight}", Toast.LENGTH_SHORT).show()
 
@@ -156,12 +156,12 @@ class settingspage : AppCompatActivity() {
 
                         // Now you can use the userGoals object as needed
                         if (userGoals != null) {
-                            mydailysteps = userGoals.DailySteps
-                            mygoalweight = userGoals.GoalWeight
-                            mymoveminutes = userGoals.MoveMinutes
-                            mywatergoal = userGoals.DailyWaterAmount
-                            mysleepgoal = userGoals.Sleep
-                            mydailycalories = userGoals.DailyCalories
+                            mydailysteps = userGoals.dailySteps
+                            mygoalweight = userGoals.goalWeight
+                            mymoveminutes = userGoals.moveMinutes
+                            mywatergoal = userGoals.dailyWaterAmount
+                            mysleepgoal = userGoals.sleep
+                            mydailycalories = userGoals.dailyCalories
 
                             Toast.makeText(this@settingspage, "my daily steps: ${mydailysteps}", Toast.LENGTH_SHORT).show()
 

@@ -153,27 +153,27 @@ class Register : AppCompatActivity() {
                                             // Set user details in your data class
                                             val userDetails = data.UserDetails(
                                                 id  = user?.uid ?: "",
-                                                Username  = usernameText,
-                                                Email = emailText,
-                                                Age=5,
-                                                Height="100 cm",
-                                                Weight="10 Kg",
-                                                Metric=  true,
-                                                Imperial=false,
-                                                ProfileImage="",
+                                                username  = usernameText,
+                                                email = emailText,
+                                                age=5,
+                                                height="100 cm",
+                                                weight="10 Kg",
+                                                metric=  true,
+                                                imperial=false,
+                                                profileImage="",
                                                 setDetails = false,
-                                                Gender ="M",
-                                                AboutMe = ""
+                                                gender ="M",
+                                                aboutMe = ""
                                             )
 
                                             // Set user goals in your data class
                                             val userGoals = data.UserGoals(
-                                                DailySteps =1000,
-                                                GoalWeight  ="15 Kg",
-                                                MoveMinutes =30,
-                                                Sleep  =8,
-                                                DailyWaterAmount  =1500,
-                                                DailyCalories =2000,
+                                                dailySteps =1000,
+                                                goalWeight  ="15 Kg",
+                                                moveMinutes =30,
+                                                sleep  =8,
+                                                dailyWaterAmount  =1500,
+                                                dailyCalories =2000,
                                             )
 
                                             val profileUpdates = UserProfileChangeRequest.Builder()

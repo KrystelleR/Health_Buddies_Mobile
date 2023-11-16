@@ -5,25 +5,25 @@ import java.io.Serializable
 class data {
     data class UserDetails(
         var id : String="",
-        val Username : String? ="",
-        val Email: String ="",
-        val Age: Int =0,
-        val Height: String ="",
-        val Weight: String ="",
-        val Metric: Boolean=  true,
-        val Imperial:Boolean= false,
-        val ProfileImage: String="",
+        val username : String? ="",
+        val email: String ="",
+        val age: Int =0,
+        val height: String ="",
+        val weight: String ="",
+        val metric: Boolean=  true,
+        val imperial:Boolean= false,
+        val profileImage: String="",
         val setDetails: Boolean =false,
-        val Gender: String ="",
-        val AboutMe: String = ""
+        val gender: String ="",
+        val aboutMe: String = ""
     )  : Serializable
 
     data class UserGoals(
-        val DailySteps: Int=0,
-        val GoalWeight: String = "",
-        val MoveMinutes: Int=0,
-        val Sleep: Int =0,
-        val DailyWaterAmount: Int =0,
-        val DailyCalories: Int =0
+        val dailySteps: Int=0,
+        val goalWeight: String = "",
+        val moveMinutes: Int=0,
+        val sleep: Int =0,
+        val dailyWaterAmount: Int =0,
+        val dailyCalories: Int =0
     ): Serializable
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <group
+        android:id="@+id/group1">
+        <item
+            android:id="@+id/home_item"
+            android:icon="@drawable/home_icon"
+            android:title="Home" />
+    </group>
+
+    <group
+        android:id="@+id/group2">
+
+        <item
+            android:id="@+id/food_item"
+            android:icon="@drawable/food_icon"
+            android:title="Food and Water" />
+        <item
+            android:id="@+id/exercise_item"
+            android:icon="@drawable/exercise_icon"
+            android:title="Exercise">
+        </item>
+        <item
+            android:id="@+id/sleep_item"
+            android:icon="@drawable/sleep_icon"
+            android:title="Sleep">
+        </item>
+    </group>
+
+    <group android:id="@+id/group4">
+        <item
+            android:id="@+id/logout_items"
+            android:icon="@drawable/logout_icon"
+            android:title="Log-out" />
+    </group>
+</menu>

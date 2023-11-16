@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Food and Water"
+        android:icon="@drawable/food_icon"
+        android:id="@+id/food_item"/>
+    <item
+        android:title="Exercise"
+        android:icon="@drawable/exercise_icon"
+        android:id="@+id/exercise_item"/>
+    <item
+        android:title="Sleep"
+        android:icon="@drawable/sleep_icon"
+        android:id="@+id/map_item"/>
+    <item
+        android:title="Home"
+        android:icon="@drawable/home_icon"
+        android:id="@+id/home_item"/>
+
+</menu>
