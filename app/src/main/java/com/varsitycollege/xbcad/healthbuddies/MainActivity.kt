@@ -98,6 +98,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val intent = Intent(this, settingspage::class.java)
                 startActivity(intent)
             }
+            R.id.store_item -> {
+                // Handle item6 click
+                val intent = Intent(this, Store::class.java)
+                startActivity(intent)
+            }
             R.id.logout_item -> {
 
                 val confirmDialog = AlertDialog.Builder(this)
