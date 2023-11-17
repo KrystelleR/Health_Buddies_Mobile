@@ -64,28 +64,41 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
             R.id.home_item -> {
                 // Handle item1 click
-                val intent1 = Intent(this, MainActivity::class.java)
-                startActivity(intent1)
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             }
             R.id.food_item -> {
-                val intent4 = Intent(this, sleeppage::class.java)
-                startActivity(intent4)
+                val intent = Intent(this, sleeppage::class.java)
+                startActivity(intent)
             }
             R.id.exercise_item -> {
-                val intent4 = Intent(this, fitnesspage::class.java)
-                startActivity(intent4)
+                val intent = Intent(this, fitnesspage::class.java)
+                startActivity(intent)
             }
             R.id.sleep_item -> {
                 // Handle item5 click
-                val intent5 = Intent(this, sleeppage::class.java)
-                startActivity(intent5)
+                val intent = Intent(this, sleeppage::class.java)
+                startActivity(intent)
             }
-            R.id.logout_items -> {
+            R.id.settings_item -> {
+                // Handle item5 click
+                val intent = Intent(this, settingspage::class.java)
+                startActivity(intent)
+            }
+            R.id.logout_item -> {
 
                 val confirmDialog = AlertDialog.Builder(this)
                 confirmDialog.setTitle("Confirmation")
@@ -99,8 +112,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     successDialog.setPositiveButton("OK") { _, _ ->
 
                         Firebase.auth.signOut()
-                        val intent7 = Intent(this, Login::class.java)
-                        startActivity(intent7)
+                        val intent = Intent(this, Login::class.java)
+                        startActivity(intent)
 
                     }
                     successDialog.show()

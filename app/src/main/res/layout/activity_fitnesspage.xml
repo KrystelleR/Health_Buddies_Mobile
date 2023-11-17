@@ -291,6 +291,7 @@
                     android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/beginnercv"
                         android:backgroundTint="@color/beginner"
                         android:layout_width="105dp"
                         android:layout_height="140dp"
@@ -306,6 +307,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/intermediatecv"
                         android:backgroundTint="@color/intermediate"
                         android:layout_marginRight="10dp"
                         android:layout_width="105dp"
@@ -321,6 +323,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/advancedcv"
                         android:backgroundTint="@color/advanced"
                         android:layout_width="105dp"
                         app:cardCornerRadius="10dp"

@@ -1,0 +1,64 @@
+package com.varsitycollege.xbcad.healthbuddies
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.webkit.WebViewClient
+
+class beginnervideos : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_beginnervideos)
+
+        val myvideo1 = findViewById<WebView>(R.id.video1)
+        val myvideo2 = findViewById<WebView>(R.id.video2)
+        val myvideo3 = findViewById<WebView>(R.id.video3)
+        val myvideo4 = findViewById<WebView>(R.id.video4)
+        val myvideo5 = findViewById<WebView>(R.id.video5)
+        val myvideo6 = findViewById<WebView>(R.id.video6)
+        val myvideo7 = findViewById<WebView>(R.id.video7)
+        val myvideo8 = findViewById<WebView>(R.id.video8)
+
+        val video1 = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/VsgpUHUYuJI?si=EJRYfg-1ccM8suSd\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
+        val video2 = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/-y5yuLuw7KQ?si=4Pd_zAMlkCkmIRv7\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
+        val video3 = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/mrXbsRPgnvY?si=_UXakzQj_7DABawH\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
+        val video4 = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/Imhi98dHa5w?si=qLGGKm_qlaGVfUJv\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
+        val video5 = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/udgOXaw4jbI?si=63RWc3fTEIHm8zFr\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
+        val video6 = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/d3LPrhI0v-w?si=nac0nsqIp2tMn1o5\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
+        val video7 = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/NRDFTWvEF40?si=Zg_fu981TZtqc-oe\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
+        val video8 = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/nuIWMFOotko?si=5su6NaOVuvEP8ghs\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
+
+        myvideo1.loadData(video1, "text/html", "utf-8")
+        myvideo1.settings.javaScriptEnabled = true
+        myvideo1.webChromeClient = WebChromeClient()
+
+        myvideo2.loadData(video2, "text/html", "utf-8")
+        myvideo2.settings.javaScriptEnabled = true
+        myvideo2.webChromeClient = WebChromeClient()
+
+        myvideo3.loadData(video3, "text/html", "utf-8")
+        myvideo3.settings.javaScriptEnabled = true
+        myvideo3.webChromeClient = WebChromeClient()
+
+        myvideo4.loadData(video4, "text/html", "utf-8")
+        myvideo4.settings.javaScriptEnabled = true
+        myvideo4.webChromeClient = WebChromeClient()
+
+        myvideo5.loadData(video5, "text/html", "utf-8")
+        myvideo5.settings.javaScriptEnabled = true
+        myvideo5.webChromeClient = WebChromeClient()
+
+        myvideo6.loadData(video6, "text/html", "utf-8")
+        myvideo6.settings.javaScriptEnabled = true
+        myvideo6.webChromeClient = WebChromeClient()
+
+        myvideo7.loadData(video7, "text/html", "utf-8")
+        myvideo7.settings.javaScriptEnabled = true
+        myvideo7.webChromeClient = WebChromeClient()
+
+        myvideo8.loadData(video8, "text/html", "utf-8")
+        myvideo8.settings.javaScriptEnabled = true
+        myvideo8.webChromeClient = WebChromeClient()
+    }
+}

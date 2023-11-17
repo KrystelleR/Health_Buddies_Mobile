@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="170dp"
     android:orientation="vertical"
-    android:background="@drawable/settingsbg">
+    android:background="@drawable/bannerbg">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_marginTop="10dp"

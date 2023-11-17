@@ -152,7 +152,7 @@ class Register : AppCompatActivity() {
                                             val usersRef = database.getReference("Users")
                                             // Set user details in your data class
                                             val userDetails = data.UserDetails(
-                                                id  = user?.uid ?: "",
+                                                uid  = user?.uid ?: "",
                                                 username  = usernameText,
                                                 email = emailText,
                                                 age=5,
@@ -160,7 +160,7 @@ class Register : AppCompatActivity() {
                                                 weight="10 Kg",
                                                 metric=  true,
                                                 imperial=false,
-                                                profileImage="",
+                                                profileImage=R.drawable.profileimg1,
                                                 setDetails = false,
                                                 gender ="M",
                                                 aboutMe = ""
@@ -188,7 +188,7 @@ class Register : AppCompatActivity() {
                                                             ?.addOnSuccessListener {
 
                                                                 // Add the user details to Realtime Database
-                                                                usersRef.child(userDetails.id).setValue(userDetails)
+                                                                usersRef.child(userDetails.uid).setValue(userDetails)
                                                                     .addOnSuccessListener {
                                                                         Log.d(TAG, "User details added to Realtime Database successfully")
                                                                     }
@@ -198,7 +198,7 @@ class Register : AppCompatActivity() {
 
                                                                 // Add the user goals to Realtime Database
                                                                 // Assuming you have a "user_goals" child under the user's UID
-                                                                usersRef.child(userDetails.id).child("user_goals").setValue(userGoals)
+                                                                usersRef.child(userDetails.uid).child("user_goals").setValue(userGoals)
                                                                     .addOnSuccessListener {
                                                                         Log.d(TAG, "User goals added to Realtime Database successfully")
                                                                     }

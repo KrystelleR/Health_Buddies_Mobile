@@ -30,7 +30,7 @@ class settingspage : AppCompatActivity() {
     var myweight: String = ""
     var mymetric: Boolean=  true
     var myimperial:Boolean= false
-    var myprofileimg: String=""
+    var myprofileimg: Int =0
     var mydailysteps: Int=0
     var mymoveminutes: Int=0
     var mygoalweight: String = ""
@@ -60,7 +60,11 @@ class settingspage : AppCompatActivity() {
         val dailywatertv = findViewById<TextView>(R.id.dailywatertxt)
         val caloriestv = findViewById<TextView>(R.id.caloriestxt)
         val sleeptv = findViewById<TextView>(R.id.sleeptxt)
+        val aboutmetv = findViewById<EditText>(R.id.aboutmetxt)
+        val profiletv = findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.profile_image)
 
+        imperialsw.isChecked = !metricsw.isChecked
+        metricsw.isChecked = !imperialsw.isChecked
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         val adapter = ArrayAdapter.createFromResource(
@@ -68,6 +72,15 @@ class settingspage : AppCompatActivity() {
             R.array.age_array,
             android.R.layout.simple_spinner_item
         )
+
+        heighttv.setOnClickListener(){
+            showHeightPicker()
+        }
+
+        weighttv.setOnClickListener(){
+            showWeightPicker()
+        }
+
 
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -136,6 +149,14 @@ class settingspage : AppCompatActivity() {
                             weighttv.text = myweight.toString()
                             gendertv.text = mygender
                             emailtv.text = myemail
+                            usernametv.setText(myusername)
+                            profiletv.setImageResource(myprofileimg)
+
+                            if(myaboutme!=""){
+                                aboutmetv.setText(myaboutme)
+                            }
+
+
                         }
                     } else {
                         Log.d(TAG, "User details do not exist")
@@ -163,8 +184,6 @@ class settingspage : AppCompatActivity() {
                             mysleepgoal = userGoals.sleep
                             mydailycalories = userGoals.dailyCalories
 
-                            Toast.makeText(this@settingspage, "my daily steps: ${mydailysteps}", Toast.LENGTH_SHORT).show()
-
                             // Set the TextView values here
                             stepstv.text = mydailysteps.toString()
                             myweighttv.text = mygoalweight.toString()
@@ -172,6 +191,16 @@ class settingspage : AppCompatActivity() {
                             dailywatertv.text = mywatergoal.toString()
                             caloriestv.text = mydailycalories.toString()
                             sleeptv.text = mysleepgoal.toString()
+
+                            if(mymetric){
+                                metricsw.isChecked = true
+                                imperialsw.isChecked = false
+                            }
+                            else{
+                                metricsw.isChecked = false
+                                imperialsw.isChecked = true
+                            }
+
                         }
                     } else {
                         Log.d(TAG, "User goals do not exist")
@@ -182,26 +211,6 @@ class settingspage : AppCompatActivity() {
                     Log.e(TAG, "Error reading user goals from the database", databaseError.toException())
                 }
             })
-
-
-
-
-
-            /*
-            heighttv = findViewById<EditText>(R.id.heighttxt)
-        val weighttv = findViewById<EditText>(R.id.weighttxt)
-        val gendertv = findViewById<EditText>(R.id.gendertxt)
-        val emailtv = findViewById<EditText>(R.id.emailtxt)
-        val metricsw = findViewById<Switch>(R.id.metricswitch)
-        val imperialsw = findViewById<Switch>(R.id.imperialswitch)
-        val stepstv = findViewById<EditText>(R.id.stepstxt)
-        val myweighttv = findViewById<EditText>(R.id.myweighttxt)
-        val minutestv = findViewById<EditText>(R.id.minutestxt)
-        val dailywatertv = findViewById<EditText>(R.id.dailywatertxt)
-        val caloriestv = findViewById<EditText>(R.id.caloriestxt)
-        val sleeptv
-            */
-
         }
 
 
@@ -275,6 +284,99 @@ class settingspage : AppCompatActivity() {
 
         edit.show()
     }
+
+
+    fun showWeightPicker() {
+        // Set up the dialog and handle the OK button click
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.number_picker_dialog)
+
+        val metrricsw = findViewById<Switch>(R.id.metricswitch)
+
+        // Initialize the NumberPicker with the desired range
+        val weightPicker = dialog.findViewById<NumberPicker>(R.id.dialogNumberPicker)
+
+        if(metrricsw.isChecked){
+            weightPicker.minValue = 10
+            weightPicker.maxValue = 200
+            weightPicker.value = 30
+
+            val unit = dialog.findViewById<TextView>(R.id.unittxt)
+            unit.text= " kg"
+
+            val okButton: Button = dialog.findViewById(R.id.okButton)
+            okButton.setOnClickListener {
+                // Update the TextView with the selected height
+                val weightTextView = findViewById<TextView>(R.id.weighttxt)
+                weightTextView.text = "${weightPicker.value} kg"
+                dialog.dismiss()
+            }
+        }
+        else{
+            weightPicker.minValue = 30
+            weightPicker.maxValue = 440
+            weightPicker.value = 100
+
+            val unit = dialog.findViewById<TextView>(R.id.unittxt)
+            unit.text= " pounds"
+
+            val okButton: Button = dialog.findViewById(R.id.okButton)
+            okButton.setOnClickListener {
+                // Update the TextView with the selected height
+                val weightTextView = findViewById<TextView>(R.id.weighttxt)
+                weightTextView.text = "${weightPicker.value} pounds"
+                dialog.dismiss()
+            }
+        }
+        dialog.show()
+    }
+
+    fun showHeightPicker() {
+        // Set up the dialog and handle the OK button click
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.number_picker_dialog)
+
+        val metrricsw = findViewById<Switch>(R.id.metricswitch)
+
+
+        // Initialize the NumberPicker with the desired range
+        val heightPicker = dialog.findViewById<NumberPicker>(R.id.dialogNumberPicker)
+
+        if(metrricsw.isChecked){
+            heightPicker.minValue = 100
+            heightPicker.maxValue = 300
+            heightPicker.value = 130
+
+            val unit = dialog.findViewById<TextView>(R.id.unittxt)
+            unit.text= " cm"
+
+            val okButton: Button = dialog.findViewById(R.id.okButton)
+            okButton.setOnClickListener {
+                // Update the TextView with the selected height
+                val heightTextView = findViewById<TextView>(R.id.heighttxt)
+                heightTextView.text = "${heightPicker.value} cm"
+                dialog.dismiss()
+            }
+        }
+        else{
+            heightPicker.minValue = 40
+            heightPicker.maxValue = 120
+            heightPicker.value = 50
+
+            val unit = dialog.findViewById<TextView>(R.id.unittxt)
+            unit.text= " inches"
+
+            val okButton: Button = dialog.findViewById(R.id.okButton)
+            okButton.setOnClickListener {
+                // Update the TextView with the selected height
+                val heightTextView = findViewById<TextView>(R.id.heighttxt)
+                heightTextView.text = "${heightPicker.value} inches"
+                dialog.dismiss()
+            }
+        }
+        dialog.show()
+    }
+
 
     private fun setProfileImage(resourceId: Int) {
         val profileImageView = findViewById<ImageView>(R.id.profile_image)

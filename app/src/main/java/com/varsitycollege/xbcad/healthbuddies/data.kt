@@ -4,7 +4,7 @@ import java.io.Serializable
 
 class data {
     data class UserDetails(
-        var id : String="",
+        var uid : String="",
         val username : String? ="",
         val email: String ="",
         val age: Int =0,
@@ -12,7 +12,7 @@ class data {
         val weight: String ="",
         val metric: Boolean=  true,
         val imperial:Boolean= false,
-        val profileImage: String="",
+        val profileImage: Int=0,
         val setDetails: Boolean =false,
         val gender: String ="",
         val aboutMe: String = ""
