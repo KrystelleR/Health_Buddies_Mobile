@@ -288,47 +288,66 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="20dp"
                                 android:orientation="vertical">
 
-                                <androidx.cardview.widget.CardView
-                                    android:layout_width="130dp"
-                                    android:layout_height="160dp"
-                                    app:cardBackgroundColor="@color/lightBlue"
-                                    app:cardCornerRadius="20dp">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal">
 
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:orientation="vertical">
+                                    <TextView
+                                        android:id="@+id/textView3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="TextView" />
+                                </LinearLayout>
 
-                                        <androidx.cardview.widget.CardView
-                                            android:layout_width="100dp"
-                                            android:layout_height="50dp"
-                                            android:layout_gravity="center"
-                                            android:layout_marginTop="10dp"
-                                            android:layout_marginBottom="10dp"
-                                            app:cardBackgroundColor="@color/tealBlue"
-                                            app:cardCornerRadius="20dp">
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="20dp"
+                                    android:orientation="vertical">
 
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:layout_gravity="center"
-                                                android:text="Today I am feeling:"
-                                                android:textAlignment="center"
-                                                android:textColor="@color/white" />
-                                        </androidx.cardview.widget.CardView>
+                                    <androidx.cardview.widget.CardView
+                                        android:layout_width="130dp"
+                                        android:layout_height="160dp"
+                                        app:cardBackgroundColor="@color/lightBlue"
+                                        app:cardCornerRadius="20dp">
 
-                                        <ImageView
+                                        <LinearLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
-                                            android:layout_gravity="center"
-                                            app:srcCompat="@drawable/mood7" />
+                                            android:orientation="vertical">
 
-                                    </LinearLayout>
-                                </androidx.cardview.widget.CardView>
+                                            <androidx.cardview.widget.CardView
+                                                android:layout_width="100dp"
+                                                android:layout_height="50dp"
+                                                android:layout_gravity="center"
+                                                android:layout_marginTop="10dp"
+                                                android:layout_marginBottom="10dp"
+                                                app:cardBackgroundColor="@color/tealBlue"
+                                                app:cardCornerRadius="20dp">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_gravity="center"
+                                                    android:text="Today I am feeling:"
+                                                    android:textAlignment="center"
+                                                    android:textColor="@color/white" />
+                                            </androidx.cardview.widget.CardView>
+
+                                            <ImageView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:layout_gravity="center"
+                                                app:srcCompat="@drawable/mood7" />
+
+                                        </LinearLayout>
+                                    </androidx.cardview.widget.CardView>
+                                </LinearLayout>
                             </LinearLayout>
 
                             <LinearLayout

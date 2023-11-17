@@ -12,6 +12,7 @@ class sleeppage : AppCompatActivity() {
 
         val melodycard = findViewById<CardView>(R.id.melodiescard)
         val breathingcard = findViewById<CardView>(R.id.breathingcard)
+        val meditationcard = findViewById<CardView>(R.id.meditationcv)
 
         melodycard.setOnClickListener {
             val intent = Intent(this, melodiespage::class.java)
@@ -20,6 +21,11 @@ class sleeppage : AppCompatActivity() {
 
         breathingcard.setOnClickListener {
             val intent = Intent(this, breathingpage::class.java)
+            startActivity(intent)
+        }
+
+        meditationcard.setOnClickListener {
+            val intent = Intent(this, meditationvideos::class.java)
             startActivity(intent)
         }
     }

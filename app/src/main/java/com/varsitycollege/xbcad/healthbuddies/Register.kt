@@ -163,11 +163,9 @@ class Register : AppCompatActivity() {
                                                 profileImage=R.drawable.profileimg1,
                                                 setDetails = false,
                                                 gender ="M",
-                                                aboutMe = ""
-                                            )
-
-                                            // Set user goals in your data class
-                                            val userGoals = data.UserGoals(
+                                                aboutMe = "",
+                                                userCurrency =0,
+                                                userCurrentCalories =0,
                                                 dailySteps =1000,
                                                 goalWeight  ="15 Kg",
                                                 moveMinutes =30,
@@ -195,17 +193,6 @@ class Register : AppCompatActivity() {
                                                                     .addOnFailureListener { e ->
                                                                         Log.w(TAG, "Error adding user details to Realtime Database", e)
                                                                     }
-
-                                                                // Add the user goals to Realtime Database
-                                                                // Assuming you have a "user_goals" child under the user's UID
-                                                                usersRef.child(userDetails.uid).child("user_goals").setValue(userGoals)
-                                                                    .addOnSuccessListener {
-                                                                        Log.d(TAG, "User goals added to Realtime Database successfully")
-                                                                    }
-                                                                    .addOnFailureListener { e ->
-                                                                        Log.w(TAG, "Error adding user goals to Realtime Database", e)
-                                                                    }
-                                                                Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show()
                                                             }
                                                             ?.addOnFailureListener{
                                                                 Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
