@@ -298,12 +298,12 @@
                         android:layout_marginRight="10dp"
                         app:cardElevation="0dp"
                         app:cardCornerRadius="10dp">
-                            <ImageView
-                                android:id="@+id/imageView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                app:srcCompat="@drawable/beginner" />
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/beginner" />
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
@@ -314,12 +314,12 @@
                         app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         android:layout_height="140dp" >
-                            <ImageView
-                                android:layout_gravity="center"
-                                android:layout_width="wrap_content"
-                                android:layout_height="130dp"
-                                android:layout_weight="1"
-                                app:srcCompat="@drawable/intermediate" />
+                        <ImageView
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="130dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/intermediate" />
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
@@ -330,11 +330,11 @@
                         app:cardElevation="0dp"
                         android:layout_height="140dp" >
 
-                            <ImageView
-                                android:id="@+id/imageView3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                app:srcCompat="@drawable/advanced" />
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@drawable/advanced" />
 
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>

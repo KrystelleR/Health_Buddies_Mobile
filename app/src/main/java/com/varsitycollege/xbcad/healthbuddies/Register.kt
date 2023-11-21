@@ -163,17 +163,59 @@ class Register : AppCompatActivity() {
                                                 profileImage=R.drawable.profileimg1,
                                                 setDetails = false,
                                                 gender ="M",
-                                                aboutMe = ""
-                                            )
-
-                                            // Set user goals in your data class
-                                            val userGoals = data.UserGoals(
+                                                aboutMe = "",
+                                                userCurrency =0,
+                                                userCurrentCalories =0,
                                                 dailySteps =1000,
                                                 goalWeight  ="15 Kg",
                                                 moveMinutes =30,
                                                 sleep  =8,
                                                 dailyWaterAmount  =1500,
                                                 dailyCalories =2000,
+                                            )
+
+
+                                            val usersRef1 = database.getReference("UserSteps")
+                                            // Set user details in your data class
+                                            val userSteps = data.UserSteps(
+                                                uid = user?.uid ?: "",
+                                                _00h00 =0,
+                                                _01h00 =0,
+                                                _02h00 =0,
+                                                _03h00 =0,
+                                                _04h00 =0,
+                                                _05h00 =0,
+                                                _06h00 =0,
+                                                _07h00 =0,
+                                                _08h00 =0,
+                                                _09h00 =0,
+                                                _10h00 =0,
+                                                _11h00 =0,
+                                                _12h00 =0,
+                                                _13h00 =0,
+                                                _14h00 =0,
+                                                _15h00 =0,
+                                                _16h00 =0,
+                                                _17h00 =0,
+                                                _18h00 =0,
+                                                _19h00 =0,
+                                                _20h00 =0,
+                                                _21h00 =0,
+                                                _22h00 =0,
+                                                _23h00 =0
+                                            )
+
+                                            val usersRef2 = database.getReference("UserMoveMinutes")
+                                            // Set user details in your data class
+                                            val UserMoveMinutes = data.UserMoveMinutes(
+                                                uid = user?.uid ?: "",
+                                                monday=0,
+                                                tuesday=0,
+                                                wednesday=0,
+                                                thursday=0,
+                                                friday=0,
+                                                saturday=0,
+                                                sunday=0
                                             )
 
                                             val profileUpdates = UserProfileChangeRequest.Builder()
@@ -196,18 +238,27 @@ class Register : AppCompatActivity() {
                                                                         Log.w(TAG, "Error adding user details to Realtime Database", e)
                                                                     }
 
-                                                                // Add the user goals to Realtime Database
-                                                                // Assuming you have a "user_goals" child under the user's UID
-                                                                usersRef.child(userDetails.uid).child("user_goals").setValue(userGoals)
-                                                                    .addOnSuccessListener {
-                                                                        Log.d(TAG, "User goals added to Realtime Database successfully")
-                                                                    }
-                                                                    .addOnFailureListener { e ->
-                                                                        Log.w(TAG, "Error adding user goals to Realtime Database", e)
-                                                                    }
                                                                 // for UserCalories nodes
                                                                 initializeUserNode()
                                                                 Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show()
+
+                                                                // Add the user steps to Realtime Database
+                                                                usersRef1.child(userSteps.uid).setValue(userSteps)
+                                                                    .addOnSuccessListener {
+                                                                        Log.d(TAG, "User Steps added to Realtime Database successfully")
+                                                                    }
+                                                                    .addOnFailureListener { e ->
+                                                                        Log.w(TAG, "Error adding user steps to Realtime Database", e)
+                                                                    }
+
+                                                                // Add the user move minutes to Realtime Database
+                                                                usersRef2.child(UserMoveMinutes.uid).setValue(UserMoveMinutes)
+                                                                    .addOnSuccessListener {
+                                                                        Log.d(TAG, "User Move Minutes added to Realtime Database successfully")
+                                                                    }
+                                                                    .addOnFailureListener { e ->
+                                                                        Log.w(TAG, "Error adding user Move Minutes to Realtime Database", e)
+                                                                    }
                                                             }
                                                             ?.addOnFailureListener{
                                                                 Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
@@ -251,15 +302,6 @@ class Register : AppCompatActivity() {
         }
     }
 
-    //to-do
-
-    //see why authentication failed (email taken)
-
-    private fun updateUI() {
-        val Intent = Intent(this, MainActivity::class.java)
-        startActivity(Intent)
-    }
-
     //create breakfast, lunch , dinner usercalories nodes on db if successful sign up
     private fun initializeUserNode() {
         val auth = FirebaseAuth.getInstance()
@@ -285,7 +327,14 @@ class Register : AppCompatActivity() {
         }
     }
 
+    //to-do
 
+    //see why authentication failed (email taken)
+
+    private fun updateUI() {
+        val Intent = Intent(this, MainActivity::class.java)
+        startActivity(Intent)
+    }
 
     public override fun onStart() {
         super.onStart()

@@ -1,22 +1,42 @@
 package com.varsitycollege.xbcad.healthbuddies
 
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.PorterDuff
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.drawerlayout.widget.DrawerLayout
-
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navView: NavigationView
+    private val baseUrl = "https://api.quotable.io/"
+
+    var myprofileimg: Int =0
+    var mysetDetails: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -49,8 +69,121 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val quoteService = retrofit.create(QuoteService::class.java)
+
+        val call = quoteService.getRandomQuote()
+
+        call.enqueue(object : Callback<data.Quote> {
+            override fun onResponse(call: Call<data.Quote>, response: Response<data.Quote>) {
+                if (response.isSuccessful) {
+                    val quote = response.body()
+                    if (quote != null) {
+                        // Do something with the quote
+                        val quoteText = quote.content
+                        val author = quote.author
+
+                        val dailyQuoteTxt = findViewById<TextView>(R.id.dailyQuoteTxt)
+                        dailyQuoteTxt.text = "\"$quoteText\"" + " -$author"
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<data.Quote>, t: Throwable) {
+                // Handle failure
+            }
+        })
+
+
+
+
+
+
+
+
+
+
+        //navbar header code
+        val user = FirebaseAuth.getInstance().currentUser
+        // Set email value to TextView in nav_header.xml
+        val headerView = navView.getHeaderView(0)
+        val emailTextView: TextView = headerView.findViewById(R.id.emailtxt)
+        emailTextView.text = user?.email
+        // Set name value to TextView in nav_header.xml
+        val nameView: TextView = headerView.findViewById(R.id.user_name)
+        nameView.text = user?.displayName
+
+        val profileView: de.hdodenhof.circleimageview.CircleImageView = headerView.findViewById(R.id.profile_image)
+        val profileimg = findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.profile_image)
+
+        val database = FirebaseDatabase.getInstance()
+        // Getting user details from db
+        val currentUser = Firebase.auth.currentUser
+        if (currentUser != null) {
+            // Assuming userDetails.uid is the user's UID
+            val userUid = currentUser.uid
+            // Reference to the user's data in the Realtime Database
+            val userRef = database.getReference("Users").child(userUid) // Corrected line
+
+            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        // dataSnapshot contains the user details data
+                        val userDetails = dataSnapshot.getValue(data.UserDetails::class.java)
+
+                        // Now you can use the userDetails object as needed
+                        if (userDetails != null) {
+                            myprofileimg = userDetails.profileImage
+                            mysetDetails = userDetails.setDetails
+
+                            // Set the TextView values here
+                            profileimg.setImageResource(myprofileimg)
+                            profileView.setImageResource(myprofileimg)
+
+                        }
+                    } else {
+                        Log.d(ContentValues.TAG, "User details do not exist")
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.e(
+                        ContentValues.TAG,
+                        "Error reading user details from the database",
+                        databaseError.toException()
+                    )
+                }
+            })
+        }
+
+
+
+
+
+
+
+
+
+
         foodcard.setOnClickListener {
-            val intent = Intent(this, melodiespage::class.java)
+            val intent = Intent(this, Nutrition::class.java)
             startActivity(intent)
         }
 

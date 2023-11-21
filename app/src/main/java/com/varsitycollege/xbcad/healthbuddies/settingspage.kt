@@ -39,7 +39,8 @@ class settingspage : AppCompatActivity() {
     var mydailycalories: Int =0
     var mygender: String = ""
     var myaboutme: String = ""
-
+    var myusercurrency: Int =0
+    var mycurrentcalories: Int =0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,6 +112,8 @@ class settingspage : AppCompatActivity() {
         }
 
 
+
+
         val database = FirebaseDatabase.getInstance()
 
 // Getting user details from db
@@ -141,6 +144,14 @@ class settingspage : AppCompatActivity() {
                             mysetDetails = userDetails.setDetails
                             mygender = userDetails.gender
                             myaboutme = userDetails.aboutMe
+                            myusercurrency = userDetails.userCurrency
+                            mydailysteps = userDetails.dailySteps
+                            mygoalweight = userDetails.goalWeight
+                            mymoveminutes = userDetails.moveMinutes
+                            mywatergoal = userDetails.dailyWaterAmount
+                            mysleepgoal = userDetails.sleep
+                            mydailycalories = userDetails.dailyCalories
+                            mycurrentcalories = userDetails.userCurrentCalories
 
                             Toast.makeText(this@settingspage, "my height: ${myheight}", Toast.LENGTH_SHORT).show()
 
@@ -151,40 +162,6 @@ class settingspage : AppCompatActivity() {
                             emailtv.text = myemail
                             usernametv.setText(myusername)
                             profiletv.setImageResource(myprofileimg)
-
-                            if(myaboutme!=""){
-                                aboutmetv.setText(myaboutme)
-                            }
-
-
-                        }
-                    } else {
-                        Log.d(TAG, "User details do not exist")
-                    }
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Log.e(TAG, "Error reading user details from the database", databaseError.toException())
-                }
-            })
-
-            // Listener to retrieve user goals
-            userRef.child("user_goals").addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        // dataSnapshot contains the user goals data
-                        val userGoals = dataSnapshot.getValue(data.UserGoals::class.java)
-
-                        // Now you can use the userGoals object as needed
-                        if (userGoals != null) {
-                            mydailysteps = userGoals.dailySteps
-                            mygoalweight = userGoals.goalWeight
-                            mymoveminutes = userGoals.moveMinutes
-                            mywatergoal = userGoals.dailyWaterAmount
-                            mysleepgoal = userGoals.sleep
-                            mydailycalories = userGoals.dailyCalories
-
-                            // Set the TextView values here
                             stepstv.text = mydailysteps.toString()
                             myweighttv.text = mygoalweight.toString()
                             minutestv.text = mymoveminutes.toString()
@@ -201,19 +178,22 @@ class settingspage : AppCompatActivity() {
                                 imperialsw.isChecked = true
                             }
 
+                            if(myaboutme!=""){
+                                aboutmetv.setText(myaboutme)
+                            }
+
+
                         }
                     } else {
-                        Log.d(TAG, "User goals do not exist")
+                        Log.d(TAG, "User details do not exist")
                     }
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
-                    Log.e(TAG, "Error reading user goals from the database", databaseError.toException())
+                    Log.e(TAG, "Error reading user details from the database", databaseError.toException())
                 }
             })
         }
-
-
     }
 
     private fun pickImage() {
