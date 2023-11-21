@@ -112,6 +112,8 @@ class settingspage : AppCompatActivity() {
         }
 
 
+
+
         val database = FirebaseDatabase.getInstance()
 
 // Getting user details from db

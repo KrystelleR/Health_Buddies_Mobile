@@ -27,4 +27,17 @@ class data {
         val dailyCalories: Int =0
     )  : Serializable
 
+
+    data class Quote(
+        val _id: String,
+        val tags: List<String>,
+        val content: String,
+        val author: String,
+        val authorSlug: String,
+        val length: Int,
+        val dateAdded: String,
+        val dateModified: String
+    )
+
+
 }
