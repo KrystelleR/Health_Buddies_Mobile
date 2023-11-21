@@ -205,6 +205,8 @@ class Register : AppCompatActivity() {
                                                                     .addOnFailureListener { e ->
                                                                         Log.w(TAG, "Error adding user goals to Realtime Database", e)
                                                                     }
+                                                                // for UserCalories nodes
+                                                                initializeUserNode()
                                                                 Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show()
                                                             }
                                                             ?.addOnFailureListener{
@@ -257,6 +259,33 @@ class Register : AppCompatActivity() {
         val Intent = Intent(this, MainActivity::class.java)
         startActivity(Intent)
     }
+
+    //create breakfast, lunch , dinner usercalories nodes on db if successful sign up
+    private fun initializeUserNode() {
+        val auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+
+        if (currentUser != null) {
+            val userId = currentUser.uid
+
+            // Initialize user node with empty sub-nodes for Breakfast, Lunch, and Dinner
+            val userCaloriesRef = FirebaseDatabase.getInstance().getReference("UserCalories").child(userId)
+
+            // Initialize Breakfast node
+            userCaloriesRef.child("Breakfast").child("MealName").setValue(" ")
+            userCaloriesRef.child("Breakfast").child("Calories").setValue(0)
+
+            // Initialize Lunch node
+            userCaloriesRef.child("Lunch").child("MealName").setValue(" ")
+            userCaloriesRef.child("Lunch").child("Calories").setValue(0)
+
+            // Initialize Dinner node
+            userCaloriesRef.child("Dinner").child("MealName").setValue(" ")
+            userCaloriesRef.child("Dinner").child("Calories").setValue(0)
+        }
+    }
+
+
 
     public override fun onStart() {
         super.onStart()

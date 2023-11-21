@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "484526771116",
+    "firebase_url": "https://healthbuddies-48435-default-rtdb.firebaseio.com",
+    "project_id": "healthbuddies-48435",
+    "storage_bucket": "healthbuddies-48435.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484526771116:android:5a33de8b768162d38f0809",
+        "android_client_info": {
+          "package_name": "com.varsitycollege.xbcad.healthbuddies"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbNpSZoMBh1ToTkP3txPkLB6iRkjPRyMA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

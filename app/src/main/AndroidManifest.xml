@@ -14,8 +14,15 @@
         android:theme="@style/Theme.HealthBuddies"
         tools:targetApi="31">
         <activity
+            android:name=".UserCaloriesListActivity"
+            android:exported="false" />
+        <activity
             android:name=".meditationvideos"
             android:exported="false" />
+        <activity android:name=".Nutrition" />
+        <activity android:name=".AddEnergy" />
+        <activity android:name=".Meals" />
+        <activity android:name=".Recipe" />
         <activity
             android:name=".advancedvideos"
             android:exported="false" />
