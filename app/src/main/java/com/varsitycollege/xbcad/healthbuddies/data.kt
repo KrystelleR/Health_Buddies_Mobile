@@ -26,4 +26,15 @@ class data {
         val dailyWaterAmount: Int =0,
         val dailyCalories: Int =0
     ): Serializable
+
+    //for UserCalories
+
 }
+
+data class UserCaloriesItem(
+    val mealType: String,
+    val mealName: String,
+    val calories: Long
+)
+
+
