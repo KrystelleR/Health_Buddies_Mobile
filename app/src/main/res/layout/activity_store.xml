@@ -19,6 +19,18 @@
         android:fontFamily="@font/itim"
         android:textSize="20sp"/>
 
+    <TextView
+        android:id="@+id/userCurrencyTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_gravity="left"
+        android:text="Banners"
+        android:textColor="@color/blue"
+        android:fontFamily="@font/itim"
+        android:textSize="20sp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
