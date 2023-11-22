@@ -15,15 +15,20 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.MutableData
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.database.Transaction
 
 class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialogListener {
+    private lateinit var currentUserUid: String
+    private lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_store)
+        currentUserUid = Firebase.auth.currentUser?.uid.orEmpty()
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
         val adapter = StoreAdapter(ArrayList()) { item ->
@@ -33,7 +38,6 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
 
         populateStoreItems(adapter)
         fetchUserData()
-
     }
 
     //region Confirmation Dialog code
@@ -43,9 +47,60 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
     }
 
     override fun onConfirmClicked() {
-        // Handle the confirmation logic here, e.g., initiate the purchase
-        Toast.makeText(this, "Item purchased!", Toast.LENGTH_SHORT).show()
+        // Get the selected item from the adapter
+        val selectedItem = (recyclerView.adapter as? StoreAdapter)?.getSelectedItem()
+
+        if (selectedItem != null) {
+            val selectedPoints = selectedItem.points
+
+            // Fetch user currency
+            val userRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUid)
+
+            userRef.runTransaction(object : Transaction.Handler {
+                override fun doTransaction(mutableData: MutableData): Transaction.Result {
+                    val userDetails = mutableData.getValue(data.UserDetails::class.java)
+
+                    if (userDetails != null) {
+                        val currentCurrency = userDetails.userCurrency
+
+                        if (currentCurrency >= selectedPoints) {
+                            // Sufficient currency for the purchase
+                            userDetails.userCurrency = (currentCurrency - selectedPoints).toInt()
+
+                            // Update user currency in the database
+                            mutableData.value = userDetails
+                            return Transaction.success(mutableData)
+                        } else {
+                            // Insufficient currency
+                            return Transaction.abort()
+                        }
+                    }
+
+                    // User details not found
+                    return Transaction.success(mutableData)
+                }
+
+                override fun onComplete(
+                    databaseError: DatabaseError?,
+                    committed: Boolean,
+                    dataSnapshot: DataSnapshot?
+                ) {
+                    if (committed) {
+                        // Purchase successful
+                        Toast.makeText(this@Store, "Item purchased!", Toast.LENGTH_SHORT).show()
+                        fetchUserData() // Refresh user currency display
+                    } else {
+                        // Purchase failed (e.g., insufficient currency)
+                        Toast.makeText(this@Store, "Purchase failed: Insufficient currency", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
+        } else {
+            // Handle the case where no item is selected (this should not happen in your flow)
+            Toast.makeText(this@Store, "No item selected", Toast.LENGTH_SHORT).show()
+        }
     }
+
 
     override fun onCancelClicked() {
         // Handle the cancellation logic here

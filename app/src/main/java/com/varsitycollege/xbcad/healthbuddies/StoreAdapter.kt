@@ -15,7 +15,10 @@ import javax.sql.DataSource
 import com.bumptech.glide.request.target.Target
 
 
-class StoreAdapter(private val items: ArrayList<StoreItem>, private val onItemClick: (StoreItem) -> Unit) : RecyclerView.Adapter<StoreAdapter.ViewHolder>() {
+class StoreAdapter(private val items: ArrayList<StoreItem>, private val onItemClick: (StoreItem) -> Unit) :
+    RecyclerView.Adapter<StoreAdapter.ViewHolder>() {
+
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val itemImage: ImageView = itemView.findViewById(R.id.itemImage)
@@ -23,11 +26,15 @@ class StoreAdapter(private val items: ArrayList<StoreItem>, private val onItemCl
 
         init {
             itemView.setOnClickListener {
-                onItemClick(items[adapterPosition])
+                val adapterPosition = adapterPosition
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    selectedPosition = adapterPosition
+                    notifyDataSetChanged() // Notify adapter to redraw, highlighting the selected item
+                    onItemClick(items[adapterPosition])
+                }
             }
         }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.store_item, parent, false)
@@ -73,16 +80,26 @@ class StoreAdapter(private val items: ArrayList<StoreItem>, private val onItemCl
             .into(holder.itemImage)
 
         holder.itemPrice.text = currentItem.points.toString()
+
+        // Highlight the selected item
+        holder.itemView.isSelected = position == selectedPosition
     }
 
-
-
+    fun getSelectedItem(): StoreItem? {
+        return if (selectedPosition != RecyclerView.NO_POSITION) {
+            items[selectedPosition]
+        } else {
+            null
+        }
+    }
 
     fun setItems(newItems: List<StoreItem>) {
         items.clear()
         items.addAll(newItems)
         notifyDataSetChanged()
     }
+
     override fun getItemCount() = items.size
 }
+
 
