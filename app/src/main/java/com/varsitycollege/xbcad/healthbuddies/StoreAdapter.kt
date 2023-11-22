@@ -15,10 +15,12 @@ import javax.sql.DataSource
 import com.bumptech.glide.request.target.Target
 
 
-class StoreAdapter(private val items: ArrayList<StoreItem>, private val onItemClick: (StoreItem) -> Unit) :
-    RecyclerView.Adapter<StoreAdapter.ViewHolder>() {
+class StoreAdapter(
+    private val items: ArrayList<StoreItem>,
+    private val onItemClick: (StoreItem) -> Unit
+) : RecyclerView.Adapter<StoreAdapter.ViewHolder>() {
 
-    private var selectedPosition: Int = RecyclerView.NO_POSITION
+    private var selectedItem: StoreItem? = null
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val itemImage: ImageView = itemView.findViewById(R.id.itemImage)
@@ -26,15 +28,12 @@ class StoreAdapter(private val items: ArrayList<StoreItem>, private val onItemCl
 
         init {
             itemView.setOnClickListener {
-                val adapterPosition = adapterPosition
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    selectedPosition = adapterPosition
-                    notifyDataSetChanged() // Notify adapter to redraw, highlighting the selected item
-                    onItemClick(items[adapterPosition])
-                }
+                selectedItem = items[adapterPosition]
+                onItemClick(selectedItem!!)
             }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.store_item, parent, false)
@@ -47,8 +46,8 @@ class StoreAdapter(private val items: ArrayList<StoreItem>, private val onItemCl
         // Use Glide to load the image from the URL with placeholder and error images
         Glide.with(holder.itemView.context)
             .load(currentItem.imageUrl)
-            .placeholder(R.drawable.bannerbg) // Add your placeholder image resource of type Drawable
-            .error(R.drawable.bg) // Add your error image resource of type Drawable
+            .placeholder(R.drawable.bannerbg)
+            .error(R.drawable.bg)
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
@@ -57,12 +56,6 @@ class StoreAdapter(private val items: ArrayList<StoreItem>, private val onItemCl
                     isFirstResource: Boolean
                 ): Boolean {
                     Log.e("Glide", "Error loading image", e)
-
-                    // Log additional details about the error
-                    Log.e("Glide", "Error message: ${e?.message}")
-                    Log.e("Glide", "Error cause: ${e?.cause}")
-                    Log.e("Glide", "Error root causes: ${e?.rootCauses}")
-
                     return false
                 }
 
@@ -80,17 +73,11 @@ class StoreAdapter(private val items: ArrayList<StoreItem>, private val onItemCl
             .into(holder.itemImage)
 
         holder.itemPrice.text = currentItem.points.toString()
-
-        // Highlight the selected item
-        holder.itemView.isSelected = position == selectedPosition
     }
 
+
     fun getSelectedItem(): StoreItem? {
-        return if (selectedPosition != RecyclerView.NO_POSITION) {
-            items[selectedPosition]
-        } else {
-            null
-        }
+        return selectedItem
     }
 
     fun setItems(newItems: List<StoreItem>) {
@@ -99,7 +86,6 @@ class StoreAdapter(private val items: ArrayList<StoreItem>, private val onItemCl
         notifyDataSetChanged()
     }
 
+
     override fun getItemCount() = items.size
 }
-
-

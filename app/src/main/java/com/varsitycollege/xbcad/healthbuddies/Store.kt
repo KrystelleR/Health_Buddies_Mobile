@@ -47,59 +47,51 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
     }
 
     override fun onConfirmClicked() {
-        // Get the selected item from the adapter
         val selectedItem = (recyclerView.adapter as? StoreAdapter)?.getSelectedItem()
 
         if (selectedItem != null) {
             val selectedPoints = selectedItem.points
 
-            // Fetch user currency
-            val userRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUid)
+            // Reference to the user's currency node
+            val userCurrencyRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUid).child("userCurrency")
 
-            userRef.runTransaction(object : Transaction.Handler {
+            userCurrencyRef.runTransaction(object : Transaction.Handler {
                 override fun doTransaction(mutableData: MutableData): Transaction.Result {
-                    val userDetails = mutableData.getValue(data.UserDetails::class.java)
+                    val currentCurrency = mutableData.getValue(Long::class.java) ?: 0
 
-                    if (userDetails != null) {
-                        val currentCurrency = userDetails.userCurrency
-
-                        if (currentCurrency >= selectedPoints) {
-                            // Sufficient currency for the purchase
-                            userDetails.userCurrency = (currentCurrency - selectedPoints).toInt()
-
-                            // Update user currency in the database
-                            mutableData.value = userDetails
-                            return Transaction.success(mutableData)
-                        } else {
-                            // Insufficient currency
-                            return Transaction.abort()
-                        }
+                    // Ensure the user has enough currency to make the purchase
+                    return if (currentCurrency >= selectedPoints) {
+                        mutableData.value = currentCurrency - selectedPoints
+                        Transaction.success(mutableData)
+                    } else {
+                        Transaction.abort()
                     }
-
-                    // User details not found
-                    return Transaction.success(mutableData)
                 }
 
-                override fun onComplete(
-                    databaseError: DatabaseError?,
-                    committed: Boolean,
-                    dataSnapshot: DataSnapshot?
-                ) {
+                override fun onComplete(databaseError: DatabaseError?, committed: Boolean, dataSnapshot: DataSnapshot?) {
                     if (committed) {
                         // Purchase successful
                         Toast.makeText(this@Store, "Item purchased!", Toast.LENGTH_SHORT).show()
-                        fetchUserData() // Refresh user currency display
+
+                        // Update the PurchasedItems in the database
+                        val userPurchasedItemsRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUid).child("PurchasedItems")
+                        userPurchasedItemsRef.child(selectedItem.storeId).setValue(true)
+
+                        // Refresh user currency display
+                        fetchUserData()
                     } else {
-                        // Purchase failed (e.g., insufficient currency)
+                        // Insufficient currency
                         Toast.makeText(this@Store, "Purchase failed: Insufficient currency", Toast.LENGTH_SHORT).show()
                     }
                 }
             })
         } else {
-            // Handle the case where no item is selected (this should not happen in your flow)
+            // Handle the case where no item is selected
             Toast.makeText(this@Store, "No item selected", Toast.LENGTH_SHORT).show()
         }
     }
+
+
 
 
     override fun onCancelClicked() {
@@ -144,7 +136,7 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
     private fun populateStoreItems(adapter: StoreAdapter) {
         val mDatabase = FirebaseDatabase.getInstance().getReference("Store")
 
-        mDatabase.addValueEventListener(object : ValueEventListener {
+        mDatabase.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     val storeItemList = ArrayList<StoreItem>()
@@ -154,29 +146,50 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
                         val name = storeSnapshot.child("Name").getValue(String::class.java)
                         val imageUrl = storeSnapshot.child("ImageUrl").getValue(String::class.java)
                         val points = storeSnapshot.child("Points").getValue(Long::class.java)
+                        val storeId = storeSnapshot.key // Get the storeId from the snapshot
 
-                        if (name != null && imageUrl != null && points != null) {
-                            val storeItem = StoreItem(imageUrl, name, points)
-                            storeItemList.add(storeItem)
+                        if (name != null && imageUrl != null && points != null && storeId != null) {
+                            val storeItem = StoreItem(imageUrl, name, points, storeId)
 
-                            // Log the imageUrl for debugging
-                            Log.d("FirebaseData", "ImageUrl: $imageUrl")
+                            // Check if the item is not already purchased
+                            isItemPurchased(storeItem) { isPurchased ->
+                                if (!isPurchased) {
+                                    storeItemList.add(storeItem)
+                                    // Update adapter data
+                                    adapter.setItems(storeItemList)
+                                    adapter.notifyDataSetChanged()
+                                }
+
+                                // Log the imageUrl for debugging
+                                Log.d("FirebaseData", "ImageUrl: $imageUrl")
+                            }
                         }
                     }
-
-                    Log.d("FirebaseData", "StoreItemList: $storeItemList")
-
-                    // Update adapter data
-                    Log.d("FirebaseData", "StoreItemList size before update: ${storeItemList.size}")
-                    adapter.setItems(storeItemList)
-
-                    adapter.notifyDataSetChanged()
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
                 // Handle the error
                 Log.e("FirebaseData", "Error: ${error.message}")
+            }
+        })
+    }
+
+
+
+    private fun isItemPurchased(storeItem: StoreItem, callback: (Boolean) -> Unit) {
+        // Check if the item is already purchased
+        val userPurchasedItemsRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUid).child("PurchasedItems")
+        userPurchasedItemsRef.child(storeItem.storeId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // If the snapshot exists, the item is already purchased
+                callback(snapshot.exists())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle the error
+                Log.e("FirebaseData", "Error: ${error.message}")
+                callback(false) // Assume the item is not purchased in case of an error
             }
         })
     }
