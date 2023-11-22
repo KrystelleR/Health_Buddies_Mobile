@@ -42,6 +42,8 @@ class settingspage : AppCompatActivity() {
     var myusercurrency: Int =0
     var mycurrentcalories: Int =0
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settingspage)
@@ -112,6 +114,8 @@ class settingspage : AppCompatActivity() {
         }
 
 
+
+
         val database = FirebaseDatabase.getInstance()
 
 // Getting user details from db
@@ -159,12 +163,14 @@ class settingspage : AppCompatActivity() {
                             gendertv.text = mygender
                             emailtv.text = myemail
                             usernametv.setText(myusername)
+                            currentProfileImageResourceId = myprofileimg
                             profiletv.setImageResource(myprofileimg)
                             stepstv.text = mydailysteps.toString()
                             myweighttv.text = mygoalweight.toString()
                             minutestv.text = mymoveminutes.toString()
                             dailywatertv.text = mywatergoal.toString()
                             caloriestv.text = mydailycalories.toString()
+                            caloriestv.text = setDailyCalorieGoal( myage,mygender)// set calories goal based on age
                             sleeptv.text = mysleepgoal.toString()
 
                             if(mymetric){
@@ -192,7 +198,86 @@ class settingspage : AppCompatActivity() {
                 }
             })
         }
+
+
+        val save = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.savebtn)
+        save.setOnClickListener(){
+            saveChangesToDatabase()
+        }
+
     }
+
+
+    fun extractWeightValue(weightString: String): Int {
+        // Define a regex pattern to match the numeric part of the string
+        val regex = Regex("""(\d+)""")
+
+        // Find the match in the input string
+        val matchResult = regex.find(weightString)
+
+        // Extract the matched group (numeric part) and convert it to an Int
+        return matchResult?.groupValues?.get(1)?.toIntOrNull() ?: 0
+    }
+
+
+    private fun saveChangesToDatabase() {
+        val usernametv = findViewById<EditText>(R.id.usernametxt)
+        val agetv = findViewById<Spinner>(R.id.ageSpinner)
+        val heighttv = findViewById<TextView>(R.id.heighttxt)
+        val weighttv = findViewById<TextView>(R.id.weighttxt)
+        val gendertv = findViewById<TextView>(R.id.gendertxt)
+        val metricsw = findViewById<Switch>(R.id.metricswitch)
+        val imperialsw = findViewById<Switch>(R.id.imperialswitch)
+        val stepstv = findViewById<TextView>(R.id.stepstxt)
+        val myweighttv = findViewById<TextView>(R.id.myweighttxt)
+        val minutestv = findViewById<TextView>(R.id.minutestxt)
+        val dailywatertv = findViewById<TextView>(R.id.dailywatertxt)
+        val caloriestv = findViewById<TextView>(R.id.caloriestxt)
+        val sleeptv = findViewById<TextView>(R.id.sleeptxt)
+        val aboutmetv = findViewById<EditText>(R.id.aboutmetxt)
+
+
+
+        val currentUser = Firebase.auth.currentUser
+        if (currentUser != null) {
+            val userUid = currentUser.uid
+            val userRef = FirebaseDatabase.getInstance().getReference("Users").child(userUid)
+
+            // Create an instance of UserDetails with the updated values
+            val updatedUserDetails = currentUser.email?.let {
+                data.UserDetails(
+                    currentUser.uid,
+                    usernametv.text.toString(),
+                    it,
+                    agetv.selectedItem.toString().toInt(),
+                    heighttv.text.toString(),
+                    myweighttv.text.toString(),
+                    metricsw.isChecked,
+                    imperialsw.isChecked,
+                    currentProfileImageResourceId,
+                    true,  // Assuming this should always be set to true when saving changes
+                    gendertv.text.toString(),
+                    aboutmetv.text.toString(),
+                    myusercurrency,
+                    mycurrentcalories,
+                    stepstv.text.toString().toInt(),  // Assuming steps can be converted to Int
+                    weighttv.text.toString(),
+                    minutestv.text.toString().toInt(),
+                    sleeptv.text.toString().toInt(), // Assuming minutes can be converted to Int
+                    dailywatertv.text.toString().toInt(),  // Assuming water goal can be converted to Int // Assuming sleep goal can be converted to Int
+                    caloriestv.text.toString().toInt()
+                )
+            }
+
+            // Update the values in the database using the UserDetails instance
+            userRef.setValue(updatedUserDetails)
+
+            Toast.makeText(this, "Changes saved successfully", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+
 
     private fun pickImage() {
         val edit = Dialog(this)
@@ -261,6 +346,39 @@ class settingspage : AppCompatActivity() {
         }
 
         edit.show()
+    }
+
+    fun setDailyCalorieGoal(age:Int, sex: String) : String{
+
+        var userCalorieGoal : String =" "
+        if(age>=4 && age<=8 && sex.equals("M")){
+
+            userCalorieGoal="1500"
+
+        }else if(age>=4 && age<=8 && sex.equals("F")){
+
+        }
+
+        else if(age>=9 && age<=13 && sex.equals("M")){
+
+            userCalorieGoal="2000"
+
+        }else if(age>=9 && age<=13 && sex.equals("F")){
+
+            userCalorieGoal="1800"
+
+        }
+        else if(age>=14 && age<=18 && sex.equals("M")){
+
+            userCalorieGoal="2600"
+
+        }else if(age>=14 && age<=18 && sex.equals("F")){
+
+            userCalorieGoal="2000"
+
+        }
+
+        return userCalorieGoal
     }
 
 
@@ -356,8 +474,11 @@ class settingspage : AppCompatActivity() {
     }
 
 
+    private var currentProfileImageResourceId: Int =0
+
     private fun setProfileImage(resourceId: Int) {
         val profileImageView = findViewById<ImageView>(R.id.profile_image)
         profileImageView.setImageResource(resourceId)
+        currentProfileImageResourceId = resourceId
     }
 }

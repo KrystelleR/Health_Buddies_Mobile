@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Meals"
+    android:background="@drawable/food_background"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/TopCardView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:cardBackgroundColor="@color/blues"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="-20dp">
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/MealsCardView"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        app:cardBackgroundColor="@color/yellow_lemon"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TopCardView"
+        android:layout_marginTop="-50dp"
+       > <!-- Adjusted top margin -->
+
+        <TextView
+            android:id="@+id/headerMeals"
+            android:layout_width="187dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/yellow_lemon"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:text="Meals"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:id="@+id/vertScrollView_meals"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/MealsCardView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="100dp"
+
+
+        >
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
+
+               <androidx.cardview.widget.CardView
+                   android:id="@+id/BfastCardView"
+                   android:layout_width="200dp"
+                   android:layout_height="50dp"
+                   app:cardBackgroundColor="@color/hot_pink"
+                   app:cardCornerRadius="30dp"
+                   app:cardElevation="10dp"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"
+                   android:layout_marginTop="20dp">
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Breakfast"
+                       android:fontFamily="casual"
+                       android:textColor="@color/white"
+                       android:layout_gravity="center"
+                       android:textSize="20sp"
+                       android:textStyle="bold"/>
+
+               </androidx.cardview.widget.CardView>
+
+               <HorizontalScrollView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@color/page_background_col">
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="200dp"
+                       android:orientation="horizontal"
+                       >
+                      <ImageButton
+                          android:layout_width="150dp"
+                          android:layout_height="150dp"
+                          android:id="@+id/btn_breakfast1"
+                          android:layout_marginTop="25dp"
+                          android:layout_marginLeft="20dp"
+                          android:background="@drawable/mushroom_omelet"
+                          android:layout_weight="1"/>
+                       <ImageButton
+                           android:id="@+id/btn_breakfast2"
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginTop="25dp"
+                           android:text="meal2"
+                           android:layout_marginLeft="20dp"
+                           android:background="@drawable/muesli_raspberry"
+                           android:layout_weight="1"/>
+
+                       <ImageButton
+                           android:id="@+id/btn_breakfast3"
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginTop="25dp"
+                           android:text="meal3"
+                           android:layout_marginLeft="20dp"
+                           android:background="@drawable/broc_ham_eggs"
+                           android:layout_weight="1"/>
+
+                       <ImageButton
+                           android:id="@+id/btn_breakfast4"
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginTop="25dp"
+                           android:text="meal4"
+                           android:layout_marginLeft="20dp"
+                           android:background="@drawable/peanutbutter_banana"
+                           android:layout_weight="1"/>
+
+                       <ImageButton
+                           android:id="@+id/btn_breakfast5"
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginTop="25dp"
+                           android:text="meal5"
+                           android:layout_marginLeft="20dp"
+                           android:background="@drawable/oats"
+                           android:layout_weight="1"/>
+
+                   </LinearLayout>
+
+
+
+               </HorizontalScrollView>
+
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
+
+               <androidx.cardview.widget.CardView
+                   android:id="@+id/LunchCardView"
+                   android:layout_width="200dp"
+                   android:layout_height="50dp"
+                   app:cardBackgroundColor="#F44336"
+                   app:cardCornerRadius="30dp"
+                   app:cardElevation="10dp"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"
+                   android:layout_marginTop="20dp">
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Lunch"
+                       android:fontFamily="casual"
+                       android:textColor="@color/white"
+                       android:layout_gravity="center"
+                       android:textSize="20sp"
+                       android:textStyle="bold"/>
+
+               </androidx.cardview.widget.CardView>
+
+               <HorizontalScrollView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@color/page_background_col">
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="200dp"
+                       android:orientation="horizontal"
+                       >
+                       <ImageButton
+                           android:id="@+id/btn_lunch1"
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginTop="25dp"
+                           android:text="meal1"
+                           android:layout_weight="1"
+                           android:layout_marginLeft="20dp"
+                           android:background="@drawable/sweetpotato_mac_n_cheese"/>
+                       <ImageButton
+                           android:id="@+id/btn_lunch2"
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginTop="25dp"
+                           android:text="meal2"
+                           android:layout_marginLeft="20dp"
+                           android:background="@drawable/fish_chips"
+                           android:layout_weight="1"/>
+
+                       <ImageButton
+                           android:id="@+id/btn_lunch3"
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginTop="25dp"
+                           android:text="meal3"
+                           android:layout_marginLeft="20dp"
+                           android:background="@drawable/baconwrap"
+                           android:layout_weight="1"/>
+
+                       <ImageButton
+                           android:id="@+id/btn_lunch4"
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginTop="25dp"
+                           android:text="meal4"
+                           android:layout_marginLeft="20dp"
+                           android:background="@drawable/bbq_chicken_pizza"
+                           android:layout_weight="1"/>
+
+                       <ImageButton
+                           android:id="@+id/btn_lunch5"
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginTop="25dp"
+                           android:text="meal5"
+                           android:layout_marginLeft="20dp"
+                           android:background="@drawable/classic_burger"
+                           android:layout_weight="1"/>
+
+                   </LinearLayout>
+
+
+
+               </HorizontalScrollView>
+
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
+
+               <androidx.cardview.widget.CardView
+                   android:id="@+id/DinnerCardView"
+                   android:layout_width="200dp"
+                   android:layout_height="50dp"
+                   app:cardBackgroundColor="@color/purple"
+                   app:cardCornerRadius="30dp"
+                   app:cardElevation="10dp"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"
+                   android:layout_marginTop="20dp">
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Dinner"
+                       android:fontFamily="casual"
+                       android:textColor="@color/white"
+                       android:layout_gravity="center"
+                       android:textSize="20sp"
+                       android:textStyle="bold"/>
+
+               </androidx.cardview.widget.CardView>
+
+               <HorizontalScrollView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@color/page_background_col">
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="200dp"
+                       android:orientation="horizontal"
+                       >
+                       <ImageButton
+                           android:id="@+id/btn_dinner1"
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginTop="25dp"
+                           android:text="meal1"
+                           android:layout_weight="1"
+                           android:layout_marginLeft="20dp"
+                           android:background="@drawable/lasagna"/>
+                       <ImageButton
+                           android:id="@+id/btn_dinner2"
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginTop="25dp"
+                           android:text="meal2"
+                           android:layout_marginLeft="20dp"
+                           android:background="@drawable/chickenfriendrice"
+                           android:layout_weight="1"/>
+
+                       <ImageButton
+                           android:id="@+id/btn_dinner3"
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginTop="25dp"
+                           android:text="meal3"
+                           android:layout_marginLeft="20dp"
+                           android:background="@drawable/creamy_mc_n_cheese"
+                           android:layout_weight="1"/>
+
+                       <ImageButton
+                           android:id="@+id/btn_dinner4"
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginTop="25dp"
+                           android:text="meal4"
+                           android:layout_marginLeft="20dp"
+                           android:background="@drawable/chicken_pasta"
+                           android:layout_weight="1"/>
+
+                       <ImageButton
+                           android:id="@+id/btn_dinner5"
+                           android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_marginTop="25dp"
+                           android:text="meal5"
+                           android:layout_marginLeft="20dp"
+                           android:background="@drawable/veg_pasta"
+                           android:layout_weight="1"/>
+
+                   </LinearLayout>
+
+
+
+               </HorizontalScrollView>
+
+           </LinearLayout>
+
+       </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

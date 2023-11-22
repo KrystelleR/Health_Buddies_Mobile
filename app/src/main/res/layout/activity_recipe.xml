@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Recipe"
+    android:background="@drawable/food_background">
+
+    <FrameLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80C1BFBF"
+        android:visibility="invisible"
+        android:elevation="10dp">
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/teal_200"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"
+        android:progressTint="@color/teal_200"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        />
+
+</FrameLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/TopCardView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:cardBackgroundColor="@color/blues"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="-20dp">
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/RecipeCardView"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        app:cardBackgroundColor="#DA39DF"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TopCardView"
+        android:layout_marginTop="-50dp"> <!-- Adjusted top margin -->
+
+        <TextView
+            android:id="@+id/txt_headerRecipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#DA39DF"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:text="Meal Name"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/recipe_info_cardview"
+        android:layout_width="350dp"
+        android:layout_height="570dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/RecipeCardView"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/purple"
+        android:layout_marginTop="30dp">
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            
+            <ImageView
+                android:id="@+id/iv_meal_image"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/masterchef"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/txt_cals"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="000"
+                    android:textColor="@color/white"
+                    android:textSize="23sp"
+                    android:fontFamily="casual"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="90dp"
+                    android:layout_marginTop="20dp"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="kcal / serving"
+                    android:textColor="@color/white"
+                    android:textSize="23sp"
+                    android:fontFamily="casual"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"/>
+            </LinearLayout>
+
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="110dp"
+                android:src="@drawable/recipe"
+                android:layout_gravity="center"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_recipe"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_btn_meals"
+                android:layout_gravity="center"
+                android:text="Recipe"
+                android:fontFamily="casual"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:text="Add to plate?"
+                    android:textColor="@color/white"
+                    android:textSize="23sp"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:fontFamily="casual"
+                    android:layout_marginLeft="60dp"/>
+
+                <CheckBox
+                    android:id="@+id/chkbox_add_to_plate"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="70dp"
+
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

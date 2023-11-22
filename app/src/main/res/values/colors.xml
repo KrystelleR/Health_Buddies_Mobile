@@ -69,4 +69,14 @@
 
 
 
+    <color name="yellow_lemon">#FFBE0B</color>
+    <color name="orange">#FF7E41</color>
+    <color name="hot_pink">#FF006E</color>
+    <color name="purple">#8338EC</color>
+    <color name="blues">#3A86FF</color>
+    <color name="light_green">#68DD57</color>
+    <color name="bluegrey">#A4D4EC</color>
+    <color name="skyblue">#A9DEF9</color>
+    <color name = "page_background_col">#CCEDFD</color>
+
 </resources>

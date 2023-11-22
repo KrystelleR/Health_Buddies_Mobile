@@ -174,6 +174,50 @@ class Register : AppCompatActivity() {
                                                 dailyCalories =2000,
                                             )
 
+
+                                            val usersRef1 = database.getReference("UserSteps")
+                                            // Set user details in your data class
+                                            val userSteps = data.UserSteps(
+                                                uid = user?.uid ?: "",
+                                                _00h00 =0,
+                                                _01h00 =0,
+                                                _02h00 =0,
+                                                _03h00 =0,
+                                                _04h00 =0,
+                                                _05h00 =0,
+                                                _06h00 =0,
+                                                _07h00 =0,
+                                                _08h00 =0,
+                                                _09h00 =0,
+                                                _10h00 =0,
+                                                _11h00 =0,
+                                                _12h00 =0,
+                                                _13h00 =0,
+                                                _14h00 =0,
+                                                _15h00 =0,
+                                                _16h00 =0,
+                                                _17h00 =0,
+                                                _18h00 =0,
+                                                _19h00 =0,
+                                                _20h00 =0,
+                                                _21h00 =0,
+                                                _22h00 =0,
+                                                _23h00 =0
+                                            )
+
+                                            val usersRef2 = database.getReference("UserMoveMinutes")
+                                            // Set user details in your data class
+                                            val UserMoveMinutes = data.UserMoveMinutes(
+                                                uid = user?.uid ?: "",
+                                                monday=0,
+                                                tuesday=0,
+                                                wednesday=0,
+                                                thursday=0,
+                                                friday=0,
+                                                saturday=0,
+                                                sunday=0
+                                            )
+
                                             val profileUpdates = UserProfileChangeRequest.Builder()
                                                 .setDisplayName(usernameText) // Set the display name
                                                 .build()
@@ -192,6 +236,28 @@ class Register : AppCompatActivity() {
                                                                     }
                                                                     .addOnFailureListener { e ->
                                                                         Log.w(TAG, "Error adding user details to Realtime Database", e)
+                                                                    }
+
+                                                                // for UserCalories nodes
+                                                                initializeUserNode()
+                                                                Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show()
+
+                                                                // Add the user steps to Realtime Database
+                                                                usersRef1.child(userSteps.uid).setValue(userSteps)
+                                                                    .addOnSuccessListener {
+                                                                        Log.d(TAG, "User Steps added to Realtime Database successfully")
+                                                                    }
+                                                                    .addOnFailureListener { e ->
+                                                                        Log.w(TAG, "Error adding user steps to Realtime Database", e)
+                                                                    }
+
+                                                                // Add the user move minutes to Realtime Database
+                                                                usersRef2.child(UserMoveMinutes.uid).setValue(UserMoveMinutes)
+                                                                    .addOnSuccessListener {
+                                                                        Log.d(TAG, "User Move Minutes added to Realtime Database successfully")
+                                                                    }
+                                                                    .addOnFailureListener { e ->
+                                                                        Log.w(TAG, "Error adding user Move Minutes to Realtime Database", e)
                                                                     }
                                                             }
                                                             ?.addOnFailureListener{
@@ -233,6 +299,31 @@ class Register : AppCompatActivity() {
                     Toast.LENGTH_SHORT,
                 ).show()
             }
+        }
+    }
+
+    //create breakfast, lunch , dinner usercalories nodes on db if successful sign up
+    private fun initializeUserNode() {
+        val auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+
+        if (currentUser != null) {
+            val userId = currentUser.uid
+
+            // Initialize user node with empty sub-nodes for Breakfast, Lunch, and Dinner
+            val userCaloriesRef = FirebaseDatabase.getInstance().getReference("UserCalories").child(userId)
+
+            // Initialize Breakfast node
+            userCaloriesRef.child("Breakfast").child("MealName").setValue(" ")
+            userCaloriesRef.child("Breakfast").child("Calories").setValue(0)
+
+            // Initialize Lunch node
+            userCaloriesRef.child("Lunch").child("MealName").setValue(" ")
+            userCaloriesRef.child("Lunch").child("Calories").setValue(0)
+
+            // Initialize Dinner node
+            userCaloriesRef.child("Dinner").child("MealName").setValue(" ")
+            userCaloriesRef.child("Dinner").child("Calories").setValue(0)
         }
     }
 

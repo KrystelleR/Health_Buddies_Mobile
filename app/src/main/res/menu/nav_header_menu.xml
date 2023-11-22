@@ -16,7 +16,12 @@
         <item
             android:id="@+id/food_item"
             android:icon="@drawable/food_icon"
-            android:title="Food and Water" />
+            android:title="Food" />
+
+        <item
+            android:id="@+id/water_item"
+            android:icon="@drawable/water_icon"
+            android:title="Water and Sleep Tracker" />
         <item
             android:id="@+id/exercise_item"
             android:icon="@drawable/exercise_icon"

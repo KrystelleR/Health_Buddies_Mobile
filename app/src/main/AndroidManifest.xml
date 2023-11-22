@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
     <application
         android:allowBackup="true"
@@ -14,11 +15,18 @@
         android:theme="@style/Theme.HealthBuddies"
         tools:targetApi="31">
         <activity
-            android:name=".breathingpage"
+            android:name=".fitnessgraph"
+            android:exported="false" />
+        <activity
+            android:name=".UserCaloriesListActivity"
             android:exported="false" />
         <activity
             android:name=".meditationvideos"
             android:exported="false" />
+        <activity android:name=".Nutrition" />
+        <activity android:name=".AddEnergy" />
+        <activity android:name=".Meals" />
+        <activity android:name=".Recipe" />
         <activity
             android:name=".advancedvideos"
             android:exported="false" />
