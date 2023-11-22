@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthBuddies"
         tools:targetApi="31">
+        <activity
+            android:name=".fitnessgraph"
+            android:exported="false" />
         <activity
             android:name=".UserCaloriesListActivity"
             android:exported="false" />

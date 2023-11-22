@@ -100,7 +100,7 @@
                     android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/viewprogressexbtn"
+                        android:id="@+id/viewprogressbtn1"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="10dp"
@@ -244,7 +244,7 @@
                         app:srcCompat="@drawable/exercisekoala" />
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/viewprogressmmbtn"
+                        android:id="@+id/viewprogressbtn2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/curved_button_3"

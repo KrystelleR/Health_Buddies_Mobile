@@ -15,10 +15,26 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import android.os.Handler
+import android.os.Looper
+import androidx.appcompat.widget.AppCompatButton
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import java.util.Calendar
+
 class fitnesspage :  AppCompatActivity(), SensorEventListener {
     // Added SensorEventListener the MainActivity class
     // Implement all the members in the class MainActivity
     // after adding SensorEventListener
+
+    //database
+    private val handler = Handler(Looper.getMainLooper())
+    private val database = FirebaseDatabase.getInstance()
+    private val usersRef1 = database.getReference("UserSteps")
+    private val user = FirebaseAuth.getInstance().currentUser
+
+
+
 
     // we have assigned sensorManger to nullable
     private var sensorManager: SensorManager? = null
@@ -62,6 +78,19 @@ class fitnesspage :  AppCompatActivity(), SensorEventListener {
         loadData()
         resetSteps()
 
+        val stepsgraph = findViewById< AppCompatButton>(R.id.viewprogressbtn1)
+        val movemgraph = findViewById<AppCompatButton>(R.id.viewprogressbtn2)
+
+        stepsgraph.setOnClickListener(){
+            val Intent = Intent(this, fitnessgraph::class.java)
+            startActivity(Intent)
+        }
+
+        movemgraph.setOnClickListener(){
+            val Intent = Intent(this, fitnessgraph::class.java)
+            startActivity(Intent)
+        }
+
         // Adding a context of SENSOR_SERVICE as Sensor Manager
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
@@ -87,6 +116,34 @@ class fitnesspage :  AppCompatActivity(), SensorEventListener {
             // Permission is granted, register the sensor listener
             registerStepCounterSensor()
         }
+        // Schedule the task to update steps every hour
+        scheduleHourlyTask()
+    }
+
+    private fun scheduleHourlyTask() {
+        val calendar = Calendar.getInstance()
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val millisUntilNextHour = (60 - calendar.get(Calendar.MINUTE)) * 60 * 1000
+
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                // Update steps in Firebase for the current hour
+                updateStepsInFirebase(currentHour)
+                // Schedule the next task for the next hour
+                scheduleHourlyTask()
+            }
+        }, millisUntilNextHour.toLong())
+    }
+
+    private fun updateStepsInFirebase(hour: Int) {
+        val userStepsUpdate = mapOf("_$hour" to totalSteps)
+        usersRef1.child(user?.uid ?: "").updateChildren(userStepsUpdate)
+            .addOnSuccessListener {
+                Log.d("fitnesspage", "Steps updated for hour $hour")
+            }
+            .addOnFailureListener {
+                Log.e("fitnesspage", "Failed to update steps for hour $hour", it)
+            }
     }
 
     private fun registerStepCounterSensor() {
@@ -126,10 +183,10 @@ class fitnesspage :  AppCompatActivity(), SensorEventListener {
 
         if (running) {
             totalSteps = event!!.values[0]
-
-            // Current steps are calculated by taking the difference of total steps
-            // and previous steps
             val currentSteps = totalSteps.toInt() - previousTotalSteps.toInt()
+
+            // Update steps in Firebase for the current hour
+            updateStepsInFirebase(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))
 
             // It will show the current steps to the user
             tv_stepsTaken.text = ("$currentSteps steps")
