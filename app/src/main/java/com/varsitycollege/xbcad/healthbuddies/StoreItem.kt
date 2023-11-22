@@ -1,3 +1,9 @@
 package com.varsitycollege.xbcad.healthbuddies
 
-data class StoreItem(val name: String, val imageUrl: String, val price: String)
+import java.io.Serializable
+
+data class StoreItem(
+    val imageUrl: String? = null,
+    val name: String? = null,
+    val points: Long = 0
+) : Serializable

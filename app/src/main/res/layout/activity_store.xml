@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
-        tools:listitem="@layout/store_item"/>
+        tools:listitem="@layout/store_item" />
 
 
 </LinearLayout>
