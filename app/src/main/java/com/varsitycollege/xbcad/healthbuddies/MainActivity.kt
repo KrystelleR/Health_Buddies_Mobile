@@ -218,6 +218,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val intent = Intent(this, Nutrition::class.java)
                 startActivity(intent)
             }
+            R.id.water_item -> {
+                val intent = Intent(this, Nutrition::class.java)
+                startActivity(intent)
+            }
             R.id.exercise_item -> {
                 val intent = Intent(this, fitnesspage::class.java)
                 startActivity(intent)
