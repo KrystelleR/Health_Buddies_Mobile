@@ -9,8 +9,19 @@ import com.varsitycollege.xbcad.healthbuddies.R
 class ConfirmationDialogFragment : DialogFragment() {
 
     interface ConfirmationDialogListener {
-        fun onConfirmClicked()
+        fun onConfirmClicked(selectedItemType: String)
         fun onCancelClicked()
+    }
+
+
+    companion object {
+        fun newInstance(itemType: String): ConfirmationDialogFragment {
+            val fragment = ConfirmationDialogFragment()
+            val args = Bundle()
+            args.putString("itemType", itemType)
+            fragment.arguments = args
+            return fragment
+        }
     }
 
     override fun onCreateView(
@@ -23,8 +34,10 @@ class ConfirmationDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val itemType = arguments?.getString("itemType")
+
         view.findViewById<Button>(R.id.confirmButton).setOnClickListener {
-            (activity as? ConfirmationDialogListener)?.onConfirmClicked()
+            (activity as? ConfirmationDialogListener)?.onConfirmClicked(itemType.orEmpty())
             dismiss()
         }
 
@@ -34,3 +47,4 @@ class ConfirmationDialogFragment : DialogFragment() {
         }
     }
 }
+

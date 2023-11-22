@@ -15,10 +15,10 @@ import javax.sql.DataSource
 import com.bumptech.glide.request.target.Target
 
 
-class StoreAdapter(
+class ProfilePictureAdapter(
     private val items: ArrayList<StoreItem>,
     private val onItemClick: (StoreItem) -> Unit
-) : RecyclerView.Adapter<StoreAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ProfilePictureAdapter.ViewHolder>() {
 
     private var selectedItem: StoreItem? = null
 
@@ -33,7 +33,6 @@ class StoreAdapter(
             }
         }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.store_item, parent, false)
@@ -75,7 +74,6 @@ class StoreAdapter(
         holder.itemPrice.text = currentItem.points.toString()
     }
 
-
     fun getSelectedItem(): StoreItem? {
         return selectedItem
     }
@@ -86,6 +84,6 @@ class StoreAdapter(
         notifyDataSetChanged()
     }
 
-
     override fun getItemCount() = items.size
 }
+

@@ -17,7 +17,7 @@ class data {
         val setDetails: Boolean =false,
         val gender: String ="",
         val aboutMe: String = "",
-        val userCurrency: Int = 0,
+        var userCurrency: Int = 0,
         val userCurrentCalories: Int =0,
         val dailySteps: Int=0,
         val goalWeight: String = "",
