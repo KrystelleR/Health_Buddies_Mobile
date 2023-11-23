@@ -27,6 +27,7 @@
         <activity android:name=".AddEnergy" />
         <activity android:name=".Meals" />
         <activity android:name=".Recipe" />
+        <activity android:name=".WaterSleep" />
         <activity
             android:name=".advancedvideos"
             android:exported="false" />

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Store"
+    android:background="#E5DEEF">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/TopCardView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:cardBackgroundColor="@color/melodies1"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="-20dp">
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/WaterSleepCardView"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        app:cardBackgroundColor="#99DAD4"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="100dp"
+        android:layout_alignBottom="@id/TopCardView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        app:layout_constraintTop_toBottomOf="@id/TopCardView"
+        android:layout_marginTop="-55dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:layout_marginBottom="-20dp"> <!-- Adjusted top margin -->
+
+        <TextView
+            android:id="@+id/headerWaterSleep"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="#99DAD4"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:text="Water and Sleep Tracker"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"/>
+    </androidx.cardview.widget.CardView>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="100dp"
+        android:layout_height="match_parent">
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#E5DEEF"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabTextColor="@color/white"
+            app:tabIndicatorColor="@color/teal_200"
+            app:tabSelectedTextColor="@color/white"
+            android:layout_marginTop="0dp"
+            android:elevation="100dp"
+            />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tabLayout"
+            android:layout_alignTop="@id/tabLayout"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/custom_watersleep_gradient"
+
+            />
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
