@@ -28,7 +28,6 @@ class data {
 
 
     data class UserSteps(
-        val uid: String ="",
         val _00h00 : Int =0,
         val _01h00 : Int=0,
         val _02h00 : Int=0,
@@ -55,15 +54,8 @@ class data {
         val _23h00 : Int=0
     ): Serializable
 
-    data class UserMoveMinutes(
-        val uid: String,
-        val monday: Int,
-        val tuesday: Int,
-        val wednesday: Int,
-        val thursday: Int,
-        val friday: Int,
-        val saturday: Int,
-        val sunday: Int,
+    data class UserMinutes(
+        var minutes: Int =0
     ): Serializable
 
     data class Quote(

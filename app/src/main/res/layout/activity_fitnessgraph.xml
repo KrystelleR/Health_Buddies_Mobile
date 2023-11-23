@@ -1,18 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColour"
+    android:orientation="vertical"
     tools:context=".fitnessgraph">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/TopCardView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="-30dp"
+        app:cardBackgroundColor="@color/blues"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/EnergyCardView"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="-50dp"
+        app:cardBackgroundColor="@color/purple"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TopCardView"> <!-- Adjusted top margin -->
+
+        <TextView
+            android:id="@+id/headerNutrition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/itim"
+            android:gravity="center"
+            android:text="My Fitness Progress"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+    </androidx.cardview.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/textViewTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Top TextView"
+        android:fontFamily="@font/itim"
+        android:text="View your progress for all your fitness goals"
         android:gravity="center"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:padding="16dp"/>
 
     <com.google.android.material.tabs.TabLayout
@@ -21,6 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewTop"
         app:tabMode="fixed"
+        android:background="@color/backgroundColour"
         app:tabGravity="fill"/>
 
     <androidx.viewpager.widget.ViewPager
@@ -34,9 +80,10 @@
         android:id="@+id/textViewBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bottom TextView"
+        android:text=""
         android:gravity="center"
         android:textSize="18sp"
         android:layout_alignParentBottom="true"
         android:padding="16dp"/>
 </RelativeLayout>
+</LinearLayout>
