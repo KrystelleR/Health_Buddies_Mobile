@@ -13,8 +13,45 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/TopCardView"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="-20dp"
+                app:cardBackgroundColor="@color/blues"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/EnergyCardView"
+                android:layout_width="300dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="-50dp"
+                app:cardBackgroundColor="@color/melodies1"
+                app:cardCornerRadius="20dp"
+                android:layout_gravity="center"
+                app:cardElevation="100dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/TopCardView"> <!-- Adjusted top margin -->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/itim"
+                    android:gravity="center"
+                    android:text="Calming Melodies Collection"
+                    android:textColor="@color/white"
+                    android:textSize="25sp" />
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/textView2"
@@ -28,9 +65,10 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="match_parent"
-                android:layout_height="135dp"
-                app:srcCompat="@drawable/melodiesband" />
+                android:layout_width="326dp"
+                android:layout_height="168dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/marchingband" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="220dp"

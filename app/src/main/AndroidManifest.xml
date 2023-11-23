@@ -31,6 +31,9 @@
             android:name=".advancedvideos"
             android:exported="false" />
         <activity
+            android:name=".breathingpage"
+            android:exported="false" />
+        <activity
             android:name=".intermediatevideos"
             android:exported="false" />
         <activity

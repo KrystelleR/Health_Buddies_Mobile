@@ -178,7 +178,6 @@ class Register : AppCompatActivity() {
                                             val usersRef1 = database.getReference("UserSteps")
                                             // Set user details in your data class
                                             val userSteps = data.UserSteps(
-                                                uid = user?.uid ?: "",
                                                 _00h00 =0,
                                                 _01h00 =0,
                                                 _02h00 =0,
@@ -205,17 +204,10 @@ class Register : AppCompatActivity() {
                                                 _23h00 =0
                                             )
 
-                                            val usersRef2 = database.getReference("UserMoveMinutes")
+                                            val usersRef2 = database.getReference("UserMinutes")
                                             // Set user details in your data class
-                                            val UserMoveMinutes = data.UserMoveMinutes(
-                                                uid = user?.uid ?: "",
-                                                monday=0,
-                                                tuesday=0,
-                                                wednesday=0,
-                                                thursday=0,
-                                                friday=0,
-                                                saturday=0,
-                                                sunday=0
+                                            val UserMoveMinutes = data.UserMinutes(
+                                                minutes=0
                                             )
 
                                             val profileUpdates = UserProfileChangeRequest.Builder()
@@ -243,7 +235,7 @@ class Register : AppCompatActivity() {
                                                                 Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show()
 
                                                                 // Add the user steps to Realtime Database
-                                                                usersRef1.child(userSteps.uid).setValue(userSteps)
+                                                                usersRef1.child(userDetails.uid).setValue(userSteps)
                                                                     .addOnSuccessListener {
                                                                         Log.d(TAG, "User Steps added to Realtime Database successfully")
                                                                     }
@@ -252,7 +244,7 @@ class Register : AppCompatActivity() {
                                                                     }
 
                                                                 // Add the user move minutes to Realtime Database
-                                                                usersRef2.child(UserMoveMinutes.uid).setValue(UserMoveMinutes)
+                                                                usersRef2.child(userDetails.uid).setValue(UserMoveMinutes)
                                                                     .addOnSuccessListener {
                                                                         Log.d(TAG, "User Move Minutes added to Realtime Database successfully")
                                                                     }

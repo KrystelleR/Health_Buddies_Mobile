@@ -9,6 +9,7 @@ import com.google.android.material.tabs.TabLayout
 class fitnessgraph : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         setContentView(R.layout.activity_fitnessgraph)
 
         val viewPager: ViewPager = findViewById(R.id.viewPager)
