@@ -148,7 +148,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="30dp"
                             android:fontFamily="@font/itim"
                             android:layout_marginBottom="10dp"
                             android:textAlignment="center"
@@ -273,12 +273,12 @@
                             android:layout_width="205dp"
                             android:layout_height="37dp"
                             android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginBottom="10dp"
                             android:fontFamily="@font/itim"
                             android:textColor="@color/white"
                             android:background="@drawable/curved_button"
                             android:text="View Leaderboard" />
-
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -357,7 +357,6 @@
                                             <LinearLayout
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
-
                                                 android:orientation="vertical">
 
                                                 <androidx.cardview.widget.CardView
@@ -448,7 +447,6 @@
                                                 android:textColor="@color/white"
                                                 android:background="@drawable/curved_button_2"
                                                 android:text="Edit Avatar" />
-
                                         </LinearLayout>
 
                                     </LinearLayout>

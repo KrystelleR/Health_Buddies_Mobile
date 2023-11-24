@@ -8,6 +8,8 @@ import android.webkit.WebView
 class meditationvideos : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Hide the ActionBar
+        supportActionBar?.hide()
         setContentView(R.layout.activity_meditationvideos)
 
         val myvideo1 = findViewById<WebView>(R.id.video1)

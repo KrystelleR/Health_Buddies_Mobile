@@ -25,12 +25,6 @@ class StepsFragment:  Fragment() {
         val view = inflater.inflate(R.layout.fragment_steps, container, false)
         val lineChart: LineChart = view.findViewById(R.id.lineChart)
 
-
-
-
-
-
-
         // Reference to your Firebase Database
         val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
 

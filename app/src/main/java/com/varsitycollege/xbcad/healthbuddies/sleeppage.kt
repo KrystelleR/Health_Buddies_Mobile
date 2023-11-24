@@ -8,11 +8,18 @@ import androidx.cardview.widget.CardView
 class sleeppage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Hide the ActionBar
+        supportActionBar?.hide()
         setContentView(R.layout.activity_sleeppage)
 
+        val meditationCard = findViewById<CardView>(R.id.meditationcard)
         val melodycard = findViewById<CardView>(R.id.melodiescard)
         val breathingcard = findViewById<CardView>(R.id.breathingcard)
-        val meditationcard = findViewById<CardView>(R.id.meditationcv)
+
+        meditationCard.setOnClickListener {
+            val intent = Intent(this, meditationvideos::class.java)
+            startActivity(intent)
+        }
 
         melodycard.setOnClickListener {
             val intent = Intent(this, melodiespage::class.java)
@@ -21,11 +28,6 @@ class sleeppage : AppCompatActivity() {
 
         breathingcard.setOnClickListener {
             val intent = Intent(this, breathingpage::class.java)
-            startActivity(intent)
-        }
-
-        meditationcard.setOnClickListener {
-            val intent = Intent(this, meditationvideos::class.java)
             startActivity(intent)
         }
     }
