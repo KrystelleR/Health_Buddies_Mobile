@@ -23,6 +23,11 @@
         <item>18</item>
     </string-array>
 
+    <string-array name="gender_options">
+        <item>M</item>
+        <item>F</item>
+    </string-array>
+
     //for spinner- add energy
     <string-array name="spinner_meal_options">
         <item>Breakfast</item>
