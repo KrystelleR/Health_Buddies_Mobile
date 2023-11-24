@@ -38,8 +38,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val baseUrl = "https://api.quotable.io/"
     private lateinit var leaderboardbtn: Button
 
-    var myprofileimg: Int =0
+    private lateinit var database: FirebaseDatabase
+    private var userUid: String? = null
+
+    var myprofileimg: Int = 0
     var mysetDetails: Boolean = false
+    var mybanner: String =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +53,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val exercisecard = findViewById<CardView>(R.id.exercisecardbtn)
         val sleepcard = findViewById<CardView>(R.id.sleepcardbtn)
 
-
+        //region Nav stuff
         navView = findViewById(R.id.navView)
         navView.setNavigationItemSelectedListener(this)
 
@@ -72,8 +76,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         )
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        //endregion
 
-
+        //region API Quotes
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
@@ -102,8 +107,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 // Handle failure
             }
         })
+        //endregion
 
-   //navbar header code
+        //region navbar header code
         val user = FirebaseAuth.getInstance().currentUser
         // Set email value to TextView in nav_header.xml
         val headerView = navView.getHeaderView(0)
@@ -113,27 +119,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val nameView: TextView = headerView.findViewById(R.id.user_name)
         nameView.text = user?.displayName
 
-        val profileView: de.hdodenhof.circleimageview.CircleImageView = headerView.findViewById(R.id.profile_image)
-        val profileimg = findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.profile_image)
+        val profileView: de.hdodenhof.circleimageview.CircleImageView =
+            headerView.findViewById(R.id.profile_image)
+        val profileimg =
+            findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.profile_image)
+        //endregion
 
-        val database = FirebaseDatabase.getInstance()
+        database = FirebaseDatabase.getInstance()
         // Getting user details from db
         val currentUser = Firebase.auth.currentUser
         if (currentUser != null) {
             // Assuming userDetails.uid is the user's UID
-            val userUid = currentUser.uid
+            userUid = currentUser.uid
 
             // Now you can use uid in your button click listener
             val bannerItemsButton: Button = findViewById(R.id.button2)
 
             bannerItemsButton.setOnClickListener {
-                val dialogFragment = BannerItemsDialogFragment(userUid, this@MainActivity)
-                dialogFragment.show(supportFragmentManager, "BannerItemsDialog")
+                val dialogFragment =
+                    userUid?.let { it1 -> BannerItemsDialogFragment(it1, this@MainActivity) }
+                if (dialogFragment != null) {
+                    dialogFragment.show(supportFragmentManager, "BannerItemsDialog")
+                }
             }
 
-
             // Reference to the user's data in the Realtime Database
-            val userRef = database.getReference("Users").child(userUid) // Corrected line
+            val userRef = database.getReference("Users").child(userUid!!)
 
             userRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -146,9 +157,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             myprofileimg = userDetails.profileImage
                             mysetDetails = userDetails.setDetails
 
+
                             // Set the TextView values here
                             profileimg.setImageResource(myprofileimg)
                             profileView.setImageResource(myprofileimg)
+                            loadAndDisplayBackgroundImage(userDetails.backgroundImageUrl)
 
                         }
                     } else {
@@ -166,6 +179,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             })
         }
 
+        //region Button Navigation
         foodcard.setOnClickListener {
             val intent = Intent(this, Nutrition::class.java)
             startActivity(intent)
@@ -185,11 +199,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         leaderboardbtn.setOnClickListener {
             // When the button is clicked, navigate to the LeaderboardActivity
-            val intent = Intent(this, Leaderboard::class.java)
+            val intent = Intent(this, Welcome::class.java)
             startActivity(intent)
         }
-
-
+        //endregion
 
     }
 
@@ -199,7 +212,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         return super.onOptionsItemSelected(item)
     }
-
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
@@ -252,7 +264,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         Firebase.auth.signOut()
                         val intent = Intent(this, Login::class.java)
                         startActivity(intent)
-
                     }
                     successDialog.show()
                 }
@@ -274,8 +285,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return false
     }
 
-     fun onImageClick(imageUrl: String) {
+    fun onImageClick(imageUrl: String) {
         val imageView: ImageView = findViewById(R.id.imageView)
+
+        // Save the background image URL to the user's profile in the database
+        saveBackgroundImageUrl(imageUrl)
 
         // Load and display the image using Glide or your preferred library
         Glide.with(this)
@@ -286,4 +300,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         imageView.visibility = View.VISIBLE
     }
 
+    private fun saveBackgroundImageUrl(imageUrl: String) {
+        // Save the background image URL to the user's profile in the database
+        val userRef = database.getReference("Users").child(userUid!!)
+        userRef.child("backgroundImageUrl").setValue(imageUrl)
+    }
+
+    private fun loadAndDisplayBackgroundImage(backgroundImageUrl: String) {
+        val backgroundImageView: ImageView = findViewById(R.id.imageView)
+
+        // Load and display the background image using Glide or your preferred library
+        Glide.with(this)
+            .load(backgroundImageUrl)
+            .into(backgroundImageView)
+
+        backgroundImageView.visibility = View.VISIBLE
+    }
 }
