@@ -22,6 +22,7 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
     private lateinit var currentUserUid: String
     private lateinit var recyclerView: RecyclerView
     private lateinit var pfpRecyclerView: RecyclerView
+    private lateinit var charRecyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_store)
@@ -46,8 +47,19 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
         pfpRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         pfpRecyclerView.adapter = profilePictureAdapter
 
+        // Initialize the profile picture adapter
+        val charAdapter = CharacterAdapter(ArrayList()) { item ->
+            showConfirmationDialog(item)
+        }
+
+        // Find the PFPrecyclerView and set the profile picture adapter
+        charRecyclerView = findViewById(R.id.charRecyclerView)
+        charRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        charRecyclerView.adapter = charAdapter
+
+
         // Populate store items
-        populateStoreItems(bannerAdapter, profilePictureAdapter)
+        populateStoreItems(bannerAdapter, profilePictureAdapter, charAdapter)
         fetchUserData()
     }
 
@@ -62,14 +74,15 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
     override fun onConfirmClicked(selectedItemType: String) {
         val selectedItem = (recyclerView.adapter as? StoreAdapter)?.getSelectedItem()
         val selectedPfpItem = (pfpRecyclerView.adapter as? ProfilePictureAdapter)?.getSelectedItem()
+        val selectedCharItem = (charRecyclerView.adapter as? CharacterAdapter)?.getSelectedItem()
 
         if (selectedItem != null) {
             handleBannerPurchase(selectedItem)
         } else if (selectedPfpItem != null) {
             handleProfilePicturePurchase(selectedPfpItem)
-        } else {
-            // Handle the case where no item is selected
-            Toast.makeText(this@Store, "No item selected", Toast.LENGTH_SHORT).show()
+        }
+        if(selectedCharItem != null) {
+            handleCharacterPurchase(selectedCharItem)
         }
     }
 
@@ -167,7 +180,7 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
             })
         }
     }
-    private fun populateStoreItems(bannerAdapter: StoreAdapter, profilePictureAdapter: ProfilePictureAdapter) {
+    private fun populateStoreItems(bannerAdapter: StoreAdapter, profilePictureAdapter: ProfilePictureAdapter, charAdapter: CharacterAdapter) {
         //region Banner Populating
         val mDatabase = FirebaseDatabase.getInstance().getReference("Store").child("Banners")
         mDatabase.addValueEventListener(object : ValueEventListener {
@@ -186,7 +199,7 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
                             val storeItem = StoreItem(imageUrl, name, points, storeId)
 
                             // Check if the item is not already purchased
-                            isPFPPurchased(storeItem) { isPurchased ->
+                            isItemPurchased(storeItem) { isPurchased ->
                                 if (!isPurchased) {
                                     storeItemList.add(storeItem)
                                     // Update adapter data
@@ -240,6 +253,54 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
                                     // Log the number of entries and contents of each entry
                                     Log.d("FirebaseData", "Number of entries in pfpItemList: ${pfpItemList.size}")
                                     for (item in pfpItemList) {
+                                        Log.d("FirebaseData", "Entry in pfpItemList: $item")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle the error
+                Log.e("FirebaseData", "Error: ${error.message}")
+            }
+        })
+
+        //endregion
+
+        //region Profile Picture Populating
+        val charDatabase = FirebaseDatabase.getInstance().getReference("Store").child("characters")
+
+        charDatabase.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(charSnapshot: DataSnapshot) {
+                Log.d("FirebaseData", "Entered onDataChange for pfpDatabase")
+                if (charSnapshot.exists()) {
+                    val charItemList = ArrayList<StoreItem>()
+
+                    for (charSnapshot in charSnapshot.children) {
+                        // Access properties directly from storeSnapshot
+                        val imageUrl = charSnapshot.child("PFP_url").getValue(String::class.java)
+                        val points = charSnapshot.child("Price").getValue(Long::class.java)
+                        val storeId = charSnapshot.key //
+
+                        if (imageUrl != null && points != null && storeId != null) {
+                            val charItem = StoreItem(imageUrl, "Profile Picture", points, storeId)
+
+
+                            // Check if the item is not already purchased
+                            isCharPurchased(charItem) { isPurchased ->
+                                Log.d("FirebaseData", "isItemPurchased callback called. isPurchased: $isPurchased")
+                                if (!isPurchased) {
+                                    charItemList.add(charItem)
+                                    // Update Profile Picture adapter data
+                                    charAdapter.setItems(charItemList)
+                                    charAdapter.notifyDataSetChanged()
+
+                                    // Log the number of entries and contents of each entry
+                                    Log.d("FirebaseData", "Number of entries in pfpItemList: ${charItemList.size}")
+                                    for (item in charItemList) {
                                         Log.d("FirebaseData", "Entry in pfpItemList: $item")
                                     }
                                 }
@@ -310,6 +371,59 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
             }
         })
     }
+    private fun handleCharacterPurchase(selectedCharItem: StoreItem) {
+        // Your existing banner purchase logic here
+        val selectedPoints = selectedCharItem.points
+
+        // Reference to the user's currency node
+        val userCurrencyRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUid).child("userCurrency")
+
+        userCurrencyRef.runTransaction(object : Transaction.Handler {
+            override fun doTransaction(mutableData: MutableData): Transaction.Result {
+                val currentCurrency = mutableData.getValue(Long::class.java) ?: 0
+
+                // Ensure the user has enough currency to make the purchase
+                return if (currentCurrency >= selectedPoints) {
+                    mutableData.value = currentCurrency - selectedPoints
+                    Transaction.success(mutableData)
+                } else {
+                    Transaction.abort()
+                }
+            }
+
+            override fun onComplete(databaseError: DatabaseError?, committed: Boolean, dataSnapshot: DataSnapshot?) {
+                if (committed) {
+                    // Purchase successful
+                    Toast.makeText(this@Store, "Item purchased!", Toast.LENGTH_SHORT).show()
+
+                    // Update the PurchasedItems in the database under the new structure
+                    val userPurchasedItemsRef = FirebaseDatabase.getInstance().getReference("PurchasedItems")
+                        .child(currentUserUid)
+                        .child("characters")
+                        .child(selectedCharItem.storeId)
+
+                    // Add additional information to the database
+                    userPurchasedItemsRef.child("ID").setValue(selectedCharItem.storeId)
+                    userPurchasedItemsRef.child("ImageUrl").setValue(selectedCharItem.imageUrl)
+                    userPurchasedItemsRef.child("setValueTrue").setValue(true)
+
+                    // Check if the item is still available (not purchased by another user)
+                    isCharPurchased(selectedCharItem) { isPurchased ->
+                        if (!isPurchased) {
+                            // Refresh user currency display
+                            fetchUserData()
+                        } else {
+                            // The item was purchased by another user
+                            // Handle this case if needed
+                        }
+                    }
+                } else {
+                    // Insufficient currency or transaction failed
+                    Toast.makeText(this@Store, "Purchase failed: Insufficient currency or transaction failed", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+    }
 
     //region IsPurchased
     private fun isItemPurchased(storeItem: StoreItem, callback: (Boolean) -> Unit) {
@@ -337,6 +451,27 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
         val userPurchasedItemsRef = FirebaseDatabase.getInstance().getReference("PurchasedItems")
             .child(currentUserUid)
             .child("pfp")
+            .child(selectedPfpItem.storeId)
+
+        userPurchasedItemsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // If the snapshot exists, the item is already purchased
+                callback(snapshot.exists())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle the error
+                Log.e("FirebaseData", "Error: ${error.message}")
+                callback(false) // Assume the item is not purchased in case of an error
+            }
+        })
+    }
+
+    private fun isCharPurchased(selectedPfpItem: StoreItem, callback: (Boolean) -> Unit) {
+        // Check if the item is already purchased
+        val userPurchasedItemsRef = FirebaseDatabase.getInstance().getReference("PurchasedItems")
+            .child(currentUserUid)
+            .child("characters")
             .child(selectedPfpItem.storeId)
 
         userPurchasedItemsRef.addValueEventListener(object : ValueEventListener {

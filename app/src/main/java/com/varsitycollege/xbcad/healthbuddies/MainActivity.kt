@@ -199,7 +199,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         leaderboardbtn.setOnClickListener {
             // When the button is clicked, navigate to the LeaderboardActivity
-            val intent = Intent(this, Welcome::class.java)
+            val intent = Intent(this, Leaderboard::class.java)
             startActivity(intent)
         }
         //endregion
