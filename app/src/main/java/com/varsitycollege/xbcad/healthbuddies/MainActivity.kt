@@ -3,18 +3,21 @@ package com.varsitycollege.xbcad.healthbuddies
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.PorterDuff
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.drawerlayout.widget.DrawerLayout
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -33,6 +36,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navView: NavigationView
     private val baseUrl = "https://api.quotable.io/"
+    private lateinit var leaderboardbtn: Button
 
     var myprofileimg: Int =0
     var mysetDetails: Boolean = false
@@ -70,18 +74,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
@@ -111,16 +103,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         })
 
-
-
-
-
-
-
-
-
-
-        //navbar header code
+   //navbar header code
         val user = FirebaseAuth.getInstance().currentUser
         // Set email value to TextView in nav_header.xml
         val headerView = navView.getHeaderView(0)
@@ -139,6 +122,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (currentUser != null) {
             // Assuming userDetails.uid is the user's UID
             val userUid = currentUser.uid
+
+            // Now you can use uid in your button click listener
+            val bannerItemsButton: Button = findViewById(R.id.button2)
+
+            bannerItemsButton.setOnClickListener {
+                val dialogFragment = BannerItemsDialogFragment(userUid, this@MainActivity)
+                dialogFragment.show(supportFragmentManager, "BannerItemsDialog")
+            }
+
+
             // Reference to the user's data in the Realtime Database
             val userRef = database.getReference("Users").child(userUid) // Corrected line
 
@@ -173,15 +166,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             })
         }
 
-
-
-
-
-
-
-
-
-
         foodcard.setOnClickListener {
             val intent = Intent(this, Nutrition::class.java)
             startActivity(intent)
@@ -196,6 +180,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val intent = Intent(this, sleeppage::class.java)
             startActivity(intent)
         }
+
+        leaderboardbtn = findViewById(R.id.leaderboardbtn)
+
+        leaderboardbtn.setOnClickListener {
+            // When the button is clicked, navigate to the LeaderboardActivity
+            val intent = Intent(this, Leaderboard::class.java)
+            startActivity(intent)
+        }
+
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -278,4 +273,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Return false to indicate that the item selection has not been handled
         return false
     }
+
+     fun onImageClick(imageUrl: String) {
+        val imageView: ImageView = findViewById(R.id.imageView)
+
+        // Load and display the image using Glide or your preferred library
+        Glide.with(this)
+            .load(imageUrl)
+            .into(imageView)
+
+        // Make the ImageView visible
+        imageView.visibility = View.VISIBLE
+    }
+
 }

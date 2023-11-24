@@ -276,6 +276,9 @@ class settingspage : AppCompatActivity() {
         }
     }
 
+
+
+
     private fun pickImage() {
         val edit = Dialog(this)
         edit.setContentView(R.layout.pickimagedialog)

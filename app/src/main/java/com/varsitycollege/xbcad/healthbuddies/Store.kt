@@ -104,7 +104,10 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
                         .child("banner")
                         .child(selectedItem.storeId)
 
-                    userPurchasedItemsRef.setValue(true)
+                    // Add additional information to the database
+                    userPurchasedItemsRef.child("ID").setValue(selectedItem.storeId)
+                    userPurchasedItemsRef.child("ImageUrl").setValue(selectedItem.imageUrl)
+                    userPurchasedItemsRef.child("setValueTrue").setValue(true)
 
                     // Check if the item is still available (not purchased by another user)
                     isItemPurchased(selectedItem) { isPurchased ->
