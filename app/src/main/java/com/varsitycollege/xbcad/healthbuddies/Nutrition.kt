@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.PieChart
@@ -30,12 +31,25 @@ class Nutrition : AppCompatActivity() {
 
     private val userCaloriesRef = FirebaseDatabase.getInstance().getReference("UserCalories").child(userId)
 
+    // progress bar
+    private lateinit var progressBar: ProgressBar
+
+    // Firebase references
+
+    private lateinit var usersRef: DatabaseReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nutrition)
 
         // Progress bar code
-        val progressBar: ProgressBar = findViewById(R.id.progresbar_nutrition)
+        progressBar= findViewById(R.id.progresbar_nutrition)
+        // Initialize Firebase references
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        // Handle nullable userId by providing a default value (empty string)
+        usersRef = FirebaseDatabase.getInstance().getReference("Users").child(userId ?: "")
+        // Fetch data and update progress bar
+        fetchAndUpdateProgressBar()
 
         // Pie chart code
         pieChart = findViewById(R.id.pieChart_nutrition)
@@ -67,6 +81,7 @@ class Nutrition : AppCompatActivity() {
         }
     }
 
+    //update pie chart with db values
     private fun fetchCaloriesDataAndUpdatePieChart() {
         userCaloriesRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -95,6 +110,54 @@ class Nutrition : AppCompatActivity() {
         })
     }
 
+    private fun fetchAndUpdateProgressBar() {
+        val txt_neededEnergy = findViewById<TextView>(R.id.txt_needed_energy)
+        val txt_energyLeft =findViewById<TextView>(R.id.txt_energy_left)
+        // Fetch daily calories from Users table
+        usersRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(usersSnapshot: DataSnapshot) {
+                if (usersSnapshot.exists()) {
+                    val dailyCalories = usersSnapshot.child("dailyCalories").getValue(Long::class.java) ?: 0
+
+                    // Fetch calories for each meal category from UserCalories table
+                    userCaloriesRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(userCaloriesSnapshot: DataSnapshot) {
+                            var consumedCalories = 0L
+
+                            for (mealSnapshot in userCaloriesSnapshot.children) {
+                                val calories = mealSnapshot.child("Calories").getValue(Long::class.java) ?: 0
+                                consumedCalories += calories
+                            }
+
+                            txt_neededEnergy.text= dailyCalories.toString()
+
+                            if(dailyCalories.toDouble() - consumedCalories.toDouble() >0){
+                                txt_energyLeft.text= (dailyCalories.toDouble() -consumedCalories.toDouble()).toInt().toString()
+                            }else{
+                                txt_energyLeft.text = "GOAL REACHED. Good job!!!"
+                            }
+
+
+                            // Calculate progress percentage
+                            val progress = (consumedCalories.toDouble() / dailyCalories.toDouble() * 100).toInt()
+
+                            // Update the progress bar
+                            progressBar.progress = progress
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            // Handle error
+                        }
+                    })
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle error
+            }
+        })
+    }
+
     private fun updatePieChart() {
         val pieDataSet = PieDataSet(piechart_mealList, "")
         pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS, 1000)
@@ -107,8 +170,8 @@ class Nutrition : AppCompatActivity() {
         pieChart.description.textColor = Color.BLACK
         pieChart.description.textSize = 15f
         pieChart.description.textColor = Color.WHITE
-        pieChart.description.setPosition(460f, 480f)
-        pieChart.legend.xOffset=-40f
+        pieChart.description.setPosition(555f, 480f)
+        pieChart.legend.xOffset=-58f
         pieChart.legend.textSize = 15f
         pieChart.legend.formSize = 15f
         pieChart.centerText = "Calories"

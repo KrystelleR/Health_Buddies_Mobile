@@ -348,7 +348,97 @@
 
            </LinearLayout>
 
+           <androidx.cardview.widget.CardView
+               android:id="@+id/SacksCardView"
+               android:layout_width="200dp"
+               android:layout_height="50dp"
+               app:cardBackgroundColor="#8E5422"
+               app:cardCornerRadius="30dp"
+               app:cardElevation="10dp"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toTopOf="parent"
+               android:layout_marginTop="20dp">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Snacks"
+                   android:fontFamily="casual"
+                   android:textColor="@color/white"
+                   android:layout_gravity="center"
+                   android:textSize="20sp"
+                   android:textStyle="bold"/>
+
+           </androidx.cardview.widget.CardView>
+
+           <HorizontalScrollView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:background="@color/page_background_col">
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="200dp"
+                   android:orientation="horizontal"
+                   >
+                   <ImageButton
+                       android:id="@+id/btn_snacks1"
+                       android:layout_width="150dp"
+                       android:layout_height="150dp"
+                       android:layout_marginTop="25dp"
+                       android:text="meal1"
+                       android:layout_weight="1"
+                       android:layout_marginLeft="20dp"
+                       android:background="@drawable/pb_chocchip_cookie"/>
+                   <ImageButton
+                       android:id="@+id/btn_snacks2"
+                       android:layout_width="150dp"
+                       android:layout_height="150dp"
+                       android:layout_marginTop="25dp"
+                       android:text="meal2"
+                       android:layout_marginLeft="20dp"
+                       android:background="@drawable/whipped_frozen_lemonade"
+                       android:layout_weight="1"/>
+
+                   <ImageButton
+                       android:id="@+id/btn_snacks3"
+                       android:layout_width="150dp"
+                       android:layout_height="150dp"
+                       android:layout_marginTop="25dp"
+                       android:text="meal3"
+                       android:layout_marginLeft="20dp"
+                       android:background="@drawable/strawberry_nice_cream"
+                       android:layout_weight="1"/>
+
+                   <ImageButton
+                       android:id="@+id/btn_snacks4"
+                       android:layout_width="150dp"
+                       android:layout_height="150dp"
+                       android:layout_marginTop="25dp"
+                       android:text="meal4"
+                       android:layout_marginLeft="20dp"
+                       android:background="@drawable/popcorn"
+                       android:layout_weight="1"/>
+
+                   <ImageButton
+                       android:id="@+id/btn_snacks5"
+                       android:layout_width="150dp"
+                       android:layout_height="150dp"
+                       android:layout_marginTop="25dp"
+                       android:text="meal5"
+                       android:layout_marginLeft="20dp"
+                       android:background="@drawable/fruitsalad"
+                       android:layout_weight="1"/>
+
+               </LinearLayout>
+
+
+
+           </HorizontalScrollView>
+
        </LinearLayout>
+
+
 
     </ScrollView>
 
