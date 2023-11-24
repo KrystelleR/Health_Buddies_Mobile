@@ -125,6 +125,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.profile_image)
         //endregion
 
+        //region Database
         database = FirebaseDatabase.getInstance()
         // Getting user details from db
         val currentUser = Firebase.auth.currentUser
@@ -134,6 +135,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             // Now you can use uid in your button click listener
             val bannerItemsButton: Button = findViewById(R.id.button2)
+            val characterItemsButton : Button = findViewById(R.id.virtualbtn)
 
             bannerItemsButton.setOnClickListener {
                 val dialogFragment =
@@ -142,6 +144,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     dialogFragment.show(supportFragmentManager, "BannerItemsDialog")
                 }
             }
+
+            characterItemsButton.setOnClickListener {
+                val dialogFragment = userUid?.let { it1 -> PFPItemsDialogFragment(it1, this@MainActivity) }
+                if (dialogFragment != null) {
+                    dialogFragment.show(supportFragmentManager, "PFPItemsDialog")
+                }
+            }
+
 
             // Reference to the user's data in the Realtime Database
             val userRef = database.getReference("Users").child(userUid!!)
@@ -163,6 +173,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             profileView.setImageResource(myprofileimg)
                             loadAndDisplayBackgroundImage(userDetails.backgroundImageUrl)
 
+
                         }
                     } else {
                         Log.d(ContentValues.TAG, "User details do not exist")
@@ -178,6 +189,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             })
         }
+        //endregion
 
         //region Button Navigation
         foodcard.setOnClickListener {
@@ -285,6 +297,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return false
     }
 
+    //region Banner
     fun onImageClick(imageUrl: String) {
         val imageView: ImageView = findViewById(R.id.imageView)
 
@@ -316,4 +329,40 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         backgroundImageView.visibility = View.VISIBLE
     }
+
+    //endregion
+
+    //region Character
+    fun onCharacterImageClick(imageUrl: String) {
+        val characterImageView: ImageView = findViewById(R.id.imageView5)
+
+        // Save the character image URL to the user's profile in the database
+        saveCharacterImageUrl(imageUrl)
+
+        // Load and display the image using Glide or your preferred library
+        Glide.with(this)
+            .load(imageUrl)
+            .into(characterImageView)
+
+        // Make the ImageView visible
+        characterImageView.visibility = View.VISIBLE
+    }
+
+    private fun saveCharacterImageUrl(imageUrl: String) {
+        // Save the character image URL to the user's profile in the database
+        val userRef = database.getReference("Users").child(userUid!!)
+        userRef.child("characterImageUrl").setValue(imageUrl)
+    }
+
+    private fun loadAndDisplayCharacterImage(characterImageUrl: String) {
+        val characterImageView: ImageView = findViewById(R.id.imageView5)
+
+        // Load and display the character image using Glide or your preferred library
+        Glide.with(this)
+            .load(characterImageUrl)
+            .into(characterImageView)
+
+        characterImageView.visibility = View.VISIBLE
+    }
+    //endregion
 }

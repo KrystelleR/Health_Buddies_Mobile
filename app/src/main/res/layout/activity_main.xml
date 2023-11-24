@@ -448,6 +448,7 @@
                                                 android:textColor="@color/white"
                                                 android:background="@drawable/curved_button_2"
                                                 android:text="Edit Avatar" />
+
                                         </LinearLayout>
 
                                     </LinearLayout>
@@ -467,6 +468,7 @@
                             android:textColor="@color/white"
                             android:layout_marginBottom="20dp"
                             android:text="View Virtual Gameboard" />
+
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
