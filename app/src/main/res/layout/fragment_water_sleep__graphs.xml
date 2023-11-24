@@ -13,7 +13,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/sleep_heading"
@@ -60,7 +60,7 @@
                 app:layout_constraintTop_toBottomOf="@id/sleep_heading"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="40dp"
                 android:background="@color/white">
 
             </com.github.mikephil.charting.charts.BarChart>
@@ -74,7 +74,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sleep_bar_chart"
-                android:layout_marginTop="66dp"
+                android:layout_marginTop="36dp"
                 android:background="@drawable/water">
 
                 <TextView
@@ -156,7 +156,7 @@
                     android:layout_width="200dp"
                     android:layout_height="50dp"
                     android:background="@drawable/curved_button_2"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="casual"
                     android:text="Reset Water"
                     android:textColor="@color/white"

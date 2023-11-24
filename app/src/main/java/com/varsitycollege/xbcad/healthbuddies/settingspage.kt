@@ -53,7 +53,7 @@ class settingspage : AppCompatActivity() {
         val agetv = findViewById<Spinner>(R.id.ageSpinner)
         val heighttv = findViewById<TextView>(R.id.heighttxt)
         val weighttv = findViewById<TextView>(R.id.weighttxt)
-        val gendertv = findViewById<TextView>(R.id.gendertxt)
+        val gendertv = findViewById<Spinner>(R.id.gendertxt)
         val emailtv = findViewById<TextView>(R.id.emailtxt)
         val metricsw = findViewById<Switch>(R.id.metricswitch)
         val imperialsw = findViewById<Switch>(R.id.imperialswitch)
@@ -69,13 +69,6 @@ class settingspage : AppCompatActivity() {
         imperialsw.isChecked = !metricsw.isChecked
         metricsw.isChecked = !imperialsw.isChecked
 
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        val adapter = ArrayAdapter.createFromResource(
-            this,
-            R.array.age_array,
-            android.R.layout.simple_spinner_item
-        )
-
         heighttv.setOnClickListener(){
             showHeightPicker()
         }
@@ -84,14 +77,20 @@ class settingspage : AppCompatActivity() {
             showWeightPicker()
         }
 
+// Create an ArrayAdapter using the string array and a default spinner layout
+        val adapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.age_array,
+            android.R.layout.simple_spinner_item
+        )
 
-        // Specify the layout to use when the list of choices appears
+// Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        // Apply the adapter to the spinner
+// Apply the adapter to the spinner
         agetv.adapter = adapter
 
-        // Set a listener to handle the selected item
+// Set a listener to handle the selected item
         agetv.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
@@ -99,10 +98,28 @@ class settingspage : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                val selectedAge = parent.getItemAtPosition(position) as String
+                // This method will be called when an item in the Spinner is selected
+                // You can use the 'position' parameter to get the selected item position
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
+                // Handle no selection if needed
+            }
+        }
+
+// Set a listener to handle the selected item
+        gendertv.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                // This method will be called when an item in the Spinner is selected
+                // You can use the 'position' parameter to get the selected item position
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Handle no selection if needed
             }
         }
@@ -112,9 +129,6 @@ class settingspage : AppCompatActivity() {
         pickImage.setOnClickListener() {
             pickImage()
         }
-
-
-
 
         val database = FirebaseDatabase.getInstance()
 
@@ -155,12 +169,21 @@ class settingspage : AppCompatActivity() {
                             mydailycalories = userDetails.dailyCalories
                             mycurrentcalories = userDetails.userCurrentCalories
 
-                            Toast.makeText(this@settingspage, "my height: ${myheight}", Toast.LENGTH_SHORT).show()
-
                             // Set the TextView values here
                             heighttv.text = myheight.toString()
                             weighttv.text = myweight.toString()
-                            gendertv.text = mygender
+
+                            // Set the correct selection based on the value retrieved from the database
+                            val genderAdapter = gendertv.adapter as ArrayAdapter<String>
+                            val genderPosition = genderAdapter.getPosition(mygender)
+                            gendertv.setSelection(genderPosition)
+
+
+                            // Set the correct selection based on the value retrieved from the database
+                            val ageAdapter = agetv.adapter as ArrayAdapter<String>
+                            val agePosition = ageAdapter.getPosition(myage.toString())
+                            agetv.setSelection(agePosition)
+
                             emailtv.text = myemail
                             usernametv.setText(myusername)
                             currentProfileImageResourceId = myprofileimg
@@ -171,6 +194,9 @@ class settingspage : AppCompatActivity() {
                             dailywatertv.text = mywatergoal.toString()
                             caloriestv.text = mydailycalories.toString()
                             caloriestv.text = setDailyCalorieGoal( myage,mygender)// set calories goal based on age
+                            Toast.makeText(this@settingspage, "$myage and $mygender", Toast.LENGTH_SHORT).show()
+
+
                             sleeptv.text = mysleepgoal.toString()
 
                             if(mymetric){
@@ -225,7 +251,7 @@ class settingspage : AppCompatActivity() {
         val agetv = findViewById<Spinner>(R.id.ageSpinner)
         val heighttv = findViewById<TextView>(R.id.heighttxt)
         val weighttv = findViewById<TextView>(R.id.weighttxt)
-        val gendertv = findViewById<TextView>(R.id.gendertxt)
+        val gendertv = findViewById<Spinner>(R.id.gendertxt)
         val metricsw = findViewById<Switch>(R.id.metricswitch)
         val imperialsw = findViewById<Switch>(R.id.imperialswitch)
         val stepstv = findViewById<TextView>(R.id.stepstxt)
@@ -256,7 +282,7 @@ class settingspage : AppCompatActivity() {
                     imperialsw.isChecked,
                     currentProfileImageResourceId,
                     true,  // Assuming this should always be set to true when saving changes
-                    gendertv.text.toString(),
+                    gendertv.selectedItem.toString(),
                     aboutmetv.text.toString(),
                     myusercurrency,
                     mycurrentcalories,
