@@ -96,7 +96,7 @@ class MoveMinutesFragment : Fragment() {
                             // Set X-axis labels
                             val xAxis = barChart.xAxis
                             xAxis.valueFormatter =
-                                DayAxisValueFormatter(variables) // Custom formatter for days
+                                DayAxisValueFormatter1(variables) // Custom formatter for days
                             xAxis.position = XAxis.XAxisPosition.BOTTOM
                             xAxis.granularity = 1f
 
@@ -120,7 +120,7 @@ class MoveMinutesFragment : Fragment() {
         return view
     }
 }
-class DayAxisValueFormatter(private val daysOfWeek: List<String>) : ValueFormatter() {
+class DayAxisValueFormatter1(private val daysOfWeek: List<String>) : ValueFormatter() {
 
     override fun getAxisLabel(value: Float, axis: AxisBase?): String {
         return if (value >= 0 && value < daysOfWeek.size) {
