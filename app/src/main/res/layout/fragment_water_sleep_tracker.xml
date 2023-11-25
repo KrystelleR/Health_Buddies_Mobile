@@ -15,17 +15,61 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/txt_when_did_you_sleep"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="30dp"
+                android:text="When did I sleep? "
+                android:fontFamily="casual"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/spinner_cardView"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_when_did_you_sleep"
+                app:cardBackgroundColor="#68B0D6"
+                android:layout_marginTop="30dp"
+                app:cardCornerRadius="20dp">
+
+
+
+                <Spinner
+                    android:id="@+id/days_spinner"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+
+                    >
+
+                </Spinner>
+
+            </androidx.cardview.widget.CardView>
+
 
 
             <TextView
                 android:id="@+id/txt_went_to_sleep"
                 android:layout_width="250dp"
                 android:layout_height="40dp"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spinner_cardView"
                 app:layout_constraintBottom_toTopOf="@id/btn_went_to_sleep"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="10dp"
                 android:text="Time I went to bed: "
                 android:fontFamily="casual"
                 android:textSize="20sp"
@@ -44,8 +88,8 @@
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="80dp"
+                app:layout_constraintTop_toBottomOf="@id/txt_went_to_sleep"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/custom_sleep_btn"/>
 
             <TextView
@@ -56,7 +100,7 @@
                 app:layout_constraintBottom_toTopOf="@id/btn_woke_up"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:text="Time I woke up: "
                 android:fontFamily="casual"
                 android:textSize="20sp"
@@ -79,11 +123,50 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/custom_sleep_btn"/>
 
+            <LinearLayout
+                android:id="@+id/layout_hrs_slept"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/btn_woke_up"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="30dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="Hours slept: "
+                    android:fontFamily="casual"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    />
+
+            <TextView
+                android:id="@+id/txt_hrs_slept"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="add hours"
+                android:fontFamily="casual"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"
+
+                android:layout_marginRight="40dp"/>
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/txt_watertext"
                 android:layout_width="250dp"
                 android:layout_height="40dp"
-                app:layout_constraintTop_toBottomOf="@id/btn_woke_up"
+                app:layout_constraintTop_toBottomOf="@id/layout_hrs_slept"
                 app:layout_constraintBottom_toTopOf="@id/WaterCardView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -182,26 +265,31 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <RadioButton
-                                android:layout_width="20dp"
+                            <Switch
+                                android:layout_width="50dp"
                                 android:layout_height="20dp"
                                 android:layout_marginTop="30dp"
-                                android:layout_marginRight="80dp"
-                                android:layout_marginLeft="50dp"
-                                android:id="@+id/radbtn_250"/>
-                            <RadioButton
-                                android:layout_width="20dp"
+                                android:layout_marginRight="50dp"
+                                android:layout_marginLeft="40dp"
+                                android:id="@+id/switch_250"
+                                android:thumbTint="@color/white"/>
+                            <Switch
+                                android:layout_width="50dp"
                                 android:layout_height="20dp"
                                 android:layout_marginTop="30dp"
-                                android:layout_marginRight="60dp"
+                                android:layout_marginRight="30dp"
                                 android:layout_marginLeft="20dp"
-                                android:id="@+id/radbtn_500"/>
-                            <RadioButton
-                                android:layout_width="20dp"
+                                android:id="@+id/switch_500"
+                                android:thumbTint="@color/white"/>
+                            <Switch
+                                android:layout_width="50dp"
                                 android:layout_height="20dp"
                                 android:layout_marginTop="30dp"
                                 android:layout_marginLeft="40dp"
-                                android:id="@+id/radbtn_1000"/>
+                                android:id="@+id/switch_1000"
+                                android:thumbTint="@color/white"
+
+                                />
 
                         </LinearLayout>
 
@@ -255,6 +343,7 @@
                     android:text="Save"
                     android:background="@drawable/custom_save_btn_water"
                     android:layout_marginBottom="30dp"
+                    android:id="@+id/btnSaveWaterSleep"
                     />
 
 

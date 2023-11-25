@@ -100,6 +100,8 @@ class settingspage : AppCompatActivity() {
             ) {
                 myage=agetv.selectedItem.toString().toInt()
                 caloriestv.text = setDailyCalorieGoal( myage,mygender)
+                dailywatertv.text=setDailyWaterGoal(myage,mygender) // update water and calories goal if age change
+                sleeptv.text=setUserSleepGoal(myage)
                 // This method will be called when an item in the Spinner is selected
                 // You can use the 'position' parameter to get the selected item position
             }
@@ -119,6 +121,7 @@ class settingspage : AppCompatActivity() {
             ) {
                 mygender=gendertv.selectedItem.toString()
                 caloriestv.text = setDailyCalorieGoal( myage,mygender)
+                dailywatertv.text=setDailyWaterGoal(myage,mygender)// update water and calories goal if gender change
 
                 // This method will be called when an item in the Spinner is selected
                 // You can use the 'position' parameter to get the selected item position
@@ -197,12 +200,14 @@ class settingspage : AppCompatActivity() {
                             myweighttv.text = mygoalweight.toString()
                             minutestv.text = mymoveminutes.toString()
                             dailywatertv.text = mywatergoal.toString()
+                            dailywatertv.text = setDailyWaterGoal(myage,mygender)//set water goal based on age and sex
                             caloriestv.text = mydailycalories.toString()
-                            caloriestv.text = setDailyCalorieGoal( myage,mygender)// set calories goal based on age
+                            caloriestv.text = setDailyCalorieGoal( myage,mygender)// set calories goal based on age and sex
                             Toast.makeText(this@settingspage, "$myage and $mygender", Toast.LENGTH_SHORT).show()
 
 
                             sleeptv.text = mysleepgoal.toString()
+                            sleeptv.text=setUserSleepGoal(myage)
 
                             if(mymetric){
                                 metricsw.isChecked = true
@@ -389,6 +394,7 @@ class settingspage : AppCompatActivity() {
 
         }else if(age>=4 && age<=8 && sex.equals("F")){
 
+            userCalorieGoal="1500"
         }
 
         else if(age>=9 && age<=13 && sex.equals("M")){
@@ -413,6 +419,52 @@ class settingspage : AppCompatActivity() {
         return userCalorieGoal
     }
 
+    //set water goal
+    fun setDailyWaterGoal(age:Int, sex: String) : String{
+
+        var userWaterGoal : String =" "
+        if(age>=4 && age<=8 && sex.equals("M")){
+
+            userWaterGoal="1200"
+
+        }else if(age>=4 && age<=8 && sex.equals("F")){
+
+            userWaterGoal="1200"
+        }
+
+        else if(age>=9 && age<=13 && sex.equals("M")){
+
+            userWaterGoal="1600"
+
+        }else if(age>=9 && age<=13 && sex.equals("F")){
+
+            userWaterGoal="1400"
+
+        }
+        else if(age>=14 && age<=18 && sex.equals("M")){
+
+            userWaterGoal="1900"
+
+        }else if(age>=14 && age<=18 && sex.equals("F")){
+
+            userWaterGoal="1600"
+
+        }
+
+        return userWaterGoal
+    }
+
+    fun setUserSleepGoal (age: Int): String{
+
+        var sleepGoal :String = " "
+        if(age>=5 && age<=12){
+
+            sleepGoal="11"
+        }else if(age>=13 && age<=18){
+            sleepGoal="9"
+        }
+        return sleepGoal
+    }
 
     fun showWeightPicker() {
         // Set up the dialog and handle the OK button click

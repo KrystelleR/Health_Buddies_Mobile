@@ -304,6 +304,22 @@ class Register : AppCompatActivity() {
 
             // Initialize user node with empty sub-nodes for Breakfast, Lunch, and Dinner
             val userCaloriesRef = FirebaseDatabase.getInstance().getReference("UserCalories").child(userId)
+            // Create a reference to the "UserWater" node
+            val userWaterRef = FirebaseDatabase.getInstance().getReference("UserWater").child(userId)
+
+            //create a reference to the UserSleepHours node
+            val userSleepRef =FirebaseDatabase.getInstance().getReference("UserSleepHours").child(userId)
+            userSleepRef.child("Sun-Mon").child("Hours").setValue(0)
+            userSleepRef.child("Mon-Tue").child("Hours").setValue(0)
+            userSleepRef.child("Tue-Wed").child("Hours").setValue(0)
+            userSleepRef.child("Wed-Thur").child("Hours").setValue(0)
+            userSleepRef.child("Thur-Fri").child("Hours").setValue(0)
+            userSleepRef.child("Fri-Sat").child("Hours").setValue(0)
+            userSleepRef.child("Sat-Sun").child("Hours").setValue(0)
+
+
+            //Initialize water node
+            userWaterRef.child("Amount").setValue(0)
 
             // Initialize Breakfast node
             userCaloriesRef.child("Breakfast").child("MealName").setValue(" ")

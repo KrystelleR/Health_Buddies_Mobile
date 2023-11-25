@@ -37,4 +37,16 @@
         <item>Snacks</item>
     </string-array>
 
+    //for spinner- sleep
+    <string-array name="spinner_days_slept">
+        <item> </item>
+        <item>Sun-Mon</item>
+        <item>Mon-Tue</item>
+        <item>Tue-Wed</item>
+        <item>Wed-Thur</item>
+        <item>Thur-Fri</item>
+        <item>Fri-Sat</item>
+        <item>Sat-Sun</item>
+    </string-array>
+
 </resources>
