@@ -22,6 +22,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import org.w3c.dom.Text
+import java.text.SimpleDateFormat
+import java.util.*
 
 class Register : AppCompatActivity() {
 
@@ -175,6 +177,27 @@ class Register : AppCompatActivity() {
                                             )
 
 
+                                            val lastLoggedIn = Date()
+                                            val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+                                            val formattedDate = dateFormat.format(lastLoggedIn)
+
+                                            val usersRefLoggedIn = database.getReference("LastLoggedIn")
+
+                                                val loggedIn = data.LastLoggedIn(
+                                                    loggedIndate = formattedDate
+                                                )
+
+
+                                            val userGoalRef = database.getReference("UserCollectPoints")
+                                            val collectPoints = data.UserCollectPoints(
+                                                stepsGoal = false,
+                                                moveGoal = false,
+                                                waterGoal = false,
+                                                caloriesGoal = false
+                                            )
+
+
+
                                             val usersRef1 = database.getReference("UserSteps")
                                             // Set user details in your data class
                                             val userSteps = data.UserSteps(
@@ -242,6 +265,23 @@ class Register : AppCompatActivity() {
                                                                     .addOnFailureListener { e ->
                                                                         Log.w(TAG, "Error adding user steps to Realtime Database", e)
                                                                     }
+
+                                                                usersRefLoggedIn.child(userDetails.uid).setValue(loggedIn)
+                                                                    .addOnSuccessListener {
+                                                                        Log.d(TAG, "User loggedIn date added to Realtime Database successfully")
+                                                                    }
+                                                                    .addOnFailureListener { e ->
+                                                                        Log.w(TAG, "Error adding user loggedIn date to Realtime Database", e)
+                                                                    }
+
+                                                                userGoalRef.child(userDetails.uid).setValue(collectPoints)
+                                                                    .addOnSuccessListener {
+                                                                        Log.d(TAG, "User Collect Points added to Realtime Database successfully")
+                                                                    }
+                                                                    .addOnFailureListener { e ->
+                                                                        Log.w(TAG, "Error adding user User Collect Points date to Realtime Database", e)
+                                                                    }
+
 
                                                                 // Add the user move minutes to Realtime Database
                                                                 usersRef2.child(userDetails.uid).setValue(UserMoveMinutes)
