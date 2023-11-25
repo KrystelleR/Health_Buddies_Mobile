@@ -32,3 +32,69 @@ class LeaderboardAdapter(private val context: Context, private val entries: List
 
 data class LeaderboardEntry(val userName: String, val points: Int)
 
+//class StepsLeaderboardAdapter(private val context: Context, private val entries: List<StepsLeaderboardEntry>) : BaseAdapter() {
+//
+//    override fun getCount(): Int {
+//        return entries.size
+//    }
+//
+//    override fun getItem(position: Int): Any {
+//        return entries[position]
+//    }
+//
+//    override fun getItemId(position: Int): Long {
+//        return position.toLong()
+//    }
+//
+//    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+//        val view: View
+//        val viewHolder: ViewHolder
+//
+//        if (convertView == null) {
+//            view = LayoutInflater.from(context).inflate(R.layout.leaderboard_item, parent, false)
+//            viewHolder = ViewHolder(view)
+//            view.tag = viewHolder
+//        } else {
+//            view = convertView
+//            viewHolder = view.tag as ViewHolder
+//        }
+//
+//        val entry = getItem(position) as StepsLeaderboardEntry
+//
+//        // Set the data in the views
+//        viewHolder.userUidTextView.text = entry.userUid
+//        viewHolder.highestStepsTextView.text = entry.highestSteps.toString()
+//
+//        return view
+//    }
+//
+//    private class ViewHolder(view: View) {
+//        val userUidTextView: TextView = view.findViewById(R.id.userUidTextView)
+//        val highestStepsTextView: TextView = view.findViewById(R.id.highestStepsTextView)
+//    }
+//}
+
+class StepsLeaderboardAdapter(private val context: Context, private val entries: List<StepsLeaderboardEntry>) : BaseAdapter() {
+
+    override fun getCount(): Int = entries.size
+
+    override fun getItem(position: Int): Any = entries[position]
+
+    override fun getItemId(position: Int): Long = position.toLong()
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val view: View = convertView ?: LayoutInflater.from(context).inflate(R.layout.leaderboard_item, parent, false)
+
+        val userNameTextView = view.findViewById<TextView>(R.id.userNameTextView)
+        val pointsTextView = view.findViewById<TextView>(R.id.pointsTextView)
+
+        val entry = getItem(position) as StepsLeaderboardEntry
+
+        userNameTextView.text = entry.userUid
+        pointsTextView.text = entry.highestSteps.toString()
+
+        return view
+    }
+}
+
+
