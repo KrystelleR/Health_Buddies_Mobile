@@ -13,7 +13,7 @@ class data {
         val weight: String ="",
         val metric: Boolean=  true,
         val imperial:Boolean= false,
-        val profileImage: Int=0,
+        val profileImage: String ="",
         val setDetails: Boolean =false,
         val gender: String ="",
         val aboutMe: String = "",
@@ -26,7 +26,6 @@ class data {
         val dailyWaterAmount: Int =0,
         val dailyCalories: Int =0,
         val backgroundImageUrl: String = "",
-        val profilePicURL: String = "",
         val characterImageUrl: String = ""
     )  : Serializable
 

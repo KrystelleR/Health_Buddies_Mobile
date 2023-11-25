@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var database: FirebaseDatabase
     private var userUid: String? = null
 
-    var myprofileimg: Int = 0
+    var myprofileimg: String = ""
     var mysetDetails: Boolean = false
     var mybanner: String =""
 
@@ -152,8 +152,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
 
-
-            // Reference to the user's data in the Realtime Database
             val userRef = database.getReference("Users").child(userUid!!)
 
             userRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -169,8 +167,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
                             // Set the TextView values here
-                            profileimg.setImageResource(myprofileimg)
-                            profileView.setImageResource(myprofileimg)
+                            // Assuming myprofileimg is a URL to the image
+                            Glide.with(this@MainActivity)
+                                .load(myprofileimg)
+                                .into(profileimg)
+
+                            Glide.with(this@MainActivity)
+                                .load(myprofileimg)
+                                .into(profileView)
+
                             loadAndDisplayBackgroundImage(userDetails.backgroundImageUrl)
                             loadAndDisplayCharacterImage(userDetails.characterImageUrl)
 

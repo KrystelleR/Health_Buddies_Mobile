@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.cardview.widget.CardView
+import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -30,7 +31,7 @@ class settingspage : AppCompatActivity() {
     var myweight: String = ""
     var mymetric: Boolean=  true
     var myimperial:Boolean= false
-    var myprofileimg: Int =0
+    var myprofileimg: String = ""
     var mydailysteps: Int=0
     var mymoveminutes: Int=0
     var mygoalweight: String = ""
@@ -127,7 +128,7 @@ class settingspage : AppCompatActivity() {
 
         val pickImage = findViewById<androidx.appcompat.widget.AppCompatImageButton>(R.id.add_image)
         pickImage.setOnClickListener() {
-            pickImage()
+            //pickImage()
         }
 
         val database = FirebaseDatabase.getInstance()
@@ -187,7 +188,7 @@ class settingspage : AppCompatActivity() {
                             emailtv.text = myemail
                             usernametv.setText(myusername)
                             currentProfileImageResourceId = myprofileimg
-                            profiletv.setImageResource(myprofileimg)
+                            setProfileImage(myprofileimg)
                             stepstv.text = mydailysteps.toString()
                             myweighttv.text = mygoalweight.toString()
                             minutestv.text = mymoveminutes.toString()
@@ -302,77 +303,74 @@ class settingspage : AppCompatActivity() {
         }
     }
 
-
-
-
-    private fun pickImage() {
-        val edit = Dialog(this)
-        edit.setContentView(R.layout.pickimagedialog)
-
-        val img1 = edit.findViewById<CardView>(R.id.img1cv)
-        val img2 = edit.findViewById<CardView>(R.id.img2cv)
-        val img3 = edit.findViewById<CardView>(R.id.img3cv)
-        val img4 = edit.findViewById<CardView>(R.id.img4cv)
-        val img5 = edit.findViewById<CardView>(R.id.img5cv)
-        val img6 = edit.findViewById<CardView>(R.id.img6cv)
-        val img7 = edit.findViewById<CardView>(R.id.img7cv)
-        val img8 = edit.findViewById<CardView>(R.id.img8cv)
-        val img9 = edit.findViewById<CardView>(R.id.img9cv)
-        val img10 = edit.findViewById<CardView>(R.id.img10cv)
-        val img11 = edit.findViewById<CardView>(R.id.img11cv)
-        val img12 = edit.findViewById<CardView>(R.id.img12cv)
-
-        img1.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg1)
-            edit.dismiss()
-        }
-        img2.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg2)
-            edit.dismiss()
-        }
-        img3.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg3)
-            edit.dismiss()
-        }
-        img4.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg4)
-            edit.dismiss()
-        }
-        img5.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg5)
-            edit.dismiss()
-        }
-        img6.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg6)
-            edit.dismiss()
-        }
-        img7.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg7)
-            edit.dismiss()
-        }
-        img8.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg8)
-            edit.dismiss()
-        }
-        img9.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg9)
-            edit.dismiss()
-        }
-        img10.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg10)
-            edit.dismiss()
-        }
-        img11.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg11)
-            edit.dismiss()
-        }
-        img12.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg12)
-            edit.dismiss()
-        }
-
-        edit.show()
-    }
+//    private fun pickImage() {
+//        val edit = Dialog(this)
+//        edit.setContentView(R.layout.pickimagedialog)
+//
+//        val img1 = edit.findViewById<CardView>(R.id.img1cv)
+//        val img2 = edit.findViewById<CardView>(R.id.img2cv)
+//        val img3 = edit.findViewById<CardView>(R.id.img3cv)
+//        val img4 = edit.findViewById<CardView>(R.id.img4cv)
+//        val img5 = edit.findViewById<CardView>(R.id.img5cv)
+//        val img6 = edit.findViewById<CardView>(R.id.img6cv)
+//        val img7 = edit.findViewById<CardView>(R.id.img7cv)
+//        val img8 = edit.findViewById<CardView>(R.id.img8cv)
+//        val img9 = edit.findViewById<CardView>(R.id.img9cv)
+//        val img10 = edit.findViewById<CardView>(R.id.img10cv)
+//        val img11 = edit.findViewById<CardView>(R.id.img11cv)
+//        val img12 = edit.findViewById<CardView>(R.id.img12cv)
+//
+//        img1.setOnClickListener(){
+//            setProfileImage(R.drawable.profileimg1)
+//            edit.dismiss()
+//        }
+//        img2.setOnClickListener(){
+//            setProfileImage(R.drawable.profileimg2)
+//            edit.dismiss()
+//        }
+//        img3.setOnClickListener(){
+//            setProfileImage(R.drawable.profileimg3)
+//            edit.dismiss()
+//        }
+//        img4.setOnClickListener(){
+//            setProfileImage(R.drawable.profileimg4)
+//            edit.dismiss()
+//        }
+//        img5.setOnClickListener(){
+//            setProfileImage(R.drawable.profileimg5)
+//            edit.dismiss()
+//        }
+//        img6.setOnClickListener(){
+//            setProfileImage(R.drawable.profileimg6)
+//            edit.dismiss()
+//        }
+//        img7.setOnClickListener(){
+//            setProfileImage(R.drawable.profileimg7)
+//            edit.dismiss()
+//        }
+//        img8.setOnClickListener(){
+//            setProfileImage(R.drawable.profileimg8)
+//            edit.dismiss()
+//        }
+//        img9.setOnClickListener(){
+//            setProfileImage(R.drawable.profileimg9)
+//            edit.dismiss()
+//        }
+//        img10.setOnClickListener(){
+//            setProfileImage(R.drawable.profileimg10)
+//            edit.dismiss()
+//        }
+//        img11.setOnClickListener(){
+//            setProfileImage(R.drawable.profileimg11)
+//            edit.dismiss()
+//        }
+//        img12.setOnClickListener(){
+//            setProfileImage(R.drawable.profileimg12)
+//            edit.dismiss()
+//        }
+//
+//        edit.show()
+//    }
 
     fun setDailyCalorieGoal(age:Int, sex: String) : String{
 
@@ -500,11 +498,14 @@ class settingspage : AppCompatActivity() {
     }
 
 
-    private var currentProfileImageResourceId: Int =0
+    private var currentProfileImageResourceId: String =""
 
-    private fun setProfileImage(resourceId: Int) {
+    private fun setProfileImage(imageUrl: String) {
         val profileImageView = findViewById<ImageView>(R.id.profile_image)
-        profileImageView.setImageResource(resourceId)
-        currentProfileImageResourceId = resourceId
+
+        // Use Glide to load the image into the ImageView
+        Glide.with(this)
+            .load(imageUrl)
+            .into(profileImageView)
     }
 }
