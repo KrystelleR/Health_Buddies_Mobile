@@ -28,6 +28,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var toggle: ActionBarDrawerToggle
@@ -68,6 +70,122 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         )
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
+
+
+
+
+
+
+
+        val database = FirebaseDatabase.getInstance()
+        // Getting user details from db
+        val currentUser = Firebase.auth.currentUser
+        if (currentUser != null) {
+            // Assuming userDetails.uid is the user's UID
+            val userUid = currentUser.uid
+
+
+            // Reference to the user's data in the Realtime Database
+            val userRef = database.getReference("LastLoggedIn").child(userUid)
+            val userStepsRef = database.getReference("UserSteps").child(userUid)
+            val userMoveRef = database.getReference("UserMinutes").child(userUid)
+            val userCalRef = database.getReference("UserCalories").child(userUid)
+            val userWaterRef = database.getReference("UserWater").child(userUid)
+            val userGoalsRef = database.getReference("UserCollectPoints").child(userUid)
+
+            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        // dataSnapshot contains the user details data
+                        var lastLoggedIn = dataSnapshot.getValue(data.LastLoggedIn::class.java)
+
+                        if (lastLoggedIn != null) {
+                            if (lastLoggedIn.loggedIndate != null) {
+                                val currentDate = Date()
+                                val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+                                val formattedDate = dateFormat.format(currentDate)
+
+                                if(lastLoggedIn.loggedIndate.equals(formattedDate) == false){
+                                    //reset all data
+
+                                    //resetting user steps
+                                    userStepsRef?.child("_00h00")?.setValue(0)
+                                    userStepsRef?.child("_01h00")?.setValue(0)
+                                    userStepsRef?.child("_02h00")?.setValue(0)
+                                    userStepsRef?.child("_03h00")?.setValue(0)
+                                    userStepsRef?.child("_04h00")?.setValue(0)
+                                    userStepsRef?.child("_05h00")?.setValue(0)
+                                    userStepsRef?.child("_06h00")?.setValue(0)
+                                    userStepsRef?.child("_07h00")?.setValue(0)
+                                    userStepsRef?.child("_08h00")?.setValue(0)
+                                    userStepsRef?.child("_09h00")?.setValue(0)
+                                    userStepsRef?.child("_10h00")?.setValue(0)
+                                    userStepsRef?.child("_11h00")?.setValue(0)
+                                    userStepsRef?.child("_12h00")?.setValue(0)
+                                    userStepsRef?.child("_13h00")?.setValue(0)
+                                    userStepsRef?.child("_14h00")?.setValue(0)
+                                    userStepsRef?.child("_15h00")?.setValue(0)
+                                    userStepsRef?.child("_16h00")?.setValue(0)
+                                    userStepsRef?.child("_17h00")?.setValue(0)
+                                    userStepsRef?.child("_18h00")?.setValue(0)
+                                    userStepsRef?.child("_19h00")?.setValue(0)
+                                    userStepsRef?.child("_20h00")?.setValue(0)
+                                    userStepsRef?.child("_21h00")?.setValue(0)
+                                    userStepsRef?.child("_22h00")?.setValue(0)
+                                    userStepsRef?.child("_23h00")?.setValue(0)
+                                    userStepsRef?.child("_24h00")?.setValue(0)
+
+
+                                    //resetting move minutes
+                                    userMoveRef?.child("minutes")?.setValue(0)
+
+                                    //resetting daily calories
+                                    userCalRef?.child("Breakfast")?.child("Calories")?.setValue(0)
+                                    userCalRef?.child("Breakfast")?.child("MealName")?.setValue("")
+
+                                    userCalRef?.child("Dinner")?.child("Calories")?.setValue(0)
+                                    userCalRef?.child("Dinner")?.child("MealName")?.setValue("")
+
+                                    userCalRef?.child("Lunch")?.child("Calories")?.setValue(0)
+                                    userCalRef?.child("Lunch")?.child("MealName")?.setValue("")
+
+                                    userCalRef?.child("Snacks")?.child("Calories")?.setValue(0)
+                                    userCalRef?.child("Snacks")?.child("MealName")?.setValue("")
+
+
+                                    //resetting water
+                                    userWaterRef?.child("Amount")?.setValue(0)
+
+                                    //restting collect points
+                                    userGoalsRef?.child("stepsGoal")?.setValue(false)
+                                    userGoalsRef?.child("moveGoal")?.setValue(false)
+                                    userGoalsRef?.child("waterGoal")?.setValue(false)
+                                    userGoalsRef?.child("caloriesGoal")?.setValue(false)
+
+                                }
+                                userRef?.child("loggedIndate")?.setValue("$formattedDate")
+                            }
+                        }
+                    } else {
+                        Log.d(ContentValues.TAG, "User details do not exist")
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.e(
+                        ContentValues.TAG,
+                        "Error reading user details from the database",
+                        databaseError.toException()
+                    )
+                }
+            })
+        }
+
+
+
+
 
 
 
@@ -132,10 +250,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val profileView: de.hdodenhof.circleimageview.CircleImageView = headerView.findViewById(R.id.profile_image)
         val profileimg = findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.profile_image)
-
-        val database = FirebaseDatabase.getInstance()
-        // Getting user details from db
-        val currentUser = Firebase.auth.currentUser
         if (currentUser != null) {
             // Assuming userDetails.uid is the user's UID
             val userUid = currentUser.uid

@@ -16,65 +16,46 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import android.os.Handler
-import android.os.Looper
-import androidx.appcompat.widget.AppCompatButton
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
-import org.w3c.dom.Text
-import java.util.Calendar
 
 class fitnesspage :  AppCompatActivity(), SensorEventListener {
-    // Added SensorEventListener the MainActivity class
-    // Implement all the members in the class MainActivity
-    // after adding SensorEventListener
 
-    //database
-    private val handler = Handler(Looper.getMainLooper())
-    private val database = FirebaseDatabase.getInstance()
-    private val usersRef1 = database.getReference("UserSteps")
-    private val user = FirebaseAuth.getInstance().currentUser
-
-    private var isSensorNotified = false
-
-    // we have assigned sensorManger to nullable
     private var sensorManager: SensorManager? = null
-
-    // Creating a variable which will give the running status
-    // and initially given the boolean value as false
     private var running = false
-
     private val REQUEST_ACTIVITY_RECOGNITION = 101
-
-    // Creating a variable which will counts total steps
-    // and it has been given the value of 0 float
     private var totalSteps = 0f
-    var stepGoal : Int = 0
-    var stepsleft: Int =0
-    var moveminutes: Int =0
-    var mmgoal: Int =0
-
-
-    // Creating a variable  which counts previous total
-    // steps and it has also been given the value of 0 float
     private var previousTotalSteps = 0f
+
+    private var currentMove: Int =0
+    private var moveGoal: Int =0
+    private var stepsGoal:Int =0
+
+    // Firebase
+    private lateinit var database: FirebaseDatabase
+    private lateinit var databaseReference: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Hide the ActionBar
-        supportActionBar?.hide()
         setContentView(R.layout.activity_fitnesspage)
 
+        // Initialize Firebase
+        database = FirebaseDatabase.getInstance()
+        databaseReference = database.getReference("UserSteps") // Change "userSteps" to your desired path
 
-        val stepstv = findViewById<TextView>(R.id.totalstepstxt)
-        stepstv.text = totalSteps.toString()
+        //step counter
+        loadData()
+        resetSteps()
 
-        val database = FirebaseDatabase.getInstance()
-        // Getting user details from db
+        // Adding a context of SENSOR_SERVICE as Sensor Manager
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+
+
+
+
+
+
         val currentUser = Firebase.auth.currentUser
         if (currentUser != null) {
             // Assuming userDetails.uid is the user's UID
@@ -86,20 +67,96 @@ class fitnesspage :  AppCompatActivity(), SensorEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
                         // dataSnapshot contains the user details data
-                        val UserDetails = dataSnapshot.getValue(data.UserDetails::class.java)
+                        val userDetails = dataSnapshot.getValue(data.UserDetails::class.java)
                         // Now you can use the userDetails object as needed
-                        if (UserDetails != null) {
-                            stepGoal = UserDetails.dailySteps.toInt()
-                            mmgoal = UserDetails.moveMinutes.toInt()
+                        if (userDetails != null) {
+                            //get goals
+                            val goalSteps = userDetails.dailySteps
+                            val goalMove = userDetails.moveMinutes
 
-                            val dailygoal = findViewById<TextView>(R.id.dailygoaltxt)
-                            dailygoal.text = "$stepGoal steps"
-                            stepsleft = stepGoal - totalSteps.toInt()
+                            val dailygoaltv = findViewById<TextView>(R.id.dailygoaltxt)
+                            dailygoaltv.text  = goalSteps.toString() + " steps"
+                            stepsGoal = userDetails.dailySteps
 
                             val leftSteps = findViewById<TextView>(R.id.stepslefttxt)
-                            leftSteps.text = "$stepsleft steps"
+                            leftSteps.text = calculateLeftSteps(goalSteps, totalSteps.toInt()).toString() + " steps"
+                            val remainingSteps = calculateLeftSteps(stepsGoal, totalSteps.toInt())
+
+
+
+
+
+
+
+                            if (remainingSteps <= 0) {
+                                leftSteps.text = "Well done on completing your goal! You have earned 10 coins!\n"
+
+                                val userGoalRef = database.getReference("UserCollectPoints").child(userUid)
+                                userGoalRef?.child("stepsGoal")?.addListenerForSingleValueEvent(object :
+                                    ValueEventListener {
+                                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                        // Check if the value is not null before converting to Boolean
+                                        val hasStepsGoal = dataSnapshot.getValue(Boolean::class.java)
+
+                                        if (hasStepsGoal == null || !hasStepsGoal) {
+                                            userRef?.child("userCurrency")?.addListenerForSingleValueEvent(object :
+                                                ValueEventListener {
+                                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                    if (dataSnapshot.exists()) {
+                                                        // dataSnapshot contains the user currency data
+                                                        var userCurrencyValue = dataSnapshot.getValue(Int::class.java)
+
+                                                        // Check if the value is not null before converting to Int
+                                                        if (userCurrencyValue != null) {
+                                                            // Add 10 points for completion
+                                                            userCurrencyValue += 10
+                                                            userRef?.child("userCurrency")?.setValue(userCurrencyValue)
+
+                                                            // Set the stepsGoal to true
+                                                            userGoalRef?.child("stepsGoal")?.setValue(true)
+                                                        }
+                                                    } else {
+                                                        Log.d(ContentValues.TAG, "User currency data does not exist")
+                                                    }
+                                                }
+
+                                                override fun onCancelled(databaseError: DatabaseError) {
+                                                    Log.e(
+                                                        ContentValues.TAG,
+                                                        "Error reading user currency from the database",
+                                                        databaseError.toException()
+                                                    )
+                                                }
+                                            })
+                                        }
+                                    }
+
+                                    override fun onCancelled(databaseError: DatabaseError) {
+                                        Log.e(
+                                            ContentValues.TAG,
+                                            "Error reading stepsGoal from the database",
+                                            databaseError.toException()
+                                        )
+                                    }
+                                })
+                            } else {
+                                leftSteps.text = "$remainingSteps steps"
+                            }
+
+
+
+
+
+
+
+
+
+                            val dailymovetv = findViewById<TextView>(R.id.moveminutestxt)
+                            dailymovetv.text  = "12" + "/ " + goalMove.toString() + " minutes"
 
                         }
+                    } else {
+                        Log.d(ContentValues.TAG, "User details do not exist")
                     }
                 }
 
@@ -111,71 +168,47 @@ class fitnesspage :  AppCompatActivity(), SensorEventListener {
                     )
                 }
             })
+        }
 
 
-            val userRef1 = database.getReference("UserMinutes").child(userUid) // Corrected line
 
-            userRef1.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        // dataSnapshot contains the user details data
-                        val UserMinutes = dataSnapshot.getValue(data.UserMinutes::class.java)
-                        // Now you can use the userDetails object as needed
-                        if (UserMinutes != null) {
-                            moveminutes = UserMinutes.minutes
 
-                            val moveminutestv = findViewById<TextView>(R.id.moveminutestxt)
-                            moveminutestv.text = "$moveminutes/ $mmgoal minutes"
-                        }
-                    }
-                }
 
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Log.e(
-                        ContentValues.TAG,
-                        "Error reading user details from the database",
-                        databaseError.toException()
-                    )
-                }
-            })
 
-            //step counter
-            loadData()
-            resetStepsAndMinutes()
 
-            val beginner = findViewById<CardView>(R.id.beginnercv)
-            beginner.setOnClickListener() {
-                val Intent = Intent(this, beginnervideos::class.java)
-                startActivity(Intent)
-            }
 
-            val intermediate = findViewById<CardView>(R.id.intermediatecv)
-            intermediate.setOnClickListener() {
-                val Intent = Intent(this, intermediatevideos::class.java)
-                startActivity(Intent)
-            }
 
-            val advanced = findViewById<CardView>(R.id.advancedcv)
-            advanced.setOnClickListener() {
-                val Intent = Intent(this, advancedvideos::class.java)
-                startActivity(Intent)
-            }
 
-            val stepsgraph = findViewById<AppCompatButton>(R.id.viewprogressbtn1)
-            val movemgraph = findViewById<AppCompatButton>(R.id.viewprogressbtn2)
 
-            stepsgraph.setOnClickListener() {
-                val Intent = Intent(this, fitnessgraph::class.java)
-                startActivity(Intent)
-            }
+        //navigation
+        val beginner = findViewById<CardView>(R.id.beginnercv)
+        beginner.setOnClickListener(){
+            val intent = Intent(this, beginnervideos::class.java)
+            startActivity(intent)
+        }
 
-            movemgraph.setOnClickListener() {
-                val Intent = Intent(this, fitnessgraph::class.java)
-                startActivity(Intent)
-            }
+        val intermediate = findViewById<CardView>(R.id.intermediatecv)
+        intermediate.setOnClickListener(){
+            val intent = Intent(this, intermediatevideos::class.java)
+            startActivity(intent)
+        }
 
-            // Adding a context of SENSOR_SERVICE as Sensor Manager
-            sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val advanced = findViewById<CardView>(R.id.advancedcv)
+        advanced.setOnClickListener(){
+            val intent = Intent(this, advancedvideos::class.java)
+            startActivity(intent)
+        }
+
+        val progress1 = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.viewprogressbtn1)
+        val progress2 = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.viewprogressbtn2)
+
+        progress1.setOnClickListener(){
+            val intent = Intent(this, fitnessgraph::class.java)
+            startActivity(intent)
+        }
+        progress2.setOnClickListener(){
+            val intent = Intent(this, fitnessgraph::class.java)
+            startActivity(intent)
         }
     }
 
@@ -200,35 +233,11 @@ class fitnesspage :  AppCompatActivity(), SensorEventListener {
             // Permission is granted, register the sensor listener
             registerStepCounterSensor()
         }
-        // Schedule the task to update steps every hour
-        scheduleHourlyTask()
     }
 
-    private fun scheduleHourlyTask() {
-        val calendar = Calendar.getInstance()
-        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
-        val millisUntilNextHour = (60 - calendar.get(Calendar.MINUTE)) * 60 * 1000
-
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                // Update steps in Firebase for the current hour
-                updateStepsInFirebase(currentHour)
-                // Schedule the next task for the next hour
-                scheduleHourlyTask()
-            }
-        }, millisUntilNextHour.toLong())
-    }
-
-    private fun updateStepsInFirebase(hour: Int) {
-        var theAmount = "_$hour" + "h00"
-        val userStepsUpdate = mapOf(theAmount to totalSteps)
-        usersRef1.child(user?.uid ?: "").updateChildren(userStepsUpdate)
-            .addOnSuccessListener {
-                Log.d("fitnesspage", "Steps updated for hour $hour")
-            }
-            .addOnFailureListener {
-                Log.e("fitnesspage", "Failed to update steps for hour $hour", it)
-            }
+    public fun calculateLeftSteps(goalSteps:Int, currentSteps:Int):Int{
+        val leftSteps = goalSteps - currentSteps
+        return leftSteps
     }
 
     private fun registerStepCounterSensor() {
@@ -260,50 +269,61 @@ class fitnesspage :  AppCompatActivity(), SensorEventListener {
         }
     }
 
-    override fun onSensorChanged(event: SensorEvent?) {
-        var tv_stepsTaken = findViewById<TextView>(R.id.totalstepstxt)
+        override fun onSensorChanged(event: SensorEvent?) {
+            var tv_stepsTaken = findViewById<TextView>(R.id.totalstepstxt)
 
-        if (running) {
-            if (event != null) {
-                val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-
-                // Check if it's a new day
-                if (currentHour == 0) {
-                    // It's a new day, reset steps and minutes
-                    resetStepsAndMinutes()
-                }
-
-                totalSteps = event.values[0]
+            if (running) {
+                totalSteps = event!!.values[0]
                 val currentSteps = totalSteps.toInt() - previousTotalSteps.toInt()
-
-                updateStepsInFirebase(currentHour)
-
                 tv_stepsTaken.text = ("$currentSteps steps")
-            } else {
-                if (!isSensorNotified) {
-                    Toast.makeText(this, "Step Counter Not Found on Device", Toast.LENGTH_SHORT).show()
-                    isSensorNotified = true
+
+                val leftSteps = findViewById<TextView>(R.id.stepslefttxt)
+                val remainingSteps = calculateLeftSteps(stepsGoal, totalSteps.toInt())
+
+                if (remainingSteps <= 0) {
+                    leftSteps.text = "Well done on completing your goal! You have earned 10 coins!\n"
+                } else {
+                    leftSteps.text = "$remainingSteps steps"
                 }
+
+                // Update the corresponding hour in the database
+                updateDatabaseHour(currentSteps)
             }
         }
+
+
+    private fun updateDatabaseHour(steps: Int) {
+        // Get the current hour in 24-hour format
+        val currentHour = java.time.LocalTime.now().hour
+        val currentUser = Firebase.auth.currentUser?.uid
+        // Construct the field name based on the current hour
+        val fieldName = "_${String.format("%02dh00", currentHour)}"
+
+        // Update the database with the current steps for the corresponding hour
+        databaseReference.child("$currentUser").child(fieldName).setValue(steps)
     }
 
-    private fun resetStepsAndMinutes() {
-        // Reset steps
-        previousTotalSteps = totalSteps
-        val tv_stepsTaken = findViewById<TextView>(R.id.totalstepstxt)
-        tv_stepsTaken.text = "0"
+    fun resetSteps() {
+        var tv_stepsTaken = findViewById<TextView>(R.id.totalstepstxt)
+        tv_stepsTaken.setOnClickListener {
+            // This will give a toast message if the user want to reset the steps
+            Toast.makeText(this, "Long tap to reset steps", Toast.LENGTH_SHORT).show()
+        }
 
-        // Reset minutes
-        moveminutes = 0
-        val moveminutestv = findViewById<TextView>(R.id.moveminutestxt)
-        moveminutestv.text = "0 / $mmgoal minutes"
+        tv_stepsTaken.setOnLongClickListener {
 
-        // Update UI and save data
-        updateStepsInFirebase(0)  // Assuming you want to update steps for the first hour of the new day
-        saveData()
+            previousTotalSteps = totalSteps
+
+            // When the user will click long tap on the screen,
+            // the steps will be reset to 0
+            tv_stepsTaken.text = 0.toString()
+
+            // This will save the data
+            saveData()
+
+            true
+        }
     }
-
 
     private fun saveData() {
 

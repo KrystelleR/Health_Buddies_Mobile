@@ -176,29 +176,27 @@
                 android:id="@+id/scanner_cardView"
                 android:layout_width="300dp"
                 android:layout_height="70dp"
-                app:cardBackgroundColor="#FFD4B3"
-                app:cardCornerRadius="30dp"
                 android:layout_gravity="center"
+                app:cardCornerRadius="30dp"
+                app:cardUseCompatPadding="true"
+                app:cardPreventCornerOverlap="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/TopCardView"
-                android:layout_marginTop="30dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="10dp">
 
 
-                >
-
-                <LinearLayout
+            <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/scannercusbtn"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/scanner_heading"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:layout_marginTop="10dp"
                         android:fontFamily="casual"
                         android:gravity="center"
                         android:text="Scan Food Item : "

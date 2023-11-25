@@ -7,7 +7,10 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -16,6 +19,7 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.github.mikephil.charting.components.Legend
+import com.varsitycollege.xbcad.healthbuddies.databinding.ActivityNutritionBinding
 
 
 class Nutrition : AppCompatActivity() {
@@ -38,9 +42,14 @@ class Nutrition : AppCompatActivity() {
 
     private lateinit var usersRef: DatabaseReference
 
+    private var requestCamera: ActivityResultLauncher<String>?= null
+    private lateinit var binding: ActivityNutritionBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nutrition)
+        binding = ActivityNutritionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Progress bar code
         progressBar= findViewById(R.id.progresbar_nutrition)
@@ -79,7 +88,24 @@ class Nutrition : AppCompatActivity() {
             val intent = Intent(this, UserCaloriesListActivity::class.java)
             startActivity(intent)
         }
-    }
+
+            requestCamera = registerForActivityResult(
+                ActivityResultContracts
+                .RequestPermission(), ){
+                if(it){
+                    val intent = Intent(this, barcodescanner:: class.java)
+                    startActivity(intent)
+
+                }else{
+                    Toast.makeText(this, "Permission Not Granted", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            val scanner = findViewById<CardView>(R.id.scanner_cardView)
+            scanner.setOnClickListener(){
+                requestCamera?.launch(android.Manifest.permission.CAMERA)
+            }
+        }
 
     //update pie chart with db values
     private fun fetchCaloriesDataAndUpdatePieChart() {
