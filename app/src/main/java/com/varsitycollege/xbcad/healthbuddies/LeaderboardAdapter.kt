@@ -90,7 +90,7 @@ class StepsLeaderboardAdapter(private val context: Context, private val entries:
 
         val entry = getItem(position) as StepsLeaderboardEntry
 
-        userNameTextView.text = entry.userUid
+        userNameTextView.text = entry.username
         pointsTextView.text = entry.highestSteps.toString()
 
         return view
