@@ -93,6 +93,7 @@
             android:layout_marginTop="16dp"
             android:layout_gravity="center"
             android:background="@color/white"
+
             />
 
         <androidx.appcompat.widget.AppCompatButton

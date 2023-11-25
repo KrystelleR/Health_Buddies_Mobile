@@ -14,6 +14,7 @@ class Meals : AppCompatActivity() {
 
         //nav to recipe page -15 buttons - 15 recipes (pull from db in recipe.kt)
 
+
         //BREAKFAST MEALS
 
         //breakfast1--mushroom omelet
@@ -169,6 +170,59 @@ class Meals : AppCompatActivity() {
             val intent = Intent(this, Recipe::class.java)
             intent.putExtra("MEAL_NAME","Vegetable Pasta")
             intent.putExtra("MEAL_TYPE","dinner")
+
+            startActivity(intent)
+        }
+
+
+        //SNACKS
+
+        //snacks1--PB Choc Chip Cookie
+        val btnS1: ImageButton = findViewById(R.id.btn_snacks1)
+        btnS1.setOnClickListener {
+            val intent = Intent(this, Recipe::class.java)
+            intent.putExtra("MEAL_NAME","PB Choc Chip Cookie")
+            intent.putExtra("MEAL_TYPE","snacks")
+
+            startActivity(intent)
+        }
+
+        //snacks2--Whipped Frozen Lemonade
+        val btnS2: ImageButton = findViewById(R.id.btn_snacks2)
+        btnS2.setOnClickListener {
+            val intent = Intent(this, Recipe::class.java)
+            intent.putExtra("MEAL_NAME","Whipped Frozen Lemonade")
+            intent.putExtra("MEAL_TYPE","snacks")
+
+            startActivity(intent)
+        }
+
+        //snacks3--Strawberry NICE Cream
+        val btnS3: ImageButton = findViewById(R.id.btn_snacks3)
+        btnS3.setOnClickListener {
+            val intent = Intent(this, Recipe::class.java)
+            intent.putExtra("MEAL_NAME","Strawberry NICE Cream")
+            intent.putExtra("MEAL_TYPE","snacks")
+
+            startActivity(intent)
+        }
+
+        //snacks4--Microwave Popcorn
+        val btnS4: ImageButton = findViewById(R.id.btn_snacks4)
+        btnS4.setOnClickListener {
+            val intent = Intent(this, Recipe::class.java)
+            intent.putExtra("MEAL_NAME","Microwave Popcorn")
+            intent.putExtra("MEAL_TYPE","snacks")
+
+            startActivity(intent)
+        }
+
+        //snacks5--Fruit Salad
+        val btnS5: ImageButton = findViewById(R.id.btn_snacks5)
+        btnS5.setOnClickListener {
+            val intent = Intent(this, Recipe::class.java)
+            intent.putExtra("MEAL_NAME","Fruit Salad")
+            intent.putExtra("MEAL_TYPE","snacks")
 
             startActivity(intent)
         }

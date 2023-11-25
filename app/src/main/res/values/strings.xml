@@ -30,9 +30,11 @@
 
     //for spinner- add energy
     <string-array name="spinner_meal_options">
+        <item> </item>
         <item>Breakfast</item>
         <item>Lunch</item>
         <item>Dinner</item>
+        <item>Snacks</item>
     </string-array>
 
 </resources>
