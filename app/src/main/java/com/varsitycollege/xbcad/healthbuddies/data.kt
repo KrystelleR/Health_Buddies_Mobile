@@ -26,7 +26,8 @@ class data {
         val dailyWaterAmount: Int =0,
         val dailyCalories: Int =0,
         val backgroundImageUrl: String = "",
-        val profilePicURL: String = ""
+        val profilePicURL: String = "",
+        val characterImageUrl: String = ""
     )  : Serializable
 
 

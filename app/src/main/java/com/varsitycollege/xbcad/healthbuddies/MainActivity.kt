@@ -172,6 +172,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             profileimg.setImageResource(myprofileimg)
                             profileView.setImageResource(myprofileimg)
                             loadAndDisplayBackgroundImage(userDetails.backgroundImageUrl)
+                            loadAndDisplayCharacterImage(userDetails.characterImageUrl)
 
 
                         }
