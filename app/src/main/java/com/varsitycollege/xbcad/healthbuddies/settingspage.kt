@@ -10,15 +10,18 @@ import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.cardview.widget.CardView
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import de.hdodenhof.circleimageview.CircleImageView
 
 class settingspage : AppCompatActivity() {
 
@@ -49,6 +52,10 @@ class settingspage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settingspage)
 
+        val addImageBtn = findViewById<AppCompatImageButton>(R.id.add_image)
+        addImageBtn.setOnClickListener {
+            showCharacterItemsDialog()
+        }
         //get all values
         val usernametv = findViewById<EditText>(R.id.usernametxt)
         val agetv = findViewById<Spinner>(R.id.ageSpinner)
@@ -170,6 +177,7 @@ class settingspage : AppCompatActivity() {
                             mydailycalories = userDetails.dailyCalories
                             mycurrentcalories = userDetails.userCurrentCalories
 
+                            loadAndDisplayCharacterImage(userDetails.profileImage)
                             // Set the TextView values here
                             heighttv.text = myheight.toString()
                             weighttv.text = myweight.toString()
@@ -226,6 +234,10 @@ class settingspage : AppCompatActivity() {
             })
         }
 
+        val addImageButton: AppCompatImageButton = findViewById(R.id.add_image)
+        addImageButton.setOnClickListener {
+            showCharacterItemsDialog()
+        }
 
         val save = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.savebtn)
         save.setOnClickListener(){
@@ -303,74 +315,7 @@ class settingspage : AppCompatActivity() {
         }
     }
 
-//    private fun pickImage() {
-//        val edit = Dialog(this)
-//        edit.setContentView(R.layout.pickimagedialog)
-//
-//        val img1 = edit.findViewById<CardView>(R.id.img1cv)
-//        val img2 = edit.findViewById<CardView>(R.id.img2cv)
-//        val img3 = edit.findViewById<CardView>(R.id.img3cv)
-//        val img4 = edit.findViewById<CardView>(R.id.img4cv)
-//        val img5 = edit.findViewById<CardView>(R.id.img5cv)
-//        val img6 = edit.findViewById<CardView>(R.id.img6cv)
-//        val img7 = edit.findViewById<CardView>(R.id.img7cv)
-//        val img8 = edit.findViewById<CardView>(R.id.img8cv)
-//        val img9 = edit.findViewById<CardView>(R.id.img9cv)
-//        val img10 = edit.findViewById<CardView>(R.id.img10cv)
-//        val img11 = edit.findViewById<CardView>(R.id.img11cv)
-//        val img12 = edit.findViewById<CardView>(R.id.img12cv)
-//
-//        img1.setOnClickListener(){
-//            setProfileImage(R.drawable.profileimg1)
-//            edit.dismiss()
-//        }
-//        img2.setOnClickListener(){
-//            setProfileImage(R.drawable.profileimg2)
-//            edit.dismiss()
-//        }
-//        img3.setOnClickListener(){
-//            setProfileImage(R.drawable.profileimg3)
-//            edit.dismiss()
-//        }
-//        img4.setOnClickListener(){
-//            setProfileImage(R.drawable.profileimg4)
-//            edit.dismiss()
-//        }
-//        img5.setOnClickListener(){
-//            setProfileImage(R.drawable.profileimg5)
-//            edit.dismiss()
-//        }
-//        img6.setOnClickListener(){
-//            setProfileImage(R.drawable.profileimg6)
-//            edit.dismiss()
-//        }
-//        img7.setOnClickListener(){
-//            setProfileImage(R.drawable.profileimg7)
-//            edit.dismiss()
-//        }
-//        img8.setOnClickListener(){
-//            setProfileImage(R.drawable.profileimg8)
-//            edit.dismiss()
-//        }
-//        img9.setOnClickListener(){
-//            setProfileImage(R.drawable.profileimg9)
-//            edit.dismiss()
-//        }
-//        img10.setOnClickListener(){
-//            setProfileImage(R.drawable.profileimg10)
-//            edit.dismiss()
-//        }
-//        img11.setOnClickListener(){
-//            setProfileImage(R.drawable.profileimg11)
-//            edit.dismiss()
-//        }
-//        img12.setOnClickListener(){
-//            setProfileImage(R.drawable.profileimg12)
-//            edit.dismiss()
-//        }
-//
-//        edit.show()
-//    }
+
 
     fun setDailyCalorieGoal(age:Int, sex: String) : String{
 
@@ -495,6 +440,51 @@ class settingspage : AppCompatActivity() {
             }
         }
         dialog.show()
+    }
+
+    private fun showCharacterItemsDialog() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+
+        if (currentUser != null) {
+            val userUid = currentUser.uid
+            val dialogFragment = CharacterItemsDialogFragment(userUid, this)
+            dialogFragment.show(supportFragmentManager, "CharacterItemsDialog")
+        } else {
+            // Handle the case where the current user is null (not signed in)
+            // You might want to redirect the user to the sign-in screen or handle it appropriately
+        }
+    }
+
+
+    fun onCharacterImageClick(imageUrl: String) {
+        // Save the selected character image URL to the user's data
+        saveCharacterImageUrl(imageUrl)
+
+        // Update the profile image in the main activity
+        val profileImage: CircleImageView = findViewById(R.id.profile_image)
+
+        // Load and display the selected character image using Glide or your preferred library
+        Glide.with(this)
+            .load(imageUrl)
+            .into(profileImage)
+
+        // Update the local variable with the new image URL
+        myprofileimg = imageUrl
+    }
+
+
+
+    private fun loadAndDisplayCharacterImage(characterImageUrl: String) {
+        val profileImageView: CircleImageView = findViewById(R.id.profile_image)
+
+        // Load and display the character image using Glide or your preferred library
+        Glide.with(this)
+            .load(characterImageUrl)
+            .into(profileImageView)
+    }
+    private fun saveCharacterImageUrl(imageUrl: String) {
+        val userRef = FirebaseDatabase.getInstance().getReference("Users").child(myuid)
+        userRef.child("profileImage").setValue(imageUrl)
     }
 
 

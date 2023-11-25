@@ -81,4 +81,8 @@ data class UserCaloriesItem(
     val calories: Long
 ): Serializable
 
+data class PurchasedItem(
+    val ID: String?,
+    val ImageUrl: String?
+)
 
