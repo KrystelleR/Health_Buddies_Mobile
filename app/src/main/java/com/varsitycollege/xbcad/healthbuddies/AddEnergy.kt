@@ -7,6 +7,7 @@ import android.text.InputType
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -26,6 +27,13 @@ class AddEnergy : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_energy)
+
+        val calories = intent.getIntExtra("calories", 0)
+        Toast.makeText(this, calories.toString(), Toast.LENGTH_SHORT).show()
+        val entered_cal = findViewById<EditText>(R.id.txt_entered_cal)
+        entered_cal.setText(calories.toString())
+
+
 
         // Back button code
         val btnbackToNutrition = findViewById<AppCompatButton>(R.id.btn_back_add_energy)
