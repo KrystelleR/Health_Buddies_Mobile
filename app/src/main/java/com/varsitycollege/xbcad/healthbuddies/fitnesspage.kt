@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
+import org.w3c.dom.Text
 
 class fitnesspage :  AppCompatActivity(), SensorEventListener {
 
@@ -37,6 +38,8 @@ class fitnesspage :  AppCompatActivity(), SensorEventListener {
     private lateinit var databaseReference: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Hide the ActionBar
+        supportActionBar?.hide()
         setContentView(R.layout.activity_fitnesspage)
 
         // Initialize Firebase
@@ -50,16 +53,12 @@ class fitnesspage :  AppCompatActivity(), SensorEventListener {
         // Adding a context of SENSOR_SERVICE as Sensor Manager
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
-
-
-
-
-
-
         val currentUser = Firebase.auth.currentUser
         if (currentUser != null) {
             // Assuming userDetails.uid is the user's UID
             val userUid = currentUser.uid
+
+
             // Reference to the user's data in the Realtime Database
             val userRef = database.getReference("Users").child(userUid) // Corrected line
 
@@ -81,12 +80,6 @@ class fitnesspage :  AppCompatActivity(), SensorEventListener {
                             val leftSteps = findViewById<TextView>(R.id.stepslefttxt)
                             leftSteps.text = calculateLeftSteps(goalSteps, totalSteps.toInt()).toString() + " steps"
                             val remainingSteps = calculateLeftSteps(stepsGoal, totalSteps.toInt())
-
-
-
-
-
-
 
                             if (remainingSteps <= 0) {
                                 leftSteps.text = "Well done on completing your goal! You have earned 10 coins!\n"
@@ -144,17 +137,123 @@ class fitnesspage :  AppCompatActivity(), SensorEventListener {
                             }
 
 
+                            val userRefMinutes = database.getReference("UserMinutes").child(userUid)
+                            userRefMinutes.addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        // dataSnapshot contains the user details data
+                                        val UserMinutes =
+                                            dataSnapshot.getValue(data.UserMinutes::class.java)
+                                        // Now you can use the userDetails object as needed
+                                        if (UserMinutes != null) {
+
+                                            var myMoveMinutes = UserMinutes.minutes
+                                            val dailymovetv =
+                                                findViewById<TextView>(R.id.moveminutestxt)
+                                            dailymovetv.text = " $myMoveMinutes/ $goalMove minutes"
 
 
 
+                                            if (myMoveMinutes >= goalMove) {
+                                                val congrats =
+                                                    findViewById<TextView>(R.id.congratsmovetxt)
+                                                congrats.text =
+                                                    "Well done on completing your move goal! You have earned 10 coins!\n"
 
 
+                                                // Check if the user has already earned points for moveGoal
+                                                val userGoalRef =
+                                                    database.getReference("UserCollectPoints")
+                                                        .child(userUid)
+                                                userGoalRef?.child("moveGoal")
+                                                    ?.addListenerForSingleValueEvent(object :
+                                                        ValueEventListener {
+                                                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                            // Check if the value is not null before converting to Boolean
+                                                            val hasMoveGoal =
+                                                                dataSnapshot.getValue(Boolean::class.java)
+
+                                                            if (hasMoveGoal == null || !hasMoveGoal) {
+                                                                userRef?.child("userCurrency")
+                                                                    ?.addListenerForSingleValueEvent(
+                                                                        object :
+                                                                            ValueEventListener {
+                                                                            override fun onDataChange(
+                                                                                dataSnapshot: DataSnapshot
+                                                                            ) {
+                                                                                if (dataSnapshot.exists()) {
+                                                                                    // dataSnapshot contains the user currency data
+                                                                                    var userCurrencyValue =
+                                                                                        dataSnapshot.getValue(
+                                                                                            Int::class.java
+                                                                                        )
+
+                                                                                    // Check if the value is not null before converting to Int
+                                                                                    if (userCurrencyValue != null) {
+                                                                                        // Add 10 points for completing moveGoal
+                                                                                        userCurrencyValue += 10
+                                                                                        userRef?.child(
+                                                                                            "userCurrency"
+                                                                                        )?.setValue(
+                                                                                            userCurrencyValue
+                                                                                        )
+
+                                                                                        // Set the moveGoal to true
+                                                                                        userGoalRef?.child(
+                                                                                            "moveGoal"
+                                                                                        )?.setValue(
+                                                                                            true
+                                                                                        )
+                                                                                    }
+                                                                                } else {
+                                                                                    Log.d(
+                                                                                        ContentValues.TAG,
+                                                                                        "User currency data does not exist"
+                                                                                    )
+                                                                                }
+                                                                            }
+
+                                                                            override fun onCancelled(
+                                                                                databaseError: DatabaseError
+                                                                            ) {
+                                                                                Log.e(
+                                                                                    ContentValues.TAG,
+                                                                                    "Error reading user currency from the database",
+                                                                                    databaseError.toException()
+                                                                                )
+                                                                            }
+                                                                        })
+                                                            }
+                                                        }
+
+                                                        override fun onCancelled(databaseError: DatabaseError) {
+                                                            Log.e(
+                                                                ContentValues.TAG,
+                                                                "Error reading moveGoal from the database",
+                                                                databaseError.toException()
+                                                            )
+                                                        }
+                                                    })
+                                            }
 
 
-                            val dailymovetv = findViewById<TextView>(R.id.moveminutestxt)
-                            dailymovetv.text  = "12" + "/ " + goalMove.toString() + " minutes"
+                                        } else {
+                                            Log.d(ContentValues.TAG, "User details do not exist")
+                                        }
+                                    }
+                                }
 
+                                override fun onCancelled(databaseError: DatabaseError) {
+                                    Log.e(ContentValues.TAG, "Error reading user details from the database", databaseError.toException())
+                                }
+                            })
                         }
+
+
+
+
+
+
                     } else {
                         Log.d(ContentValues.TAG, "User details do not exist")
                     }

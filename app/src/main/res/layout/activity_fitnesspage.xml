@@ -233,7 +233,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="370dp"
-                android:layout_height="125dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/moveminutescolors"
@@ -253,6 +253,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Today, You've Exercised For:"
@@ -272,7 +273,9 @@
                             android:textSize="25dp" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:id="@+id/congratsmovetxt"
+                            android:layout_width="200dp"
+                            android:layout_marginTop="20dp"
                             android:layout_height="wrap_content"
                             android:text="Keep it up!"
                             android:fontFamily="@font/itim"
@@ -285,6 +288,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:layout_gravity="center"
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="10dp"
                         android:orientation="vertical">

@@ -71,14 +71,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-
-
-
-
-
-
-
-
         val database = FirebaseDatabase.getInstance()
         // Getting user details from db
         val currentUser = Firebase.auth.currentUser
