@@ -89,17 +89,17 @@ class settingspage : AppCompatActivity() {
 
 // Apply the adapter to the spinner
         agetv.adapter = adapter
-
 // Set a listener to handle the selected item
         agetv.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+
             override fun onItemSelected(
                 parent: AdapterView<*>,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-                // This method will be called when an item in the Spinner is selected
-                // You can use the 'position' parameter to get the selected item position
+                caloriestv.text = setDailyCalorieGoal( agetv.selectedItem.toString().toInt(), mygender)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
