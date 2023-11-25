@@ -68,6 +68,12 @@
     <color name="disneycolor">#7F7F7F</color>
     <color name="editbtnshape">#1CB2B3</color>
 
+    //scanner page
+    <color name="scangreen">#039447</color>
+    <color name="scanred">#C43C27</color>
+    <color name="scanorange">#E17B26</color>
+    <color name="scanyellow">#F8C040</color>
+    <color name="scanpeach">#EECFBA</color>
 
 
     <color name="yellow_lemon">#FFBE0B</color>

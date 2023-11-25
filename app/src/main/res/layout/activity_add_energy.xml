@@ -36,14 +36,12 @@
             android:id="@+id/headerNutrition"
             android:layout_width="187dp"
             android:layout_height="50dp"
-            android:layout_marginTop="10dp"
             android:background="@color/orange"
-            android:fontFamily="casual"
+            android:fontFamily="@font/itim"
             android:gravity="center"
             android:text="Power Up!"
             android:textColor="@color/white"
-            android:textSize="30sp"
-            android:textStyle="bold"
+            android:textSize="40sp"
             android:layout_gravity="center"/>
     </androidx.cardview.widget.CardView>
 
@@ -60,9 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Calorie amount (kcal):"
-            android:textStyle="bold"
-            android:fontFamily="casual"
-            android:textSize="30sp"
+            android:fontFamily="@font/itim"
+            android:textSize="35sp"
             android:textColor="@color/white"
             android:layout_marginTop="70dp"
             android:gravity="center"/>
@@ -73,15 +70,16 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:background="@color/white"/>
+            android:background="@color/white"
+            android:ems="10"
+            android:inputType="number" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="For which meal?"
-            android:textStyle="bold"
-            android:fontFamily="casual"
-            android:textSize="30sp"
+            android:fontFamily="@font/itim"
+            android:textSize="35sp"
             android:textColor="@color/white"
             android:layout_marginTop="50dp"
             android:gravity="center"/>
@@ -93,6 +91,7 @@
             android:layout_marginTop="16dp"
             android:layout_gravity="center"
             android:background="@color/white"
+
             />
 
         <androidx.appcompat.widget.AppCompatButton

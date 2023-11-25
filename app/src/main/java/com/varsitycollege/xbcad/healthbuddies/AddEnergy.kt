@@ -7,6 +7,7 @@ import android.text.InputType
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -26,6 +27,12 @@ class AddEnergy : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_energy)
+
+        val calories = intent.getIntExtra("calories", 0)
+        val entered_cal = findViewById<EditText>(R.id.txt_entered_cal)
+        entered_cal.setText(calories.toString())
+
+
 
         // Back button code
         val btnbackToNutrition = findViewById<AppCompatButton>(R.id.btn_back_add_energy)
@@ -88,10 +95,13 @@ class AddEnergy : AppCompatActivity() {
                 val existingCalories = snapshot.child("Calories").getValue(Long::class.java)
                 val existingMealName = snapshot.child("MealName").getValue(String::class.java)
 
-                if (existingCalories != null && existingMealName != null && existingCalories != 0L) {
-                    // Existing value is not 0, prompt the user with a dialog (if needed)
-                    // In this case, you can decide if you want to show a dialog or just update directly
-                    // For simplicity, we are updating directly
+                if(mealType.equals("Snacks")){
+                    val newCalories = existingCalories?.plus(calories)
+                    if (newCalories != null) {
+                        updateCaloriesDirectly(mealType, newCalories)
+                    }
+                }
+                else if (existingCalories != null && existingMealName != null && existingCalories != 0L) {
                     showConfirmationDialog(existingCalories, existingMealName, mealType, calories)
                 } else {
                     // Existing value is 0 or doesn't exist, update the value directly

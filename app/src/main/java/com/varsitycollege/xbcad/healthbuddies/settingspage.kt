@@ -106,6 +106,8 @@ class settingspage : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
+                myage=agetv.selectedItem.toString().toInt()
+                caloriestv.text = setDailyCalorieGoal( myage,mygender)
                 // This method will be called when an item in the Spinner is selected
                 // You can use the 'position' parameter to get the selected item position
             }
@@ -123,6 +125,9 @@ class settingspage : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
+                mygender=gendertv.selectedItem.toString()
+                caloriestv.text = setDailyCalorieGoal( myage,mygender)
+
                 // This method will be called when an item in the Spinner is selected
                 // You can use the 'position' parameter to get the selected item position
             }
@@ -281,6 +286,7 @@ class settingspage : AppCompatActivity() {
         if (currentUser != null) {
             val userUid = currentUser.uid
             val userRef = FirebaseDatabase.getInstance().getReference("Users").child(userUid)
+
 
             // Create an instance of UserDetails with the updated values
             val updatedUserDetails = currentUser.email?.let {

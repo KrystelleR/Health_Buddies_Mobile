@@ -320,6 +320,10 @@ class Register : AppCompatActivity() {
             // Initialize Dinner node
             userCaloriesRef.child("Dinner").child("MealName").setValue(" ")
             userCaloriesRef.child("Dinner").child("Calories").setValue(0)
+
+            // Initialize Snacks node
+            userCaloriesRef.child("Snacks").child("MealName").setValue(" ")
+            userCaloriesRef.child("Snacks").child("Calories").setValue(0)
         }
     }
 
