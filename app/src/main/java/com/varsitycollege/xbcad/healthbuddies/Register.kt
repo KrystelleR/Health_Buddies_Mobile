@@ -162,7 +162,7 @@ class Register : AppCompatActivity() {
                                                 weight="10 Kg",
                                                 metric=  true,
                                                 imperial=false,
-                                                profileImage=R.drawable.profileimg1,
+                                                profileImage="https://firebasestorage.googleapis.com/v0/b/healthbuddies-48435.appspot.com/o/profile_images%2F1.png?alt=media&token=ec07670f-fd2f-4c75-b9b3-34f8bd701c2d",
                                                 setDetails = false,
                                                 gender ="M",
                                                 aboutMe = "",
@@ -174,7 +174,11 @@ class Register : AppCompatActivity() {
                                                 sleep  =8,
                                                 dailyWaterAmount  =1500,
                                                 dailyCalories =2000,
+                                                backgroundImageUrl ="",
+                                                characterImageUrl = "https://firebasestorage.googleapis.com/v0/b/healthbuddies-48435.appspot.com/o/characters_images%2FChar3.png?alt=media&token=60d27a9c-f255-4800-b8dc-5f85e4f4e6b3"
                                             )
+
+                                            Log.d(TAG, "Character Image URL: ${userDetails.characterImageUrl}")
 
 
                                             val lastLoggedIn = Date()

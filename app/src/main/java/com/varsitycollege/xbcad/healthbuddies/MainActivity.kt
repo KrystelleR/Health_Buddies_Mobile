@@ -3,18 +3,22 @@ package com.varsitycollege.xbcad.healthbuddies
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.PorterDuff
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.drawerlayout.widget.DrawerLayout
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -35,9 +39,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navView: NavigationView
     private val baseUrl = "https://api.quotable.io/"
+    private lateinit var leaderboardbtn: Button
 
-    var myprofileimg: Int =0
+    private lateinit var database: FirebaseDatabase
+    private var userUid: String? = null
+
+    var myprofileimg: String = ""
     var mysetDetails: Boolean = false
+    var mybanner: String =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,28 +82,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             })
 
-        navView = findViewById(R.id.navView)
-        navView.setNavigationItemSelectedListener(this)
+            navView = findViewById(R.id.navView)
+            navView.setNavigationItemSelectedListener(this)
 
-        // Set the menu to the NavigationView
-        navView.menu.clear()
-        navView.inflateMenu(R.menu.nav_header_menu)
+            // Set the menu to the NavigationView
+            navView.menu.clear()
+            navView.inflateMenu(R.menu.nav_header_menu)
 
-        val drawerLayout: DrawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
+            val drawerLayout: DrawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
 
-        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+            toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
 
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            drawerLayout.addDrawerListener(toggle)
+            toggle.syncState()
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Set the color of the hamburger icon
-        toggle.drawerArrowDrawable?.setColorFilter(
-            resources.getColor(R.color.black),
-            PorterDuff.Mode.SRC_ATOP
-        )
+            // Set the color of the hamburger icon
+            toggle.drawerArrowDrawable?.setColorFilter(
+                resources.getColor(R.color.black),
+                PorterDuff.Mode.SRC_ATOP
+            )
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
             // Reference to the user's data in the Realtime Database
             val userLoggedRef = database.getReference("LastLoggedIn").child(userUid)
@@ -192,23 +201,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             })
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
@@ -238,15 +230,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         })
 
-
-
-
-
-
-
-
-
-
         //navbar header code
         val user = FirebaseAuth.getInstance().currentUser
         // Set email value to TextView in nav_header.xml
@@ -263,7 +246,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             // Assuming userDetails.uid is the user's UID
             val userUid = currentUser.uid
             // Reference to the user's data in the Realtime Database
-            val userRef = database.getReference("Users").child(userUid) // Corrected line
+            val userRef = database.getReference("Users").child(userUid)
 
             userRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -276,9 +259,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             myprofileimg = userDetails.profileImage
                             mysetDetails = userDetails.setDetails
 
+
                             // Set the TextView values here
-                            profileimg.setImageResource(myprofileimg)
-                            profileView.setImageResource(myprofileimg)
+                            // Assuming myprofileimg is a URL to the image
+                            Glide.with(this@MainActivity)
+                                .load(myprofileimg)
+                                .into(profileimg)
+
+                            Glide.with(this@MainActivity)
+                                .load(myprofileimg)
+                                .into(profileView)
+
+                            loadAndDisplayBackgroundImage(userDetails.backgroundImageUrl)
+                            loadAndDisplayCharacterImage(userDetails.characterImageUrl)
+
 
                         }
                     } else {
@@ -294,13 +288,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     )
                 }
             })
+
         }
 
 
         val foodcard = findViewById<CardView>(R.id.foodcardbtn)
         val exercisecard = findViewById<CardView>(R.id.exercisecardbtn)
         val sleepcard = findViewById<CardView>(R.id.sleepcardbtn)
-
         foodcard.setOnClickListener {
             val intent = Intent(this, Nutrition::class.java)
             startActivity(intent)
@@ -315,6 +309,49 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val intent = Intent(this, sleeppage::class.java)
             startActivity(intent)
         }
+
+        leaderboardbtn = findViewById(R.id.leaderboardbtn)
+
+        leaderboardbtn.setOnClickListener {
+            // When the button is clicked, navigate to the LeaderboardActivity
+            val intent = Intent(this, Leaderboard::class.java)
+            startActivity(intent)
+        }
+
+
+        if (currentUser != null) {
+            // Assuming userDetails.uid is the user's UID
+            userUid = currentUser.uid
+
+            // Now you can use uid in your button click listener
+            val bannerItemsButton: Button = findViewById(R.id.button2)
+            val characterItemsButton : Button = findViewById(R.id.virtualbtn)
+
+            bannerItemsButton.setOnClickListener {
+                val dialogFragment =
+                    userUid?.let { it1 -> BannerItemsDialogFragment(it1, this@MainActivity) }
+                if (dialogFragment != null) {
+                    dialogFragment.show(supportFragmentManager, "BannerItemsDialog")
+                }
+            }
+
+            characterItemsButton.setOnClickListener {
+                val dialogFragment = userUid?.let { it1 -> PFPItemsDialogFragment(it1, this@MainActivity) }
+                if (dialogFragment != null) {
+                    dialogFragment.show(supportFragmentManager, "PFPItemsDialog")
+                }
+            }
+
+            val userRef = database.getReference("Users").child(userUid!!)
+
+
+        }
+        //endregion
+
+        //region Button Navigation
+
+        //endregion
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -323,7 +360,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         return super.onOptionsItemSelected(item)
     }
-
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
@@ -355,6 +391,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val intent = Intent(this, settingspage::class.java)
                 startActivity(intent)
             }
+            R.id.store_item -> {
+                // Handle item6 click
+                val intent = Intent(this, Store::class.java)
+                startActivity(intent)
+            }
             R.id.logout_item -> {
 
                 val confirmDialog = AlertDialog.Builder(this)
@@ -369,9 +410,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     successDialog.setPositiveButton("OK") { _, _ ->
 
                         Firebase.auth.signOut()
-                        val intent = Intent(this, Welcome::class.java)
+                        val intent = Intent(this, Login::class.java)
                         startActivity(intent)
-
                     }
                     successDialog.show()
                 }
@@ -392,4 +432,73 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Return false to indicate that the item selection has not been handled
         return false
     }
+
+    //region Banner
+    fun onImageClick(imageUrl: String) {
+        val imageView: ImageView = findViewById(R.id.imageView)
+
+        // Save the background image URL to the user's profile in the database
+        saveBackgroundImageUrl(imageUrl)
+
+        // Load and display the image using Glide or your preferred library
+        Glide.with(this)
+            .load(imageUrl)
+            .into(imageView)
+
+        // Make the ImageView visible
+        imageView.visibility = View.VISIBLE
+    }
+
+    private fun saveBackgroundImageUrl(imageUrl: String) {
+        // Save the background image URL to the user's profile in the database
+        val userRef = database.getReference("Users").child(userUid!!)
+        userRef.child("backgroundImageUrl").setValue(imageUrl)
+    }
+
+    private fun loadAndDisplayBackgroundImage(backgroundImageUrl: String) {
+        val backgroundImageView: ImageView = findViewById(R.id.imageView)
+
+        // Load and display the background image using Glide or your preferred library
+        Glide.with(this)
+            .load(backgroundImageUrl)
+            .into(backgroundImageView)
+
+        backgroundImageView.visibility = View.VISIBLE
+    }
+
+    //endregion
+
+    //region Character
+    fun onCharacterImageClick(imageUrl: String) {
+        val characterImageView: ImageView = findViewById(R.id.imageView5)
+
+        // Save the character image URL to the user's profile in the database
+        saveCharacterImageUrl(imageUrl)
+
+        // Load and display the image using Glide or your preferred library
+        Glide.with(this)
+            .load(imageUrl)
+            .into(characterImageView)
+
+        // Make the ImageView visible
+        characterImageView.visibility = View.VISIBLE
+    }
+
+    private fun saveCharacterImageUrl(imageUrl: String) {
+        // Save the character image URL to the user's profile in the database
+        val userRef = database.getReference("Users").child(userUid!!)
+        userRef.child("characterImageUrl").setValue(imageUrl)
+    }
+
+    private fun loadAndDisplayCharacterImage(characterImageUrl: String) {
+        val characterImageView: ImageView = findViewById(R.id.imageView5)
+
+        // Load and display the character image using Glide or your preferred library
+        Glide.with(this)
+            .load(characterImageUrl)
+            .into(characterImageView)
+
+        characterImageView.visibility = View.VISIBLE
+    }
+    //endregion
 }
