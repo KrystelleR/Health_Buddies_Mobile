@@ -10,14 +10,18 @@ import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import java.util.ArrayList
 import kotlin.math.roundToInt
 
 class settingspage : AppCompatActivity() {
@@ -48,6 +52,205 @@ class settingspage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settingspage)
+
+        val logout = findViewById<Button>(R.id.logoutbtn)
+        logout.setOnClickListener(){
+            val confirmDialog = AlertDialog.Builder(this)
+            confirmDialog.setTitle("Confirmation")
+            confirmDialog.setMessage("Are you sure you want to Log Out?")
+
+            confirmDialog.setPositiveButton("Yes") { dialog, which ->
+                // Save changes and display success message
+                val successDialog = AlertDialog.Builder(this)
+                successDialog.setTitle("Success")
+                successDialog.setMessage("Successfully Logged Out.")
+                successDialog.setPositiveButton("OK") { _, _ ->
+
+                    Firebase.auth.signOut()
+                    val intent = Intent(this, Welcome::class.java)
+                    startActivity(intent)
+                }
+                successDialog.show()
+            }
+
+            confirmDialog.setNegativeButton("No") { dialog, which ->
+                // Perform any action if needed when the user cancels the operation
+            }
+
+            confirmDialog.show()
+        }
+
+
+
+
+
+
+
+
+
+        val deletealldata = findViewById<Button>(R.id.deleteaccbtn)
+        deletealldata.setOnClickListener() {
+
+            val dialog = AlertDialog.Builder(this) // Use 'this' for an activity
+                .setTitle("Confirm Delete")
+                .setMessage("Are you sure you want to delete your account?")
+                .setPositiveButton("Yes") { _, _ ->
+                    // Assuming you have the user's UID
+                    val userId = FirebaseAuth.getInstance().currentUser?.uid
+                    val User = FirebaseAuth.getInstance().currentUser
+
+                    // Check if the user is signed in
+                    if (User != null) {
+                        // Delete the user account
+                        User.delete()
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    // Account deleted successfully, navigate to the welcome screen or another appropriate screen
+                                    Toast.makeText(this, "Account deleted successfully", Toast.LENGTH_SHORT)
+                                        .show()
+
+
+                                    val database = FirebaseDatabase.getInstance()
+                                    val databaseReference = database.getReference("observation")
+
+                                    databaseReference.orderByChild("user")
+                                        .equalTo(User.email)
+                                        .limitToLast(3)  // Limit the result to the last 3 observations
+                                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                if (userId != null) {
+                                                    val database = FirebaseDatabase.getInstance()
+
+                                                    // Remove user details
+                                                    database.getReference("Users").child(userId)
+                                                        .removeValue()
+
+                                                    // Remove user steps data
+                                                    database.getReference("UserSteps").child(userId)
+                                                        .removeValue()
+
+                                                    // Remove user move minutes data
+                                                    database.getReference("UserMinutes").child(userId)
+                                                        .removeValue()
+
+                                                    // Remove user collect points data
+                                                    database.getReference("UserCollectPoints")
+                                                        .child(userId).removeValue()
+
+                                                    // Remove user logged in date
+                                                    database.getReference("LastLoggedIn").child(userId)
+                                                        .removeValue()
+
+                                                    // Remove user calories data
+                                                    database.getReference("UserCalories").child(userId)
+                                                        .removeValue()
+
+                                                    // Remove user water data
+                                                    database.getReference("UserWater").child(userId)
+                                                        .removeValue()
+
+                                                    // Remove user sleep hours data
+                                                    database.getReference("UserSleepHours")
+                                                        .child(userId).removeValue()
+                                                }
+                                            }
+
+                                            override fun onCancelled(databaseError: DatabaseError) {
+                                                Toast.makeText(this@settingspage, "Relogin before attempting to delete", Toast.LENGTH_SHORT).show()
+                                            }
+                                        })
+                                    val intent = Intent(this, Welcome::class.java)
+                                    startActivity(intent)
+                                } else {
+                                    // If the deletion fails, display an error message
+                                    Toast.makeText(
+                                        this,
+                                        "Failed to delete account: ${task.exception?.message}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                    }
+                }
+                .setNegativeButton("No"){_,_->
+                    //nothing
+                }
+                .create()
+
+            dialog.show()
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //get all values
         val usernametv = findViewById<EditText>(R.id.usernametxt)
@@ -99,8 +302,6 @@ class settingspage : AppCompatActivity() {
             val mycurrentheight = currentparts2.firstOrNull()?.toDoubleOrNull() ?: 0.0
             val heightinches = if (isChecked) mycurrentheight /  2.54 else mycurrentheight
             height.text = "${heightinches.roundToInt()} ${if (isChecked) "inches" else "cm"}"
-
-
         }
 
         metricsw.setOnCheckedChangeListener { _, isChecked ->

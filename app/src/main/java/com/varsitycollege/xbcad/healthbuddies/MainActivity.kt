@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         var UserDetails = dataSnapshot.getValue(data.UserDetails::class.java)
                         if (UserDetails != null) {
                             if(UserDetails.setDetails == false){
-
                                 Toast.makeText(this@MainActivity, "Let's update your user settings before beginning", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this@MainActivity, settingspage::class.java)
                                 startActivity(intent)
