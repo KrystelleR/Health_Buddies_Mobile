@@ -34,6 +34,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
+import com.varsitycollege.xbcad.healthbuddies.data
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var toggle: ActionBarDrawerToggle
