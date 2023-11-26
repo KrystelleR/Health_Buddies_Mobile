@@ -157,7 +157,7 @@ class WaterSleepTracker : Fragment(),TimePickerDialog.OnTimeSetListener {
                 }else if(customWaterEditText.text.isEmpty()){
 
                 }else if(isWaterDataProvided==false){
-                    Toast.makeText(requireContext(), "Failed to update :( Please enter a valid water amount", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Failed to update water :( Please enter a valid water amount", Toast.LENGTH_LONG).show()
                     isWaterFormatValid=false
                 }
 
@@ -170,8 +170,13 @@ class WaterSleepTracker : Fragment(),TimePickerDialog.OnTimeSetListener {
                 if(isWaterFormatValid==true){
 
                     if((period.isEmpty() && txtHrsSlept.text != "add hours")||(period.isEmpty() && btnWokeUp.text != "- : - -") || (period.isEmpty() &&btnWentToSleep.text != "- : - -")){
-                        Toast.makeText(requireContext(), "Failed to update :( Please enter all sleep details", Toast.LENGTH_LONG).show()
-                    }else{
+                        Toast.makeText(requireContext(), "Failed to update sleep :( Please enter all sleep details", Toast.LENGTH_LONG).show()
+                    }else if ((period.isNotEmpty() && btnWokeUp.text == "- : - -")|| (period.isNotEmpty() && btnWentToSleep.text == "- : - -" ) ||(period.isNotEmpty() && txtHrsSlept.text == "add hours")||(period.isNotEmpty() && txtHrsSlept.text == "add hours"&& btnWentToSleep.text == "- : - -" && btnWokeUp.text == "- : - -"))
+                    {
+                        Toast.makeText(requireContext(), "Failed to update sleep :( Please enter all sleep details", Toast.LENGTH_LONG).show()
+                    }
+
+                    else{
                         // Show success dialog
                         showSuccessDialog()
                     }
