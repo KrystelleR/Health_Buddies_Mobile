@@ -441,7 +441,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     successDialog.setPositiveButton("OK") { _, _ ->
 
                         Firebase.auth.signOut()
-                        val intent = Intent(this, Login::class.java)
+                        val intent = Intent(this, Welcome::class.java)
                         startActivity(intent)
 
                     }

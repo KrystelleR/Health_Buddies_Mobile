@@ -86,6 +86,13 @@ class Welcome : AppCompatActivity() {
         })
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        val intent = Intent(this, Welcome::class.java)
+        startActivity(intent)
+        finish()
+    }
 
     private fun updateUI(){
         val Intent = Intent(this, MainActivity::class.java)
@@ -100,11 +107,7 @@ class Welcome : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        // Do nothing when the back button is pressed after logging out
-        // or perform any specific action you want
-    }
+
 
     fun changeColor(){
         when (viewPager2.currentItem)
