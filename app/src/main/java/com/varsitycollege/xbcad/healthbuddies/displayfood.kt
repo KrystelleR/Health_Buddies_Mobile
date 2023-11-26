@@ -41,22 +41,6 @@ class displayfood : AppCompatActivity() {
         val servingsizetv = findViewById<TextView>(R.id.servingsizetxt)
         servingsizetv.setText("Calories Per Serving: $servingSize")
 
-        if(energyUnit.equals("kJ")){
-            val conversionFactor = 0.239005736
-            energyValue = energyValue * conversionFactor
-            energyUnit = "kcal"
-        }
-
-        val caloriestv = findViewById<TextView>(R.id.productcaloriestv)
-        caloriestv.setText(energyValue.roundToInt().toString() + " " + energyUnit)
-
-        val ingredientstv = findViewById<TextView>(R.id.productIngredienttv)
-        ingredientstv.setText(ingredients)
-
-        val allergiestv = findViewById<TextView>(R.id.productalergiestv)
-        allergiestv.setText(allergens)
-
-
         // Use regular expression to extract the numeric part
         val regex = Regex("""(\d+(\.\d+)?)""")
         val matchResult = servingSize?.let { regex.find(it) }
@@ -68,6 +52,23 @@ class displayfood : AppCompatActivity() {
         val servingSizeNumeric = numericPart?.toDoubleOrNull()
         val initialServingSize = servingSizeNumeric
 
+        if(energyUnit.equals("kJ")){
+            val conversionFactor = 0.239005736
+            energyValue = energyValue * conversionFactor
+            energyUnit = "kcal"
+        }
+
+      val caloriesperserving = (energyValue/100) * servingSizeNumeric!!
+
+        val caloriestv = findViewById<TextView>(R.id.productcaloriestv)
+        caloriestv.setText(caloriesperserving.roundToInt().toString() + " " + energyUnit)
+
+        val ingredientstv = findViewById<TextView>(R.id.productIngredienttv)
+        ingredientstv.setText(ingredients)
+
+        val allergiestv = findViewById<TextView>(R.id.productalergiestv)
+        allergiestv.setText(allergens)
+
 
         val numberPicker = findViewById<NumberPicker>(R.id.dialogNumberPicker)
         numberPicker.minValue = 1
@@ -75,7 +76,7 @@ class displayfood : AppCompatActivity() {
 
         numberPicker.setOnValueChangedListener { _, _, newVal ->
             if (initialServingSize != null) {
-                updateTotalCalories(initialServingSize, newVal.toDouble(), energyValue)
+                updateTotalCalories(initialServingSize, newVal.toDouble(), caloriesperserving)
             }
         }
 
@@ -85,7 +86,7 @@ class displayfood : AppCompatActivity() {
                 numberPicker.value = servingSizeNumeric.roundToInt()
             }
             if (initialServingSize != null) {
-                updateTotalCalories(initialServingSize, servingSizeNumeric, energyValue)
+                updateTotalCalories(initialServingSize, servingSizeNumeric, caloriesperserving)
             }
         } else {
             val cardView = findViewById<CardView>(R.id.myAmountCV)

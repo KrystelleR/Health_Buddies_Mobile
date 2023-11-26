@@ -7,31 +7,24 @@
     android:background="@drawable/welcomebg"
     tools:context=".Welcome">
 
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        app:srcCompat="@drawable/avatar" />
-
     <TextView
         android:id="@+id/headerstxt"
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:text="Fitness Fun"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/itim"
-        android:textStyle="bold"
-        android:layout_marginTop="90dp"
+        android:text="Fitness Fun"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/paragraphtxt"
         android:layout_width="match_parent"
-        android:layout_height="74dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="120dp"
         android:layout_marginRight="20dp"
         android:fontFamily="@font/itim"
         android:text="Step into a world of movement and joy! Our step counter keeps kids active, while fun exercise videos make staying fit an adventure. Join the Health Buddies fitness page for a playful approach to a healthy lifestyle"
@@ -149,7 +142,7 @@
         android:layout_alignTop="@+id/signUpbtn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-51dp"
-        android:backgroundTint="@color/light_green"
+        android:backgroundTint="@color/orange"
         android:text="Login" />
 
     <Button
@@ -161,7 +154,7 @@
         android:backgroundTint="#FFFFFF"
         android:layout_centerHorizontal="true"
         android:text="Register"
-        android:textColor="@color/light_green" />
+        android:textColor="@color/orange" />
 
 
 </RelativeLayout>

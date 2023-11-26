@@ -115,7 +115,7 @@ class Welcome : AppCompatActivity() {
             0->
             {
                 headertxt.setText("Fitness Fun")
-                paragraphtxt.setText("Step into a world of movement and joy! Our step counter keeps kids active, while fun exercise videos make staying fit an adventure. Join the Health Buddies fitness page for a playful approach to a healthy lifestyle")
+                paragraphtxt.setText("Step into a world of movement and joy! Our step counter keeps kids active, while fun exercise videos make staying fit an adventure.")
                 iv1.setCardBackgroundColor(applicationContext.resources.getColor(R.color.orange))
                 iv2.setCardBackgroundColor(applicationContext.resources.getColor(R.color.white))
                 iv3.setCardBackgroundColor(applicationContext.resources.getColor(R.color.white))
@@ -127,7 +127,7 @@ class Welcome : AppCompatActivity() {
             1->
             {
                 headertxt.setText("Nutrition Explorer")
-                paragraphtxt.setText("Unveil the secrets of delicious and nutritious meals! Our nutrition page offers a variety of meals, and with the food barcode scanner, children can learn about the goodness in every bite. Eating well has never been this exciting!")
+                paragraphtxt.setText("Our nutrition page offers a variety of meals, and with the food barcode scanner, children can learn about the goodness in every bite.")
                 iv2.setCardBackgroundColor(applicationContext.resources.getColor(R.color.orange))
                 iv1.setCardBackgroundColor(applicationContext.resources.getColor(R.color.white))
                 iv3.setCardBackgroundColor(applicationContext.resources.getColor(R.color.white))
@@ -139,7 +139,7 @@ class Welcome : AppCompatActivity() {
             2->
             {
                 headertxt.setText("Avatar App Store")
-                paragraphtxt.setText("Dive into a world of personalization! The Avatar App Store lets kids express themselves with unique avatars. Choose outfits, accessories, and more to make the Health Buddies experience uniquely yours!")
+                paragraphtxt.setText("Dive into a world of personalization! The Avatar App Store lets kids express themselves with unique avatars.")
                 iv3.setCardBackgroundColor(applicationContext.resources.getColor(R.color.orange))
                 iv2.setCardBackgroundColor(applicationContext.resources.getColor(R.color.white))
                 iv1.setCardBackgroundColor(applicationContext.resources.getColor(R.color.white))
@@ -151,7 +151,7 @@ class Welcome : AppCompatActivity() {
             3->
             {
                 headertxt.setText("Hydration Hero")
-                paragraphtxt.setText("Stay refreshed, stay strong! Our water tracker helps kids maintain the right balance, turning hydration into a game. Join the mission to keep Health Buddies well-hydrated and ready for any adventure.")
+                paragraphtxt.setText("Stay refreshed, stay strong! Our water tracker helps kids maintain the right balance.")
                 iv4.setCardBackgroundColor(applicationContext.resources.getColor(R.color.orange))
                 iv2.setCardBackgroundColor(applicationContext.resources.getColor(R.color.white))
                 iv3.setCardBackgroundColor(applicationContext.resources.getColor(R.color.white))
@@ -163,7 +163,7 @@ class Welcome : AppCompatActivity() {
             4->
             {
                 headertxt.setText("Dreamland Diary")
-                paragraphtxt.setText("Sail into a sea of dreams! The sleep tracker ensures a good night's rest, making sure Health Buddies wake up refreshed and ready for a new day of learning, playing, and growing.")
+                paragraphtxt.setText("The sleep tracker ensures a good night's rest, making sure Health Buddies wake up refreshed and ready for a new day of learning.")
                 iv5.setCardBackgroundColor(applicationContext.resources.getColor(R.color.orange))
                 iv2.setCardBackgroundColor(applicationContext.resources.getColor(R.color.white))
                 iv3.setCardBackgroundColor(applicationContext.resources.getColor(R.color.white))
@@ -175,7 +175,7 @@ class Welcome : AppCompatActivity() {
             5->
             {
                 headertxt.setText("Leaderboard Legend")
-                paragraphtxt.setText("Challenge accepted! Climb the ranks and become a Health Buddies Legend on our leaderboard. Earn points for staying active, eating well, and achieving your wellness goals. Compete with friends, unlock achievements, and let the leaderboard turn healthy habits into friendly competition. Who will be the ultimate Health Buddies champion? Join the leaderboard and find out!")
+                paragraphtxt.setText("Challenge accepted! Climb the ranks and become a Health Buddies Legend on our leaderboard.")
                 iv6.setCardBackgroundColor(applicationContext.resources.getColor(R.color.orange))
                 iv2.setCardBackgroundColor(applicationContext.resources.getColor(R.color.white))
                 iv3.setCardBackgroundColor(applicationContext.resources.getColor(R.color.white))

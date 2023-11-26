@@ -608,7 +608,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="20dp"
                                 android:backgroundTint="@color/scanred"
-                                android:text="Delete" />
+                                android:text="Delete Account" />
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
