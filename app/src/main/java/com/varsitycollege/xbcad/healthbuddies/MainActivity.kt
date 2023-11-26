@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
@@ -51,36 +52,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val foodcard = findViewById<CardView>(R.id.foodcardbtn)
-        val exercisecard = findViewById<CardView>(R.id.exercisecardbtn)
-        val sleepcard = findViewById<CardView>(R.id.sleepcardbtn)
-
-        //region Nav stuff
-        navView = findViewById(R.id.navView)
-        navView.setNavigationItemSelectedListener(this)
-
-        // Set the menu to the NavigationView
-        navView.menu.clear()
-        navView.inflateMenu(R.menu.nav_header_menu)
-
-        val drawerLayout: DrawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
-
-        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
-
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        // Set the color of the hamburger icon
-        toggle.drawerArrowDrawable?.setColorFilter(
-            resources.getColor(R.color.black),
-            PorterDuff.Mode.SRC_ATOP
-        )
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        //endregion
-
-         database = FirebaseDatabase.getInstance()
+        val database = FirebaseDatabase.getInstance()
         // Getting user details from db
         val currentUser = Firebase.auth.currentUser
         if (currentUser != null) {
@@ -88,15 +60,60 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val userUid = currentUser.uid
 
 
+            val userRef = database.getReference("Users").child(userUid)
+            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        var UserDetails = dataSnapshot.getValue(data.UserDetails::class.java)
+                        if (UserDetails != null) {
+                            if(UserDetails.setDetails == false){
+
+                                Toast.makeText(this@MainActivity, "Let's update your user settings before beginning", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(this@MainActivity, settingspage::class.java)
+                                startActivity(intent)
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            })
+
+            navView = findViewById(R.id.navView)
+            navView.setNavigationItemSelectedListener(this)
+
+            // Set the menu to the NavigationView
+            navView.menu.clear()
+            navView.inflateMenu(R.menu.nav_header_menu)
+
+            val drawerLayout: DrawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
+
+            toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+
+            drawerLayout.addDrawerListener(toggle)
+            toggle.syncState()
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+            // Set the color of the hamburger icon
+            toggle.drawerArrowDrawable?.setColorFilter(
+                resources.getColor(R.color.black),
+                PorterDuff.Mode.SRC_ATOP
+            )
+
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
             // Reference to the user's data in the Realtime Database
-            val userRef = database.getReference("LastLoggedIn").child(userUid)
+            val userLoggedRef = database.getReference("LastLoggedIn").child(userUid)
             val userStepsRef = database.getReference("UserSteps").child(userUid)
             val userMoveRef = database.getReference("UserMinutes").child(userUid)
             val userCalRef = database.getReference("UserCalories").child(userUid)
             val userWaterRef = database.getReference("UserWater").child(userUid)
             val userGoalsRef = database.getReference("UserCollectPoints").child(userUid)
 
-            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            userLoggedRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
                         // dataSnapshot contains the user details data
@@ -184,14 +201,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             })
         }
 
-
-
-
-
-
-
-
-        //region API Quotes
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
@@ -220,9 +229,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 // Handle failure
             }
         })
-        //endregion
 
-        //region navbar header code
+        //navbar header code
         val user = FirebaseAuth.getInstance().currentUser
         // Set email value to TextView in nav_header.xml
         val headerView = navView.getHeaderView(0)
@@ -232,38 +240,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val nameView: TextView = headerView.findViewById(R.id.user_name)
         nameView.text = user?.displayName
 
-        val profileView: de.hdodenhof.circleimageview.CircleImageView =
-            headerView.findViewById(R.id.profile_image)
-        val profileimg =
-            findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.profile_image)
-        //endregion
-
-        //region Database
-
+        val profileView: de.hdodenhof.circleimageview.CircleImageView = headerView.findViewById(R.id.profile_image)
+        val profileimg = findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.profile_image)
         if (currentUser != null) {
             // Assuming userDetails.uid is the user's UID
-            userUid = currentUser.uid
-
-            // Now you can use uid in your button click listener
-            val bannerItemsButton: Button = findViewById(R.id.button2)
-            val characterItemsButton : Button = findViewById(R.id.virtualbtn)
-
-            bannerItemsButton.setOnClickListener {
-                val dialogFragment =
-                    userUid?.let { it1 -> BannerItemsDialogFragment(it1, this@MainActivity) }
-                if (dialogFragment != null) {
-                    dialogFragment.show(supportFragmentManager, "BannerItemsDialog")
-                }
-            }
-
-            characterItemsButton.setOnClickListener {
-                val dialogFragment = userUid?.let { it1 -> PFPItemsDialogFragment(it1, this@MainActivity) }
-                if (dialogFragment != null) {
-                    dialogFragment.show(supportFragmentManager, "PFPItemsDialog")
-                }
-            }
-
-            val userRef = database.getReference("Users").child(userUid!!)
+            val userUid = currentUser.uid
+            // Reference to the user's data in the Realtime Database
+            val userRef = database.getReference("Users").child(userUid)
 
             userRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -305,10 +288,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     )
                 }
             })
-        }
-        //endregion
 
-        //region Button Navigation
+        }
+
+
+        val foodcard = findViewById<CardView>(R.id.foodcardbtn)
+        val exercisecard = findViewById<CardView>(R.id.exercisecardbtn)
+        val sleepcard = findViewById<CardView>(R.id.sleepcardbtn)
         foodcard.setOnClickListener {
             val intent = Intent(this, Nutrition::class.java)
             startActivity(intent)
@@ -331,6 +317,39 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val intent = Intent(this, Leaderboard::class.java)
             startActivity(intent)
         }
+
+
+        if (currentUser != null) {
+            // Assuming userDetails.uid is the user's UID
+            userUid = currentUser.uid
+
+            // Now you can use uid in your button click listener
+            val bannerItemsButton: Button = findViewById(R.id.button2)
+            val characterItemsButton : Button = findViewById(R.id.virtualbtn)
+
+            bannerItemsButton.setOnClickListener {
+                val dialogFragment =
+                    userUid?.let { it1 -> BannerItemsDialogFragment(it1, this@MainActivity) }
+                if (dialogFragment != null) {
+                    dialogFragment.show(supportFragmentManager, "BannerItemsDialog")
+                }
+            }
+
+            characterItemsButton.setOnClickListener {
+                val dialogFragment = userUid?.let { it1 -> PFPItemsDialogFragment(it1, this@MainActivity) }
+                if (dialogFragment != null) {
+                    dialogFragment.show(supportFragmentManager, "PFPItemsDialog")
+                }
+            }
+
+            val userRef = database.getReference("Users").child(userUid!!)
+
+
+        }
+        //endregion
+
+        //region Button Navigation
+
         //endregion
 
     }
