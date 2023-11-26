@@ -10,14 +10,19 @@ import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.cardview.widget.CardView
+import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlin.math.roundToInt
 
 class settingspage : AppCompatActivity() {
@@ -31,7 +36,7 @@ class settingspage : AppCompatActivity() {
     var myweight: String = ""
     var mymetric: Boolean=  true
     var myimperial:Boolean= false
-    var myprofileimg: Int =0
+    var myprofileimg: String = ""
     var mydailysteps: Int=0
     var mymoveminutes: Int=0
     var mygoalweight: String = ""
@@ -48,6 +53,8 @@ class settingspage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settingspage)
+
+
 
         val logout = findViewById<Button>(R.id.logoutbtn)
         logout.setOnClickListener(){
@@ -175,69 +182,7 @@ class settingspage : AppCompatActivity() {
 
             dialog.show()
 
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        }
 
 
 
@@ -305,7 +250,6 @@ class settingspage : AppCompatActivity() {
 
 
         }
-
         metricsw.setOnCheckedChangeListener { _, isChecked ->
             imperialsw.isChecked = !isChecked
             // Change weight and goal weight and height to kg
@@ -329,10 +273,10 @@ class settingspage : AppCompatActivity() {
             height.text = "${heightcm.roundToInt()} ${if (isChecked) "cm" else "inches"}"
         }
 
-
         heighttv.setOnClickListener(){
             showHeightPicker()
         }
+
         weighttv.setOnClickListener(){
             showWeightPicker(weighttv.text.toString())
         }
@@ -340,7 +284,6 @@ class settingspage : AppCompatActivity() {
         myweighttv.setOnClickListener(){
             showWeightPickerGoal(myweighttv.text.toString(),weighttv.text.toString(), heighttv.text.toString(), gendertv.selectedItem.toString())
         }
-
 
         val stepsSpinner: Spinner = findViewById(R.id.stepsSpinner)
         // Create an array of values representing increments of 100 steps
@@ -413,7 +356,7 @@ class settingspage : AppCompatActivity() {
 
         val pickImage = findViewById<androidx.appcompat.widget.AppCompatImageButton>(R.id.add_image)
         pickImage.setOnClickListener() {
-            pickImage()
+            //pickImage()
         }
 
         val database = FirebaseDatabase.getInstance()
@@ -459,6 +402,8 @@ class settingspage : AppCompatActivity() {
                             heighttv.text = myheight.toString()
                             weighttv.text = myweight.toString()
 
+                            loadAndDisplayCharacterImage(userDetails.profileImage)
+
                             // Set the correct selection based on the value retrieved from the database
                             val genderAdapter = gendertv.adapter as ArrayAdapter<String>
                             val genderPosition = genderAdapter.getPosition(mygender)
@@ -481,11 +426,10 @@ class settingspage : AppCompatActivity() {
                             val minPosition = minAdapter.getPosition("$mymoveminutes minutes")
                             minutestv.setSelection(minPosition)
 
-
                             emailtv.text = myemail
                             usernametv.setText(myusername)
                             currentProfileImageResourceId = myprofileimg
-                            profiletv.setImageResource(myprofileimg)
+                            setProfileImage(myprofileimg)
                             myweighttv.text = mygoalweight.toString()
                             dailywatertv.text = mywatergoal.toString()
                             dailywatertv.text = setDailyWaterGoal(myage,mygender)//set water goal based on age and sex
@@ -553,6 +497,10 @@ class settingspage : AppCompatActivity() {
             })
         }
 
+        val addImageButton: AppCompatImageButton = findViewById(R.id.add_image)
+        addImageButton.setOnClickListener {
+            showCharacterItemsDialog()
+        }
 
         val save = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.savebtn)
         save.setOnClickListener(){
@@ -639,77 +587,6 @@ class settingspage : AppCompatActivity() {
         }
     }
 
-
-
-
-    private fun pickImage() {
-        val edit = Dialog(this)
-        edit.setContentView(R.layout.pickimagedialog)
-
-        val img1 = edit.findViewById<CardView>(R.id.img1cv)
-        val img2 = edit.findViewById<CardView>(R.id.img2cv)
-        val img3 = edit.findViewById<CardView>(R.id.img3cv)
-        val img4 = edit.findViewById<CardView>(R.id.img4cv)
-        val img5 = edit.findViewById<CardView>(R.id.img5cv)
-        val img6 = edit.findViewById<CardView>(R.id.img6cv)
-        val img7 = edit.findViewById<CardView>(R.id.img7cv)
-        val img8 = edit.findViewById<CardView>(R.id.img8cv)
-        val img9 = edit.findViewById<CardView>(R.id.img9cv)
-        val img10 = edit.findViewById<CardView>(R.id.img10cv)
-        val img11 = edit.findViewById<CardView>(R.id.img11cv)
-        val img12 = edit.findViewById<CardView>(R.id.img12cv)
-
-        img1.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg1)
-            edit.dismiss()
-        }
-        img2.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg2)
-            edit.dismiss()
-        }
-        img3.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg3)
-            edit.dismiss()
-        }
-        img4.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg4)
-            edit.dismiss()
-        }
-        img5.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg5)
-            edit.dismiss()
-        }
-        img6.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg6)
-            edit.dismiss()
-        }
-        img7.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg7)
-            edit.dismiss()
-        }
-        img8.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg8)
-            edit.dismiss()
-        }
-        img9.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg9)
-            edit.dismiss()
-        }
-        img10.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg10)
-            edit.dismiss()
-        }
-        img11.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg11)
-            edit.dismiss()
-        }
-        img12.setOnClickListener(){
-            setProfileImage(R.drawable.profileimg12)
-            edit.dismiss()
-        }
-
-        edit.show()
-    }
 
     fun setDailyCalorieGoal(age:Int, sex: String) : String{
 
@@ -875,7 +752,7 @@ class settingspage : AppCompatActivity() {
             val bmiInInt = calbmi.roundToInt()
             var state = ""
             if(calbmi <=18.5){
-               state = "underweight"
+                state = "underweight"
             }
             else if(calbmi >= 25.0){
                 state = "overweight"
@@ -889,7 +766,8 @@ class settingspage : AppCompatActivity() {
                 recommendedGoalWeight = 22 * mycurrentheight * 2
             }
             else{
-                recommendedGoalWeight = 22 * (mycurrentheight - 10) * 2
+                recommendedGoalWeight = (22 * (mycurrentheight - 10) * 2)
+                Toast.makeText(this@settingspage, "$mycurrentheight", Toast.LENGTH_SHORT).show()
             }
 
             val recommendedGoalWeightInt = recommendedGoalWeight.roundToInt()
@@ -1021,12 +899,60 @@ class settingspage : AppCompatActivity() {
         dialog.show()
     }
 
+    private fun showCharacterItemsDialog() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
 
-    private var currentProfileImageResourceId: Int =0
+        if (currentUser != null) {
+            val userUid = currentUser.uid
+            val dialogFragment = CharacterItemsDialogFragment(userUid, this)
+            dialogFragment.show(supportFragmentManager, "CharacterItemsDialog")
+        } else {
+            // Handle the case where the current user is null (not signed in)
+            // You might want to redirect the user to the sign-in screen or handle it appropriately
+        }
+    }
 
-    private fun setProfileImage(resourceId: Int) {
+
+    fun onCharacterImageClick(imageUrl: String) {
+        // Save the selected character image URL to the user's data
+        saveCharacterImageUrl(imageUrl)
+
+        // Update the profile image in the main activity
+        val profileImage: CircleImageView = findViewById(R.id.profile_image)
+
+        // Load and display the selected character image using Glide or your preferred library
+        Glide.with(this)
+            .load(imageUrl)
+            .into(profileImage)
+
+        // Update the local variable with the new image URL
+        myprofileimg = imageUrl
+    }
+
+
+
+    private fun loadAndDisplayCharacterImage(characterImageUrl: String) {
+        val profileImageView: CircleImageView = findViewById(R.id.profile_image)
+
+        // Load and display the character image using Glide or your preferred library
+        Glide.with(this)
+            .load(characterImageUrl)
+            .into(profileImageView)
+    }
+    private fun saveCharacterImageUrl(imageUrl: String) {
+        val userRef = FirebaseDatabase.getInstance().getReference("Users").child(myuid)
+        userRef.child("profileImage").setValue(imageUrl)
+    }
+
+
+    private var currentProfileImageResourceId: String =""
+
+    private fun setProfileImage(imageUrl: String) {
         val profileImageView = findViewById<ImageView>(R.id.profile_image)
-        profileImageView.setImageResource(resourceId)
-        currentProfileImageResourceId = resourceId
+
+        // Use Glide to load the image into the ImageView
+        Glide.with(this)
+            .load(imageUrl)
+            .into(profileImageView)
     }
 }

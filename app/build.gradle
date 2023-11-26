@@ -61,6 +61,10 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    implementation 'com.github.bumptech.glide:glide:4.12.0' // Use the latest version available
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0' // Add this line for annotation processing
+
+
     //pie chart
     implementation 'com.github.Philjay:MPAndroidChart:v3.1.0'
 
