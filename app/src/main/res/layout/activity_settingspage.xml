@@ -85,9 +85,10 @@
                                     android:hint="Write a short description about yourself"
                                     android:inputType="textPersonName"
                                     android:padding="10dp"
+                                    android:fontFamily="@font/itim"
                                     android:textColor="@color/white"
                                     android:textColorHint="@color/white"
-                                    android:textSize="15dp" />
+                                    android:textSize="20dp" />
                             </androidx.cardview.widget.CardView>
                         </RelativeLayout>
 
@@ -137,14 +138,16 @@
 
                                             <EditText
                                                 android:id="@+id/usernametxt"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
+                                                android:layout_width="203dp"
+                                                android:layout_height="30dp"
                                                 android:background="@drawable/rounded_edittext"
                                                 android:ems="10"
                                                 android:hint="Username"
                                                 android:inputType="textPersonName"
                                                 android:paddingStart="16dp"
-                                                android:text="Johnny" />
+                                                android:text="Johnny"
+                                                android:textColor="@color/textColour"
+                                                android:textSize="18dp" />
 
                                         </LinearLayout>
 
@@ -164,13 +167,15 @@
 
                                             <Spinner
                                                 android:id="@+id/ageSpinner"
-                                                android:layout_width="79dp"
-                                                android:layout_height="wrap_content"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="30dp"
+                                                android:textAlignment="center"
                                                 android:background="@drawable/rounded_edittext"
                                                 android:dropDownVerticalOffset="40dp"
                                                 android:entries="@array/age_array"
-                                                android:paddingStart="16dp"
-                                                android:textSize="15dp"
+                                                android:fontFamily="@font/itim"
+                                                android:textColor="@color/textColour"
+                                                android:textSize="25dp"
                                                 android:textStyle="bold" />
 
 
@@ -200,14 +205,14 @@
                                             <TextView
                                                 android:id="@+id/heighttxt"
                                                 android:layout_width="100dp"
-                                                android:layout_height="wrap_content"
+                                                android:layout_height="40dp"
                                                 android:background="@drawable/rounded_edittext"
                                                 android:ems="10"
+                                                android:textColor="@color/textColour"
+                                                android:textAlignment="center"
                                                 android:hint="Height"
-                                                android:paddingStart="16dp"
                                                 android:text="130cm"
-                                                android:textSize="18dp"
-                                                android:textStyle="bold" />
+                                                android:textSize="18dp"/>
 
 
                                         </LinearLayout>
@@ -229,14 +234,14 @@
                                             <TextView
                                                 android:id="@+id/weighttxt"
                                                 android:layout_width="100dp"
-                                                android:layout_height="wrap_content"
+                                                android:layout_height="40dp"
                                                 android:background="@drawable/rounded_edittext"
                                                 android:ems="10"
                                                 android:hint="Weight"
-                                                android:paddingStart="16dp"
+                                                android:textColor="@color/textColour"
+                                                android:textAlignment="center"
                                                 android:text="34kg"
-                                                android:textSize="18dp"
-                                                android:textStyle="bold" />
+                                                android:textSize="18dp"/>
 
                                         </LinearLayout>
 
@@ -244,6 +249,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginLeft="20dp"
+                                            android:layout_gravity="center"
                                             android:orientation="vertical">
 
                                             <TextView
@@ -256,13 +262,14 @@
                                             <Spinner
                                                 android:id="@+id/gendertxt"
                                                 android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
+                                                android:layout_height="30dp"
                                                 android:layout_gravity="center"
-                                                android:layout_marginTop="8dp"
                                                 android:background="@drawable/rounded_edittext"
                                                 android:spinnerMode="dropdown"
                                                 android:entries="@array/gender_options"
                                                 android:textAlignment="center"
+                                                android:fontFamily="@font/itim"
+                                                android:textColor="@color/textColour"
                                                 android:textSize="20dp"
                                                 android:textStyle="bold" />
 
@@ -271,13 +278,13 @@
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="10dp"
                                         android:orientation="horizontal">
 
                                         <LinearLayout
-                                            android:layout_width="wrap_content"
+                                            android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:orientation="vertical">
 
@@ -291,15 +298,15 @@
 
                                             <TextView
                                                 android:id="@+id/emailtxt"
-                                                android:layout_width="300dp"
+                                                android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:background="@drawable/rounded_edittext"
                                                 android:ems="10"
                                                 android:hint="email address"
                                                 android:paddingStart="16dp"
-                                                android:text="Johnnysmum@gmail.com"
-                                                android:textSize="18dp"
-                                                android:textStyle="bold" />
+                                                android:text="Krystelle.rupnarain293@gmail.com"
+                                                android:textColor="@color/textColour"
+                                                android:textSize="18dp"/>
 
                                         </LinearLayout>
                                     </LinearLayout>
@@ -307,7 +314,7 @@
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="15dp"
+                                        android:layout_marginTop="5dp"
                                         android:orientation="horizontal">
 
 
@@ -397,7 +404,7 @@
 
                             <androidx.cardview.widget.CardView
                                 android:layout_width="370dp"
-                                android:layout_height="200dp"
+                                android:layout_height="wrap_content"
                                 android:layout_below="@id/card2"
                                 android:layout_centerHorizontal="true"
                                 android:layout_gravity="center"
@@ -408,7 +415,7 @@
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginTop="30dp"
                                     android:layout_marginRight="20dp"
@@ -416,7 +423,8 @@
 
                                     <LinearLayout
                                         android:layout_width="wrap_content"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginBottom="20dp"
                                         android:orientation="vertical">
 
                                         <TextView
@@ -427,17 +435,17 @@
                                             android:textSize="15dp"
                                             android:textStyle="bold" />
 
-                                        <TextView
-                                            android:id="@+id/stepstxt"
+                                        <Spinner
+                                            android:id="@+id/stepsSpinner"
                                             android:layout_width="150dp"
-                                            android:layout_height="wrap_content"
+                                            android:layout_height="30dp"
                                             android:background="@drawable/rounded_edittext"
                                             android:ems="10"
                                             android:hint="Steps"
+                                            android:textColor="@color/textColour"
                                             android:paddingStart="16dp"
                                             android:text="10 000 steps"
-                                            android:textSize="18dp"
-                                            android:textStyle="bold" />
+                                            android:textSize="18dp"/>
 
                                         <TextView
                                             android:layout_width="wrap_content"
@@ -448,17 +456,15 @@
                                             android:textSize="15dp"
                                             android:textStyle="bold" />
 
-                                        <TextView
-                                            android:id="@+id/minutestxt"
+                                        <Spinner
+                                            android:id="@+id/minutesSpinner"
                                             android:layout_width="150dp"
-                                            android:layout_height="wrap_content"
+                                            android:layout_height="30dp"
                                             android:background="@drawable/rounded_edittext"
-                                            android:ems="10"
-                                            android:hint="Move Minutes"
                                             android:paddingStart="16dp"
-                                            android:text="30 minutes"
-                                            android:textSize="18dp"
-                                            android:textStyle="bold" />
+                                            android:hint="Move Minutes"
+                                            android:textSize="18dp" />
+
 
                                         <TextView
                                             android:layout_width="wrap_content"
@@ -472,14 +478,13 @@
                                         <TextView
                                             android:id="@+id/caloriestxt"
                                             android:layout_width="150dp"
-                                            android:layout_height="wrap_content"
+                                            android:layout_height="30dp"
                                             android:background="@drawable/rounded_edittext"
                                             android:ems="10"
                                             android:hint="Daily calories"
                                             android:paddingStart="16dp"
                                             android:text="1800 cals"
-                                            android:textSize="18dp"
-                                            android:textStyle="bold" />
+                                            android:textSize="18dp"/>
 
                                     </LinearLayout>
 
@@ -505,14 +510,13 @@
                                             <TextView
                                                 android:id="@+id/myweighttxt"
                                                 android:layout_width="150dp"
-                                                android:layout_height="wrap_content"
+                                                android:layout_height="30dp"
                                                 android:background="@drawable/rounded_edittext"
                                                 android:ems="10"
                                                 android:hint="Weight"
                                                 android:paddingStart="16dp"
                                                 android:text="30kg"
-                                                android:textSize="18dp"
-                                                android:textStyle="bold" />
+                                                android:textSize="18dp"/>
 
                                             <TextView
                                                 android:layout_width="wrap_content"
@@ -526,14 +530,13 @@
                                             <TextView
                                                 android:id="@+id/dailywatertxt"
                                                 android:layout_width="150dp"
-                                                android:layout_height="wrap_content"
+                                                android:layout_height="30dp"
                                                 android:background="@drawable/rounded_edittext"
                                                 android:ems="10"
                                                 android:hint="Daily Water"
                                                 android:paddingStart="16dp"
                                                 android:text="2.3l"
-                                                android:textSize="18dp"
-                                                android:textStyle="bold" />
+                                                android:textSize="18dp" />
 
                                             <TextView
                                                 android:layout_width="wrap_content"
@@ -547,14 +550,13 @@
                                             <TextView
                                                 android:id="@+id/sleeptxt"
                                                 android:layout_width="150dp"
-                                                android:layout_height="wrap_content"
+                                                android:layout_height="30dp"
                                                 android:background="@drawable/rounded_edittext"
                                                 android:ems="10"
                                                 android:hint="Hours of Sleep"
                                                 android:paddingStart="16dp"
                                                 android:text="1800 cals"
-                                                android:textSize="18dp"
-                                                android:textStyle="bold" />
+                                                android:textSize="18dp"/>
 
                                         </LinearLayout>
 
@@ -590,15 +592,23 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginBottom="20dp"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
                             <Button
-                                android:id="@+id/editbtn"
-                                android:layout_width="wrap_content"
+                                android:id="@+id/logoutbtn"
+                                android:layout_width="200dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="20dp"
                                 android:backgroundTint="@color/moveminutescolors"
-                                android:text="Edit" />
+                                android:text="logout" />
+
+                            <Button
+                                android:id="@+id/deleteaccbtn"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:backgroundTint="@color/scanred"
+                                android:text="Delete" />
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

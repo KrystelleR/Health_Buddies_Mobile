@@ -1,24 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- res/layout/custom_confirmation_dialog.xml -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="12dp"
+    android:backgroundTint="#91F482">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Are you sure you want to buy this item?" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:cardCornerRadius="12dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Are you sure you want to buy this item?"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textColor="#115A06"
+            android:fontFamily="@font/itim"
+            android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/confirmButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Yes" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/confirmButton"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/round_bttn"
+            android:textColor="@color/white"
+            android:fontFamily="@font/itim"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:text="Yes, I’d love to buy it!" />
 
-    <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No" />
-</LinearLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/cancelButton"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:padding="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/round_bttn2"
+            android:textColor="@color/white"
+            android:fontFamily="@font/itim"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:text="No, I don’t think I’ll buy it." />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
