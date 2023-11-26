@@ -590,6 +590,8 @@ class settingspage : AppCompatActivity() {
             userRef.setValue(updatedUserDetails)
 
             Toast.makeText(this, "Changes saved successfully", Toast.LENGTH_SHORT).show()
+            val intent =Intent(this,MainActivity::class.java)
+            startActivity(intent)//nav to main when changes have been saved
         }
     }
 

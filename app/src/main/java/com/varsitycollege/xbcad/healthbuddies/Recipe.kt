@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso
 class Recipe : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         setContentView(R.layout.activity_recipe)
 
         // Retrieve data from Intent

@@ -26,6 +26,7 @@ class AddEnergy : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         setContentView(R.layout.activity_add_energy)
 
         val calories = intent.getIntExtra("calories", 0)
