@@ -32,6 +32,11 @@
             android:icon="@drawable/sleep_icon"
             android:title="Sleep">
         </item>
+        <item
+            android:id="@+id/store_item"
+            android:icon="@drawable/store_icon"
+            android:title="Store">
+        </item>
     </group>
 
     <group android:id="@+id/group4">

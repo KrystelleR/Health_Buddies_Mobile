@@ -10,18 +10,14 @@ import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
-import java.util.ArrayList
 import kotlin.math.roundToInt
 
 class settingspage : AppCompatActivity() {
@@ -252,6 +248,10 @@ class settingspage : AppCompatActivity() {
 
 
 
+        val addImageBtn = findViewById<AppCompatImageButton>(R.id.add_image)
+        addImageBtn.setOnClickListener {
+            showCharacterItemsDialog()
+        }
         //get all values
         val usernametv = findViewById<EditText>(R.id.usernametxt)
         val agetv = findViewById<Spinner>(R.id.ageSpinner)
@@ -302,6 +302,8 @@ class settingspage : AppCompatActivity() {
             val mycurrentheight = currentparts2.firstOrNull()?.toDoubleOrNull() ?: 0.0
             val heightinches = if (isChecked) mycurrentheight /  2.54 else mycurrentheight
             height.text = "${heightinches.roundToInt()} ${if (isChecked) "inches" else "cm"}"
+
+
         }
 
         metricsw.setOnCheckedChangeListener { _, isChecked ->

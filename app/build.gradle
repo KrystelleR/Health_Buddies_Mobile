@@ -60,6 +60,7 @@ dependencies {
     implementation 'com.google.mlkit:barcode-scanning:17.2.0'
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
     //pie chart
     implementation 'com.github.Philjay:MPAndroidChart:v3.1.0'
 
@@ -71,4 +72,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+
+    //Stuff for images
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 }

@@ -32,6 +32,12 @@
             android:name=".barcodescanner"
             android:exported="false" />
         <activity
+            android:name=".Welcome"
+            android:exported="false" />
+        <activity
+            android:name=".Leaderboard"
+            android:exported="false" />
+        <activity
             android:name=".fitnessgraph"
             android:exported="false" />
         <activity

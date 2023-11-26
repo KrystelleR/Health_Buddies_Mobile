@@ -78,6 +78,7 @@
                 android:orientation="horizontal">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/meditationcv"
                     android:layout_width="150dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
