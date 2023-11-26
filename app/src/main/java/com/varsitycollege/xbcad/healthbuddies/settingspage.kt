@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import kotlin.math.roundToInt
 
 class settingspage : AppCompatActivity() {
 
@@ -57,25 +58,99 @@ class settingspage : AppCompatActivity() {
         val emailtv = findViewById<TextView>(R.id.emailtxt)
         val metricsw = findViewById<Switch>(R.id.metricswitch)
         val imperialsw = findViewById<Switch>(R.id.imperialswitch)
-        val stepstv = findViewById<TextView>(R.id.stepstxt)
         val myweighttv = findViewById<TextView>(R.id.myweighttxt)
-        val minutestv = findViewById<TextView>(R.id.minutestxt)
+        val stepstv = findViewById<Spinner>(R.id.stepsSpinner)
+        val minutestv= findViewById<Spinner>(R.id.minutesSpinner)
         val dailywatertv = findViewById<TextView>(R.id.dailywatertxt)
         val caloriestv = findViewById<TextView>(R.id.caloriestxt)
         val sleeptv = findViewById<TextView>(R.id.sleeptxt)
         val aboutmetv = findViewById<EditText>(R.id.aboutmetxt)
         val profiletv = findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.profile_image)
 
-        imperialsw.isChecked = !metricsw.isChecked
-        metricsw.isChecked = !imperialsw.isChecked
+        val spinner: Spinner = findViewById(R.id.minutesSpinner)
+        val minValue = 5
+        val maxValue = 270
+        val increment = 5
+        val values = (minValue..maxValue step increment).map { "$it minutes" }
+        val minadapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, values)
+        minadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spinner.adapter = minadapter
+
+        imperialsw.setOnCheckedChangeListener { _, isChecked ->
+            metricsw.isChecked = !isChecked
+
+            // Change weight and goal weight and height to pounds
+            val goalweight = findViewById<TextView>(R.id.weighttxt)
+            val currentparts1 = goalweight.text.toString().split(" ")
+            val mycurrentweight1 = currentparts1.firstOrNull()?.toDoubleOrNull() ?: 0.0
+            val weightinpoundsgoal = if (isChecked) mycurrentweight1 / 0.453592 else mycurrentweight1
+            goalweight.text = "${weightinpoundsgoal.roundToInt()} ${if (isChecked) "pounds" else "kg"}"
+
+            val weight = findViewById<TextView>(R.id.myweighttxt)
+            val currentparts = weight.text.toString().split(" ")
+            val mycurrentweight = currentparts.firstOrNull()?.toDoubleOrNull() ?: 0.0
+            val weightinpounds = if (isChecked) mycurrentweight / 0.453592 else mycurrentweight
+            weight.text = "${weightinpounds.roundToInt()} ${if (isChecked) "pounds" else "kg"}"
+
+            // Change height to inches
+            val height = findViewById<TextView>(R.id.heighttxt)
+            val currentparts2 = height.text.toString().split(" ")
+            val mycurrentheight = currentparts2.firstOrNull()?.toDoubleOrNull() ?: 0.0
+            val heightinches = if (isChecked) mycurrentheight /  2.54 else mycurrentheight
+            height.text = "${heightinches.roundToInt()} ${if (isChecked) "inches" else "cm"}"
+
+
+        }
+
+        metricsw.setOnCheckedChangeListener { _, isChecked ->
+            imperialsw.isChecked = !isChecked
+            // Change weight and goal weight and height to kg
+            val goalweight = findViewById<TextView>(R.id.weighttxt)
+            val currentparts1 = goalweight.text.toString().split(" ")
+            val mycurrentweight1 = currentparts1.firstOrNull()?.toDoubleOrNull() ?: 0.0
+            val weightinkggoal = if (isChecked) mycurrentweight1 * 0.453592 else mycurrentweight1
+            goalweight.text = "${weightinkggoal.roundToInt()} ${if (isChecked) "kg" else "pounds"}"
+
+            val weight = findViewById<TextView>(R.id.myweighttxt)
+            val currentparts = weight.text.toString().split(" ")
+            val mycurrentweight = currentparts.firstOrNull()?.toDoubleOrNull() ?: 0.0
+            val weightinkg = if (isChecked) mycurrentweight * 0.453592 else mycurrentweight
+            weight.text = "${weightinkg.roundToInt()} ${if (isChecked) "kg" else "pounds"}"
+
+            // Change height to cm
+            val height = findViewById<TextView>(R.id.heighttxt)
+            val currentparts2 = height.text.toString().split(" ")
+            val mycurrentheight = currentparts2.firstOrNull()?.toDoubleOrNull() ?: 0.0
+            val heightcm = if (isChecked) mycurrentheight *  2.54 else mycurrentheight
+            height.text = "${heightcm.roundToInt()} ${if (isChecked) "cm" else "inches"}"
+        }
+
 
         heighttv.setOnClickListener(){
             showHeightPicker()
         }
-
         weighttv.setOnClickListener(){
-            showWeightPicker()
+            showWeightPicker(weighttv.text.toString())
         }
+
+        myweighttv.setOnClickListener(){
+            showWeightPickerGoal(myweighttv.text.toString(),weighttv.text.toString(), heighttv.text.toString(), gendertv.selectedItem.toString())
+        }
+
+
+        val stepsSpinner: Spinner = findViewById(R.id.stepsSpinner)
+        // Create an array of values representing increments of 100 steps
+        var mymin = 1000
+        var mymax = 30000
+        var myincrement = 1000
+        val stepsArray = (mymin..mymax step myincrement).map { "$it steps" }
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        val stepadapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, stepsArray)
+        // Specify the layout to use when the list of choices appears
+        stepadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        // Apply the adapter to the spinner
+        stepsSpinner.adapter = stepadapter
 
 // Create an ArrayAdapter using the string array and a default spinner layout
         val adapter = ArrayAdapter.createFromResource(
@@ -192,13 +267,23 @@ class settingspage : AppCompatActivity() {
                             val agePosition = ageAdapter.getPosition(myage.toString())
                             agetv.setSelection(agePosition)
 
+
+                            // Set the correct selection based on the value retrieved from the database
+                            val stepAdapter = stepsSpinner.adapter as ArrayAdapter<String>
+                            val stepPosition = stepAdapter.getPosition("$mydailysteps steps" )
+                            stepsSpinner.setSelection(stepPosition)
+
+                            // Set the correct selection based on the value retrieved from the database
+                            val minAdapter = minutestv.adapter as ArrayAdapter<String>
+                            val minPosition = minAdapter.getPosition("$mymoveminutes minutes")
+                            minutestv.setSelection(minPosition)
+
+
                             emailtv.text = myemail
                             usernametv.setText(myusername)
                             currentProfileImageResourceId = myprofileimg
                             profiletv.setImageResource(myprofileimg)
-                            stepstv.text = mydailysteps.toString()
                             myweighttv.text = mygoalweight.toString()
-                            minutestv.text = mymoveminutes.toString()
                             dailywatertv.text = mywatergoal.toString()
                             dailywatertv.text = setDailyWaterGoal(myage,mygender)//set water goal based on age and sex
                             caloriestv.text = mydailycalories.toString()
@@ -220,6 +305,36 @@ class settingspage : AppCompatActivity() {
 
                             if(myaboutme!=""){
                                 aboutmetv.setText(myaboutme)
+                            }
+
+                            // Update the TextView values here
+                            heighttv.text = myheight
+                            weighttv.text = myweight
+
+// Set the correct selection based on the value retrieved from the database
+                            val weightParts = myweight.split(" ")
+                            val mycurrentweight = weightParts.firstOrNull()?.toDoubleOrNull() ?: 0.0
+
+                            if (myimperial) {
+                                // Convert weight to pounds if the imperial switch is on
+                                val weightinpounds = mycurrentweight * 2.20462
+                                weighttv.text = "${weightinpounds.roundToInt()} pounds"
+                            } else {
+                                // Display weight in kg if the metric switch is on
+                                weighttv.text = "${mycurrentweight.roundToInt()} kg"
+                            }
+
+// Set the correct selection based on the value retrieved from the database
+                            val goalWeightParts = mygoalweight.split(" ")
+                            val mycurrentGoalWeight = goalWeightParts.firstOrNull()?.toDoubleOrNull() ?: 0.0
+
+                            if (myimperial) {
+                                // Convert goal weight to pounds if the imperial switch is on
+                                val goalWeightInPounds = mycurrentGoalWeight * 2.20462
+                                myweighttv.text = "${goalWeightInPounds.roundToInt()} pounds"
+                            } else {
+                                // Display goal weight in kg if the metric switch is on
+                                myweighttv.text = "${mycurrentGoalWeight.roundToInt()} kg"
                             }
 
 
@@ -264,15 +379,23 @@ class settingspage : AppCompatActivity() {
         val gendertv = findViewById<Spinner>(R.id.gendertxt)
         val metricsw = findViewById<Switch>(R.id.metricswitch)
         val imperialsw = findViewById<Switch>(R.id.imperialswitch)
-        val stepstv = findViewById<TextView>(R.id.stepstxt)
+        val stepstv = findViewById<Spinner>(R.id.stepsSpinner)
         val myweighttv = findViewById<TextView>(R.id.myweighttxt)
-        val minutestv = findViewById<TextView>(R.id.minutestxt)
         val dailywatertv = findViewById<TextView>(R.id.dailywatertxt)
         val caloriestv = findViewById<TextView>(R.id.caloriestxt)
         val sleeptv = findViewById<TextView>(R.id.sleeptxt)
         val aboutmetv = findViewById<EditText>(R.id.aboutmetxt)
+        val spinner: Spinner = findViewById(R.id.minutesSpinner)
+
+        val selectedMinutesString = spinner.selectedItem.toString()
+        val parts = selectedMinutesString.split(" ")
+        val selectedMinutesInt = parts.firstOrNull()?.toIntOrNull() ?: 0
 
 
+
+        val selectedStepsString = stepstv.selectedItem.toString()
+        val theparts = selectedStepsString.split(" ")
+        val selectedStepsInt = theparts.firstOrNull()?.toIntOrNull() ?: 0
 
         val currentUser = Firebase.auth.currentUser
         if (currentUser != null) {
@@ -297,9 +420,9 @@ class settingspage : AppCompatActivity() {
                     aboutmetv.text.toString(),
                     myusercurrency,
                     mycurrentcalories,
-                    stepstv.text.toString().toInt(),  // Assuming steps can be converted to Int
+                    selectedStepsInt,  // Assuming steps can be converted to Int
                     weighttv.text.toString(),
-                    minutestv.text.toString().toInt(),
+                    selectedMinutesInt,
                     sleeptv.text.toString().toInt(), // Assuming minutes can be converted to Int
                     dailywatertv.text.toString().toInt(),  // Assuming water goal can be converted to Int // Assuming sleep goal can be converted to Int
                     caloriestv.text.toString().toInt()
@@ -466,12 +589,16 @@ class settingspage : AppCompatActivity() {
         return sleepGoal
     }
 
-    fun showWeightPicker() {
+    fun showWeightPicker(chosenWeight:String) {
         // Set up the dialog and handle the OK button click
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.number_picker_dialog)
 
         val metrricsw = findViewById<Switch>(R.id.metricswitch)
+
+
+        val parts = chosenWeight.split(" ")
+        val thecurrentweight = parts.firstOrNull()?.toIntOrNull() ?: 0
 
         // Initialize the NumberPicker with the desired range
         val weightPicker = dialog.findViewById<NumberPicker>(R.id.dialogNumberPicker)
@@ -479,7 +606,7 @@ class settingspage : AppCompatActivity() {
         if(metrricsw.isChecked){
             weightPicker.minValue = 10
             weightPicker.maxValue = 200
-            weightPicker.value = 30
+            weightPicker.value = thecurrentweight
 
             val unit = dialog.findViewById<TextView>(R.id.unittxt)
             unit.text= " kg"
@@ -495,7 +622,7 @@ class settingspage : AppCompatActivity() {
         else{
             weightPicker.minValue = 30
             weightPicker.maxValue = 440
-            weightPicker.value = 100
+            weightPicker.value = thecurrentweight
 
             val unit = dialog.findViewById<TextView>(R.id.unittxt)
             unit.text= " pounds"
@@ -504,6 +631,140 @@ class settingspage : AppCompatActivity() {
             okButton.setOnClickListener {
                 // Update the TextView with the selected height
                 val weightTextView = findViewById<TextView>(R.id.weighttxt)
+                weightTextView.text = "${weightPicker.value} pounds"
+                dialog.dismiss()
+            }
+        }
+        dialog.show()
+    }
+
+    fun showWeightPickerGoal(chosenWeight:String, currentWeight:String, currentHeight:String, gender:String) {
+        // Set up the dialog and handle the OK button click
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.number_picker_dialog_goal)
+
+        val metrricsw = findViewById<Switch>(R.id.metricswitch)
+
+
+        val parts = chosenWeight.split(" ")
+        val thecurrentweight = parts.firstOrNull()?.toIntOrNull() ?: 0
+
+        // Initialize the NumberPicker with the desired range
+        val weightPicker = dialog.findViewById<NumberPicker>(R.id.dialogNumberPicker)
+
+        if(metrricsw.isChecked){
+            weightPicker.minValue = 10
+            weightPicker.maxValue = 200
+
+
+            val unit = dialog.findViewById<TextView>(R.id.unittxt)
+            unit.text= " kg"
+
+            val currentparts = currentWeight.split(" ")
+            val mycurrentweight = currentparts.firstOrNull()?.toIntOrNull() ?: 0
+
+            val currentpartsheight = currentHeight.split(" ")
+            var mycurrentheight = currentpartsheight.firstOrNull()?.toDoubleOrNull() ?: 0.0
+
+            mycurrentheight = (mycurrentheight.toDouble() / 100.0)  // Convert height to meters
+            val calbmi = mycurrentweight / (mycurrentheight * mycurrentheight)
+
+            val bmiInInt = calbmi.roundToInt()
+            var state = ""
+            if(calbmi <=18.5){
+               state = "underweight"
+            }
+            else if(calbmi >= 25.0){
+                state = "overweight"
+            }
+            else{
+                state = "healthy weight"
+            }
+
+            var recommendedGoalWeight = 0.0
+            if(gender == "M"){
+                recommendedGoalWeight = 22 * mycurrentheight * 2
+            }
+            else{
+                recommendedGoalWeight = 22 * (mycurrentheight - 10) * 2
+            }
+
+            val recommendedGoalWeightInt = recommendedGoalWeight.roundToInt()
+            val bmigoal = dialog.findViewById<TextView>(R.id.bmitxt)
+            bmigoal.text = "Your current BMI is: $bmiInInt ($state) \nThe best weight for you would be:$recommendedGoalWeightInt kg\n\nBut pick a goal that is realistic for you!\""
+
+            weightPicker.value = recommendedGoalWeightInt
+            val okButton: Button = dialog.findViewById(R.id.okButton)
+            okButton.setOnClickListener {
+                // Update the TextView with the selected height
+                val weightTextView = findViewById<TextView>(R.id.myweighttxt)
+                weightTextView.text = "${weightPicker.value} kg"
+                dialog.dismiss()
+            }
+        }
+        else{
+            weightPicker.minValue = 30
+            weightPicker.maxValue = 440
+
+            val unit = dialog.findViewById<TextView>(R.id.unittxt)
+            unit.text= " pounds"
+
+
+            val currentparts = currentWeight.split(" ")
+            var mycurrentweight = currentparts.firstOrNull()?.toDoubleOrNull() ?: 0.0
+
+            val currentpartsheight = currentHeight.split(" ")
+            var mycurrentheight = currentpartsheight.firstOrNull()?.toDoubleOrNull() ?: 0.0
+
+            //from pounds to kg
+            mycurrentweight = mycurrentweight * 0.453592
+
+            //inches to cm
+            mycurrentheight = mycurrentheight * 2.54
+
+
+
+
+            mycurrentheight = (mycurrentheight.toDouble() / 100.0)  // Convert height to meters
+            val calbmi = mycurrentweight / (mycurrentheight * mycurrentheight)
+
+            val bmiInInt = calbmi.roundToInt()
+            var state = ""
+            if(calbmi <=18.5){
+                state = "underweight"
+            }
+            else if(calbmi >= 25.0){
+                state = "overweight"
+            }
+            else{
+                state = "healthy weight"
+            }
+
+            var recommendedGoalWeight = 0.0
+            if(gender == "M"){
+                recommendedGoalWeight = 22 * mycurrentheight * 2
+            }
+            else{
+                recommendedGoalWeight = 22 * (mycurrentheight - 10) * 2
+            }
+
+            recommendedGoalWeight = recommendedGoalWeight * 2.20462
+            val recommendedGoalWeightInt = recommendedGoalWeight.roundToInt()
+
+
+
+            val bmigoal = dialog.findViewById<TextView>(R.id.bmitxt)
+            bmigoal.text = "Your current BMI is: $bmiInInt ($state) \nThe best weight for you would be:$recommendedGoalWeightInt pounds\n\nBut pick a goal that is realistic for you!\""
+            weightPicker.value = recommendedGoalWeightInt
+
+
+
+
+
+            val okButton: Button = dialog.findViewById(R.id.okButton)
+            okButton.setOnClickListener {
+                // Update the TextView with the selected height
+                val weightTextView = findViewById<TextView>(R.id.myweighttxt)
                 weightTextView.text = "${weightPicker.value} pounds"
                 dialog.dismiss()
             }

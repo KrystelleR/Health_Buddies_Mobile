@@ -43,10 +43,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val foodcard = findViewById<CardView>(R.id.foodcardbtn)
-        val exercisecard = findViewById<CardView>(R.id.exercisecardbtn)
-        val sleepcard = findViewById<CardView>(R.id.sleepcardbtn)
+        val database = FirebaseDatabase.getInstance()
+        // Getting user details from db
+        val currentUser = Firebase.auth.currentUser
+        if (currentUser != null) {
+            // Assuming userDetails.uid is the user's UID
+            val userUid = currentUser.uid
 
+
+            val userRef = database.getReference("Users").child(userUid)
+            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        var UserDetails = dataSnapshot.getValue(data.UserDetails::class.java)
+                        if (UserDetails != null) {
+                            if(UserDetails.setDetails == false){
+
+                                Toast.makeText(this@MainActivity, "Let's update your user settings before beginning", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(this@MainActivity, settingspage::class.java)
+                                startActivity(intent)
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            })
 
         navView = findViewById(R.id.navView)
         navView.setNavigationItemSelectedListener(this)
@@ -71,23 +96,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val database = FirebaseDatabase.getInstance()
-        // Getting user details from db
-        val currentUser = Firebase.auth.currentUser
-        if (currentUser != null) {
-            // Assuming userDetails.uid is the user's UID
-            val userUid = currentUser.uid
-
-
             // Reference to the user's data in the Realtime Database
-            val userRef = database.getReference("LastLoggedIn").child(userUid)
+            val userLoggedRef = database.getReference("LastLoggedIn").child(userUid)
             val userStepsRef = database.getReference("UserSteps").child(userUid)
             val userMoveRef = database.getReference("UserMinutes").child(userUid)
             val userCalRef = database.getReference("UserCalories").child(userUid)
             val userWaterRef = database.getReference("UserWater").child(userUid)
             val userGoalsRef = database.getReference("UserCollectPoints").child(userUid)
 
-            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            userLoggedRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
                         // dataSnapshot contains the user details data
@@ -280,13 +297,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
 
-
-
-
-
-
-
-
+        val foodcard = findViewById<CardView>(R.id.foodcardbtn)
+        val exercisecard = findViewById<CardView>(R.id.exercisecardbtn)
+        val sleepcard = findViewById<CardView>(R.id.sleepcardbtn)
 
         foodcard.setOnClickListener {
             val intent = Intent(this, Nutrition::class.java)
@@ -356,7 +369,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     successDialog.setPositiveButton("OK") { _, _ ->
 
                         Firebase.auth.signOut()
-                        val intent = Intent(this, Login::class.java)
+                        val intent = Intent(this, Welcome::class.java)
                         startActivity(intent)
 
                     }
