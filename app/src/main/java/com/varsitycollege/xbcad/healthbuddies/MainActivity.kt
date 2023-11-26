@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val database = FirebaseDatabase.getInstance()
+        database = FirebaseDatabase.getInstance()
         // Getting user details from db
         val currentUser = Firebase.auth.currentUser
         if (currentUser != null) {
