@@ -10,6 +10,7 @@ import com.varsitycollege.xbcad.healthbuddies.R
 class Meals : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         setContentView(R.layout.activity_meals)
 
         //nav to recipe page -15 buttons - 15 recipes (pull from db in recipe.kt)
