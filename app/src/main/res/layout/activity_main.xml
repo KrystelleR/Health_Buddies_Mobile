@@ -408,7 +408,7 @@
                                                 android:fontFamily="@font/itim"
                                                 android:textColor="@color/white"
                                                 android:background="@drawable/curved_button_2"
-                                                android:text="Edit Avatar" />
+                                                android:text="Edit Banner" />
                                         </LinearLayout>
 
                                     </LinearLayout>
@@ -427,7 +427,7 @@
                             android:background="@drawable/curved_button_1"
                             android:textColor="@color/white"
                             android:layout_marginBottom="20dp"
-                            android:text="Change Banner" />
+                            android:text="Change Avatar" />
 
                     </LinearLayout>
 
