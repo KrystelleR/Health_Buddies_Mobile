@@ -185,12 +185,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
 
-
-
-
-
-
-
         //region API Quotes
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
@@ -239,12 +233,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //endregion
 
         //region Database
+        database = FirebaseDatabase.getInstance()
 
         if (currentUser != null) {
-            // Assuming userDetails.uid is the user's UID
             userUid = currentUser.uid
 
-            // Now you can use uid in your button click listener
+            // region Banner + Character
             val bannerItemsButton: Button = findViewById(R.id.button2)
             val characterItemsButton : Button = findViewById(R.id.virtualbtn)
 
@@ -255,30 +249,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     dialogFragment.show(supportFragmentManager, "BannerItemsDialog")
                 }
             }
-
             characterItemsButton.setOnClickListener {
                 val dialogFragment = userUid?.let { it1 -> PFPItemsDialogFragment(it1, this@MainActivity) }
                 if (dialogFragment != null) {
                     dialogFragment.show(supportFragmentManager, "PFPItemsDialog")
                 }
             }
+            //endregion
 
             val userRef = database.getReference("Users").child(userUid!!)
-
+            //region getting profileImage + displaying characters and banner
             userRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
                         // dataSnapshot contains the user details data
                         val userDetails = dataSnapshot.getValue(data.UserDetails::class.java)
-
-                        // Now you can use the userDetails object as needed
                         if (userDetails != null) {
                             myprofileimg = userDetails.profileImage
                             mysetDetails = userDetails.setDetails
 
-
-                            // Set the TextView values here
-                            // Assuming myprofileimg is a URL to the image
                             Glide.with(this@MainActivity)
                                 .load(myprofileimg)
                                 .into(profileimg)
@@ -305,6 +294,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     )
                 }
             })
+            //endregion
         }
         //endregion
 
