@@ -48,6 +48,7 @@ class Nutrition : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         setContentView(R.layout.activity_nutrition)
         binding = ActivityNutritionBinding.inflate(layoutInflater)
         setContentView(binding.root)

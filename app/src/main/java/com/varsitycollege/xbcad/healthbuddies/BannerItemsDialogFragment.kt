@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
@@ -56,8 +57,11 @@ class BannerItemsDialogFragment(private val uid: String, private val callback: M
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (itemSnapshot in snapshot.children) {
-                    val imageUrl = itemSnapshot.child("ImageUrl").value.toString()
-                    addImageViewToDialog(imageUrl)
+                    // Check if the child has the "ImageUrl" attribute
+                    if (itemSnapshot.hasChild("ImageUrl")) {
+                        val imageUrl = itemSnapshot.child("ImageUrl").value.toString()
+                        addImageViewToDialog(imageUrl)
+                    }
                 }
             }
 
@@ -66,6 +70,7 @@ class BannerItemsDialogFragment(private val uid: String, private val callback: M
             }
         })
     }
+
 
     private fun onImageClicked(imageResId: String) {
         callback.onImageClick(imageResId)

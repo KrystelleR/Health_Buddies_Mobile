@@ -174,11 +174,48 @@ class Register : AppCompatActivity() {
                                                 sleep  =8,
                                                 dailyWaterAmount  =1500,
                                                 dailyCalories =2000,
-                                                backgroundImageUrl ="",
+                                                backgroundImageUrl ="https://firebasestorage.googleapis.com/v0/b/healthbuddies-48435.appspot.com/o/images%2FFrame%201.png?alt=media&token=b8266396-ccc4-430a-b7b2-57ddc4128d8a",
                                                 characterImageUrl = "https://firebasestorage.googleapis.com/v0/b/healthbuddies-48435.appspot.com/o/characters_images%2FChar3.png?alt=media&token=60d27a9c-f255-4800-b8dc-5f85e4f4e6b3"
                                             )
 
                                             Log.d(TAG, "Character Image URL: ${userDetails.characterImageUrl}")
+
+                                            val purchasedItemsRef = database.getReference("PurchasedItems")
+                                            val userBannerRef = purchasedItemsRef.child(userDetails.uid).child("banner")
+                                            val userCharacterRef = purchasedItemsRef.child(userDetails.uid).child("characters")
+                                            val userPFPRef = purchasedItemsRef.child(userDetails.uid).child("pfp")
+
+                                            val purchasedItem = data.PurchasedItem(
+                                                ID = "-NjrybjVjL6vsqsP5Rmi",
+                                                ImageUrl = "https://firebasestorage.googleapis.com/v0/b/healthbuddies-48435.appspot.com/o/images%2FFrame%201.png?alt=media&token=b8266396-ccc4-430a-b7b2-57ddc4128d8a",
+                                                setValueTrue = true
+                                            )
+
+                                            userBannerRef.child("NjrybjVjL6vsqsP5Rmi").child("ID").setValue(purchasedItem.ID)
+                                            userBannerRef.child("NjrybjVjL6vsqsP5Rmi").child("ImageUrl").setValue(purchasedItem.ImageUrl)
+                                            userBannerRef.child("NjrybjVjL6vsqsP5Rmi").child("setValueTrue").setValue(purchasedItem.setValueTrue)
+
+
+                                            val characterPurchasedItem = data.PurchasedItem(
+                                                ID = "-NjrybjVjL6vsqsP5Rej",
+                                                ImageUrl = "https://firebasestorage.googleapis.com/v0/b/healthbuddies-48435.appspot.com/o/characters_images%2FChar3.png?alt=media&token=60d27a9c-f255-4800-b8dc-5f85e4f4e6b3",
+                                                setValueTrue = true
+                                            )
+
+                                            userCharacterRef.child("NjrybjVjL6vsqsP5Rmi").child("ID").setValue(characterPurchasedItem.ID)
+                                            userCharacterRef.child("NjrybjVjL6vsqsP5Rmi").child("ImageUrl").setValue(characterPurchasedItem.ImageUrl)
+                                            userCharacterRef.child("NjrybjVjL6vsqsP5Rmi").child("setValueTrue").setValue(characterPurchasedItem.setValueTrue)
+
+
+
+                                            val pfpRef = data.PurchasedItem(
+                                                ID = "-NjrgtdVjL6vsqsP5Rej",
+                                                ImageUrl = "https://firebasestorage.googleapis.com/v0/b/healthbuddies-48435.appspot.com/o/profile_images%2F1.png?alt=media&token=ec07670f-fd2f-4c75-b9b3-34f8bd701c2d",
+                                                setValueTrue = true
+                                            )
+                                            userPFPRef.child("NjrybjVjL6vsqsP5Rmi").child("ID").setValue(pfpRef.ID)
+                                            userPFPRef.child("NjrybjVjL6vsqsP5Rmi").child("ImageUrl").setValue(pfpRef.ImageUrl)
+                                            userPFPRef.child("NjrybjVjL6vsqsP5Rmi").child("setValueTrue").setValue(pfpRef.setValueTrue)
 
 
                                             val lastLoggedIn = Date()
@@ -315,6 +352,8 @@ class Register : AppCompatActivity() {
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                         }
+
+
                                     }
                             }
                         } else {

@@ -17,7 +17,7 @@
         app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="-20dp">
+        android:layout_marginTop="-25dp">
 
     </androidx.cardview.widget.CardView>
 
