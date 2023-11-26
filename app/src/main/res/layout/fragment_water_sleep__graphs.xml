@@ -107,7 +107,7 @@
                         android:layout_marginTop="5dp"
                         android:fontFamily="casual"
                         android:gravity="center"
-                        android:text="Needed:"
+                        android:text="Need:"
                         android:textColor="@color/white"
 
                         android:textStyle="bold" />
@@ -162,6 +162,7 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="20sp"
+                    android:id="@+id/reset_water_button"
                     />
 
             </LinearLayout>
