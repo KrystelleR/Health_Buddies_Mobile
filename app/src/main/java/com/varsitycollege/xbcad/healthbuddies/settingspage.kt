@@ -47,6 +47,8 @@ class settingspage : AppCompatActivity() {
     var myaboutme: String = ""
     var myusercurrency: Int =0
     var mycurrentcalories: Int =0
+    var mybackground: String = ""
+    var mycharacter: String = ""
 
 
 
@@ -397,6 +399,8 @@ class settingspage : AppCompatActivity() {
                             mysleepgoal = userDetails.sleep
                             mydailycalories = userDetails.dailyCalories
                             mycurrentcalories = userDetails.userCurrentCalories
+                            mybackground = userDetails.backgroundImageUrl
+                            mycharacter = userDetails.characterImageUrl
 
                             // Set the TextView values here
                             heighttv.text = myheight.toString()
@@ -576,7 +580,9 @@ class settingspage : AppCompatActivity() {
                     selectedMinutesInt,
                     sleeptv.text.toString().toInt(), // Assuming minutes can be converted to Int
                     dailywatertv.text.toString().toInt(),  // Assuming water goal can be converted to Int // Assuming sleep goal can be converted to Int
-                    caloriestv.text.toString().toInt()
+                    caloriestv.text.toString().toInt(),
+                    mybackground,
+                    mycharacter
                 )
             }
 
