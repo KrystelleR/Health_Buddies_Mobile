@@ -1,5 +1,6 @@
 package com.varsitycollege.xbcad.healthbuddies
 
+
 import java.io.Serializable
 import java.util.Currency
 import java.util.Date
@@ -84,6 +85,12 @@ class data {
         val waterGoal: Boolean = false,
         val caloriesGoal: Boolean = false
     ) : Serializable
+
+    data class PurchasedItem(
+        val ID: String? = "",
+        val ImageUrl: String? = "",
+        val setValueTrue: Boolean = true
+    ): Serializable
 }
 
 data class UserCaloriesItem(
@@ -91,10 +98,4 @@ data class UserCaloriesItem(
     val mealName: String,
     val calories: Long
 ): Serializable
-
-data class PurchasedItem(
-    val ID: String?,
-    val ImageUrl: String?
-)
-
 
