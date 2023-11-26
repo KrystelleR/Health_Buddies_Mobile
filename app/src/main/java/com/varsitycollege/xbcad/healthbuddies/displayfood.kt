@@ -19,6 +19,7 @@ class displayfood : AppCompatActivity() {
     private lateinit var binding:ActivityDisplayfoodBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         binding = ActivityDisplayfoodBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_displayfood)
 
