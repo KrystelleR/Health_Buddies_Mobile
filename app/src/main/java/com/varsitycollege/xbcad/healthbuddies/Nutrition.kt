@@ -1,5 +1,6 @@
 package com.varsitycollege.xbcad.healthbuddies
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -161,6 +162,8 @@ class Nutrition : AppCompatActivity() {
                                 txt_energyLeft.text= (dailyCalories.toDouble() -consumedCalories.toDouble()).toInt().toString()
                             }else{
                                 txt_energyLeft.text = "GOAL REACHED. Good job!!!"
+
+                                setCaloriesGoalTrue()
                             }
 
 
@@ -182,6 +185,64 @@ class Nutrition : AppCompatActivity() {
                 // Handle error
             }
         })
+    }
+
+    private fun setCaloriesGoalTrue() {
+        // Reference to UserCollectPoints node for the current user
+        val userCollectPointsRef = FirebaseDatabase.getInstance().getReference("UserCollectPoints").child(userId)
+
+        // Check if caloriesGoal is false before setting it to true
+        userCollectPointsRef.child("caloriesGoal").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // Get the current value of caloriesGoal, defaulting to false if not present
+                val currentGoal = snapshot.getValue(Boolean::class.java) ?: false
+
+                // If caloriesGoal is currently false, set it to true
+                if (!currentGoal) {
+                    userCollectPointsRef.child("caloriesGoal").setValue(true)
+
+                    // Reference to Users node for the current user
+                    val userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId)
+
+                    // Add 10 to userCurrency in the Users structure
+                    userRef.child("userCurrency").addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(userCurrencySnapshot: DataSnapshot) {
+                            // Get the current value of userCurrency, defaulting to 0 if not present
+                            val currentCurrency = userCurrencySnapshot.getValue(Long::class.java) ?: 0
+
+                            // Calculate the updated value of userCurrency
+                            val updatedCurrency = currentCurrency + 10
+
+                            // Set the updated value of userCurrency in the Users structure
+                            userRef.child("userCurrency").setValue(updatedCurrency)
+
+                            // Show congratulatory dialog box
+                            showCongratulationsDialog()
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            // Handle error during data retrieval
+                        }
+                    })
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle error during data retrieval
+            }
+        })
+    }
+
+    private fun showCongratulationsDialog() {
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Congratulations!")
+            .setMessage("Nutrition Goal Completed. You have been awarded 10 points :)")
+            .setPositiveButton("OK") { _, _ ->
+                // Handle OK button click if needed
+            }
+            .create()
+
+        dialog.show()
     }
 
     private fun updatePieChart() {

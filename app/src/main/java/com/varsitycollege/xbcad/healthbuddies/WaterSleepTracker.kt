@@ -134,7 +134,7 @@ class WaterSleepTracker : Fragment(),TimePickerDialog.OnTimeSetListener {
             val customWaterText = customWaterEditText.text.toString().trim()
 
             // Flag to indicate whether water data is provided
-            val isWaterDataProvided = customWaterText.isNotEmpty() || switch250ml.isChecked || switch500ml.isChecked || switch1000ml.isChecked
+            val isWaterDataProvided = customWaterText.isNotEmpty()&& isNumeric(customWaterText) || switch250ml.isChecked || switch500ml.isChecked || switch1000ml.isChecked
 
             // Check if sleep data is provided
             val period: String = daysSpinner.selectedItem.toString()
@@ -145,10 +145,20 @@ class WaterSleepTracker : Fragment(),TimePickerDialog.OnTimeSetListener {
             builder.setTitle("Confirmation")
             builder.setMessage("Do you want to proceed with saving these values?")
 
+
+            var isSleepFormatValid =true
+            var isWaterFormatValid =true
             builder.setPositiveButton("Yes") { _, _ ->
+
                 // If water data is provided, update water data
-                if (isWaterDataProvided) {
+                if (isWaterDataProvided==true) {
                     updateWaterData()
+
+                }else if(customWaterEditText.text.isEmpty()){
+
+                }else if(isWaterDataProvided==false){
+                    Toast.makeText(requireContext(), "Failed to update :( Please enter a valid water amount", Toast.LENGTH_LONG).show()
+                    isWaterFormatValid=false
                 }
 
                 // If sleep data is provided, update sleep data
@@ -156,8 +166,20 @@ class WaterSleepTracker : Fragment(),TimePickerDialog.OnTimeSetListener {
                     updateSleepData()
                 }
 
-                // Show success dialog
-                showSuccessDialog()
+
+                if(isWaterFormatValid==true){
+
+                    if((period.isEmpty() && txtHrsSlept.text != "add hours")||(period.isEmpty() && btnWokeUp.text != "- : - -") || (period.isEmpty() &&btnWentToSleep.text != "- : - -")){
+                        Toast.makeText(requireContext(), "Failed to update :( Please enter all sleep details", Toast.LENGTH_LONG).show()
+                    }else{
+                        // Show success dialog
+                        showSuccessDialog()
+                    }
+
+                }
+
+
+
             }
 
             builder.setNegativeButton("No") { _, _ ->
@@ -268,7 +290,7 @@ class WaterSleepTracker : Fragment(),TimePickerDialog.OnTimeSetListener {
     private fun showSuccessDialog() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Success")
-        builder.setMessage("Data been made successfully. Proceeding to Home page")
+        builder.setMessage("Data has been successfully saved! Returning to Home page :)")
 
         builder.setPositiveButton("OK") { _, _ ->
 

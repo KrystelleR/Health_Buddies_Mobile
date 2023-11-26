@@ -1,5 +1,7 @@
 package com.varsitycollege.xbcad.healthbuddies
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -33,6 +35,7 @@ class WaterSleep_Graphs : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_water_sleep__graphs, container, false)
         val barChart: BarChart = view.findViewById(R.id.sleep_bar_chart)
+
 
         // Create a list of day labels
         val daysOfWeek = listOf("Sun-Mon", "Mon-Tue", "Tue-Wed", "Wed-Thur", "Thur-Fri", "Fri-Sat", "Sat-Sun")
@@ -109,13 +112,19 @@ class WaterSleep_Graphs : Fragment() {
             usersRef.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val dailyWaterAmount = snapshot.child("dailyWaterAmount").getValue(Int::class.java) ?: 0
-                    updateWaterProgress(dailyWaterAmount)
+                    updateWaterProgress(dailyWaterAmount,userId)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                     // Handle database error
                 }
             })
+
+            // Add a click listener to the resetWaterButton
+            resetWaterButton=view.findViewById(R.id.reset_water_button)
+            resetWaterButton.setOnClickListener {
+                showResetWaterConfirmationDialog()
+            }
         } else {
             // Handle the case where userId is null
         }
@@ -123,7 +132,44 @@ class WaterSleep_Graphs : Fragment() {
         return view
     }
 
-    private fun updateWaterProgress(dailyWaterAmount: Int) {
+    private fun showResetWaterConfirmationDialog() {
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Confirm Reset")
+            .setMessage("Are you sure you want to reset the water amount to 0?")
+            .setPositiveButton("Yes") { _, _ ->
+                resetWaterAmount()
+
+
+            }
+            .setNegativeButton("No") { _, _ ->
+                // User canceled the reset, do nothing
+            }
+            .create()
+
+        dialog.show()
+    }
+    private fun showSuccessDialog() {
+        val successDialog = AlertDialog.Builder(requireContext())
+            .setTitle("Success!")
+            .setMessage("Water amount reset to 0. Returning to Home page :)")
+            .setPositiveButton("OK") { _, _ ->
+                // Navigate to MainActivity
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                startActivity(intent)
+            }
+            .create()
+
+        successDialog.show()
+    }
+    private fun resetWaterAmount() {
+        // Set the Amount in UserWater to 0
+        userWaterRef.child("Amount").setValue(0)
+
+        showSuccessDialog()
+        // Show a confirmation toast or dialog if needed
+        // Toast.makeText(requireContext(), "Water amount reset to 0", Toast.LENGTH_SHORT).show()
+    }
+    private fun updateWaterProgress(dailyWaterAmount: Int, userId: String) {
         userWaterRef.child("Amount").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val userWaterAmount = snapshot.getValue(Int::class.java) ?: 0
@@ -135,6 +181,7 @@ class WaterSleep_Graphs : Fragment() {
                     txtWaterLeft.text = "${dailyWaterAmount - userWaterAmount} ml"
                 } else {
                     txtWaterLeft.text = "Goal Reached. Good Job!!!"
+                    setWaterGoalTrue(userId)
                 }
 
                 progressBarWater.progress = percentage
@@ -145,6 +192,63 @@ class WaterSleep_Graphs : Fragment() {
                 // Handle database error
             }
         })
+    }
+    private fun setWaterGoalTrue(userId: String) {
+        // Reference to UserCollectPoints node for the current user
+        val userCollectPointsRef = FirebaseDatabase.getInstance().getReference("UserCollectPoints").child(userId)
+
+        // Check if caloriesGoal is false before setting it to true
+        userCollectPointsRef.child("waterGoal").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // Get the current value of caloriesGoal, defaulting to false if not present
+                val currentGoal = snapshot.getValue(Boolean::class.java) ?: false
+
+                // If caloriesGoal is currently false, set it to true
+                if (!currentGoal) {
+                    userCollectPointsRef.child("waterGoal").setValue(true)
+
+                    // Reference to Users node for the current user
+                    val userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId)
+
+                    // Add 10 to userCurrency in the Users structure
+                    userRef.child("userCurrency").addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(userCurrencySnapshot: DataSnapshot) {
+                            // Get the current value of userCurrency, defaulting to 0 if not present
+                            val currentCurrency = userCurrencySnapshot.getValue(Long::class.java) ?: 0
+
+                            // Calculate the updated value of userCurrency
+                            val updatedCurrency = currentCurrency + 10
+
+                            // Set the updated value of userCurrency in the Users structure
+                            userRef.child("userCurrency").setValue(updatedCurrency)
+
+                            // Show congratulatory dialog box
+                            showCongratulationsDialog()
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            // Handle error during data retrieval
+                        }
+                    })
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle error during data retrieval
+            }
+        })
+    }
+
+    private fun showCongratulationsDialog() {
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Congratulations!")
+            .setMessage("Water Goal Completed. You have been awarded 10 points :)")
+            .setPositiveButton("OK") { _, _ ->
+                // Handle OK button click if needed
+            }
+            .create()
+
+        dialog.show()
     }
 }
 

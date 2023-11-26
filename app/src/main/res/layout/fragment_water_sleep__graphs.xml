@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".WaterSleep_Graphs"
-    android:background="@drawable/custom_watersleep_gradient">
+    android:background="@drawable/custom_watersleep_gradient"
+    android:id="@+id/watersleep_graph_fragment">
 
     <ScrollView
         android:layout_width="match_parent"

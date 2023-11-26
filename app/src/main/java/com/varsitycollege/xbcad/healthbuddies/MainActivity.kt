@@ -1,11 +1,13 @@
 package com.varsitycollege.xbcad.healthbuddies
 
 import android.content.ContentValues
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.MenuItem
 import android.widget.ImageView
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navView: NavigationView
     private val baseUrl = "https://api.quotable.io/"
+
 
     var myprofileimg: Int =0
     var mysetDetails: Boolean = false
@@ -94,6 +97,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val userCalRef = database.getReference("UserCalories").child(userUid)
             val userWaterRef = database.getReference("UserWater").child(userUid)
             val userGoalsRef = database.getReference("UserCollectPoints").child(userUid)
+            val userSleepHrsRef =database.getReference("UserSleepHours").child(userUid)// UserSleepHours reference for reset
 
             userRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -163,6 +167,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                     userGoalsRef?.child("moveGoal")?.setValue(false)
                                     userGoalsRef?.child("waterGoal")?.setValue(false)
                                     userGoalsRef?.child("caloriesGoal")?.setValue(false)
+
+
+                                    //get current date
+                                    val currentDate = Date()
+                                    val calendar = Calendar.getInstance()//get calendar instance
+                                    calendar.time = currentDate//set calendar instance to current date
+                                    val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)// get day of week - Sunday =1, Monday =2 etc
+                                    if(dayOfWeek == Calendar.MONDAY){
+                                        //reset the sleep hours for the week
+                                        userSleepHrsRef?.child("Sun-Mon")?.child("Hours")?.setValue(0)
+                                        userSleepHrsRef?.child("Mon-Tue")?.child("Hours")?.setValue(0)
+                                        userSleepHrsRef?.child("Tue-Wed")?.child("Hours")?.setValue(0)
+                                        userSleepHrsRef?.child("Wed-Thur")?.child("Hours")?.setValue(0)
+                                        userSleepHrsRef?.child("Thur-Fri")?.child("Hours")?.setValue(0)
+                                        userSleepHrsRef?.child("Fri-Sat")?.child("Hours")?.setValue(0)
+                                        userSleepHrsRef?.child("Sat-Sun")?.child("Hours")?.setValue(0)
+                                    }
 
                                 }
                                 userRef?.child("loggedIndate")?.setValue("$formattedDate")
@@ -310,6 +331,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val intent = Intent(this, sleeppage::class.java)
             startActivity(intent)
         }
+    }
+
+    //if back button is pressed then refresh the activity
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
