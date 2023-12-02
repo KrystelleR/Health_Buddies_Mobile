@@ -39,12 +39,11 @@
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:background="@color/purple"
-            android:fontFamily="casual"
+            android:fontFamily="@font/itim"
             android:gravity="center"
             android:text="Nutrition"
             android:textColor="@color/white"
-            android:textSize="30sp"
-            android:textStyle="bold"
+            android:textSize="32sp"
             android:layout_gravity="center"/>
     </androidx.cardview.widget.CardView>
 
@@ -58,6 +57,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/TopCardView"
         android:background="@color/bluegrey"
+        android:gravity="center"
         >
 
 
@@ -65,7 +65,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/hungry_character"
-            android:layout_marginTop="10dp"></ImageView>
+            android:layout_marginTop="10dp"
+            ></ImageView>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -78,9 +79,9 @@
                 android:text="Today's energy"
                 android:gravity="center"
                 android:layout_marginTop="10dp"
-                android:textStyle="bold"
                 android:textColor="@color/white"
-                android:fontFamily="casual"/>
+                android:fontFamily="@font/itim"
+                android:textSize="20sp"/>
             <ProgressBar
                 android:id="@+id/progresbar_nutrition"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -99,10 +100,9 @@
                     android:text="Need:"
                     android:gravity="center"
                     android:layout_marginTop="5dp"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:fontFamily="casual"
-
+                    android:fontFamily="@font/itim"
+                    android:textSize="16sp"
                     android:layout_marginLeft="10dp"/>
                 <TextView
                     android:id="@+id/txt_needed_energy"
@@ -110,9 +110,9 @@
                     android:layout_height="wrap_content"
                     android:text="0000 kcal"
                     android:layout_marginTop="5dp"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:fontFamily="casual"
+                    android:fontFamily="@font/itim"
+                    android:textSize="16sp"
                     android:layout_marginRight="10dp"/>
 
             </LinearLayout>
@@ -127,9 +127,9 @@
                     android:text="Left:"
                     android:gravity="center"
                     android:layout_marginTop="5dp"
-                    android:textStyle="bold"
+                    android:textSize="16sp"
                     android:textColor="@color/white"
-                    android:fontFamily="casual"
+                    android:fontFamily="@font/itim"
                    android:layout_marginLeft="10dp"/>
 
                 <TextView
@@ -138,9 +138,9 @@
                     android:layout_height="wrap_content"
                     android:text="0000 kcal"
                     android:layout_marginTop="5dp"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:fontFamily="casual"
+                    android:fontFamily="@font/itim"
+                    android:textSize="16sp"
                     />
             </LinearLayout>
 
@@ -197,12 +197,11 @@
                         android:id="@+id/scanner_heading"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:fontFamily="casual"
+                        android:fontFamily="@font/itim"
                         android:gravity="center"
                         android:text="Scan Food Item : "
                         android:textColor="#FFFFFF"
                         android:textSize="20sp"
-                        android:textStyle="bold"
                         android:layout_gravity="center"
                         android:layout_marginLeft="20dp"
                         />
@@ -249,12 +248,13 @@
                         android:text="Edit"
                         android:textColor="@color/white"
                         android:background="@drawable/custom_btn_nutrition"
-                        android:fontFamily="casual"
-                        android:textStyle="bold"/>
+                        android:fontFamily="@font/itim"
+                        android:textSize="16sp"
+                        />
 
                     <com.github.mikephil.charting.charts.PieChart
                         android:id="@+id/pieChart_nutrition"
-                        android:layout_width="330dp"
+                        android:layout_width="310dp"
                         android:layout_height="220dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginLeft="0dp"
@@ -284,8 +284,9 @@
                     android:textColor="@color/white"
                     android:background="@drawable/custom_btn_meals"
                     android:layout_weight="2"
-                    android:fontFamily="casual"
-                    android:textStyle="bold"/>
+                    android:fontFamily="@font/itim"
+                    android:textSize="16sp"
+                  />
 
                 <ImageView
                     android:layout_width="100dp"
@@ -323,8 +324,7 @@
                     android:text="Add Energy"
                     android:textColor="@color/white"
                     android:background="@drawable/custom_btn_enerygy"
-                    android:fontFamily="casual"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/itim"
                     android:layout_weight="2"/>
 
 

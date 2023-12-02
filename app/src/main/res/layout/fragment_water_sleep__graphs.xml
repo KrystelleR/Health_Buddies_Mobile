@@ -34,10 +34,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/sleep_bar_chart"
-                    android:textStyle="bold"
-                    android:fontFamily="casual"
+                    android:fontFamily="@font/itim"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="26sp"
                     android:layout_marginTop="20dp"
                     android:text="Hours of Sleep for the week "
                     android:layout_gravity="center"
@@ -82,11 +81,12 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:fontFamily="casual"
+                    android:fontFamily="@font/itim"
                     android:gravity="center"
                     android:text="Today's water level"
                     android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textSize="24sp"
+                    />
 
                 <ProgressBar
                     android:id="@+id/progresbar_water"
@@ -106,12 +106,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
-                        android:fontFamily="casual"
+                        android:fontFamily="@font/itim"
                         android:gravity="center"
                         android:text="Need:"
                         android:textColor="@color/white"
-
-                        android:textStyle="bold" />
+                       android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/txt_needed_water"
@@ -119,10 +118,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="10dp"
-                        android:fontFamily="casual"
+                        android:fontFamily="@font/itim"
                         android:text="0000 ml"
                         android:textColor="@color/white"
-                        android:textStyle="bold" />
+                        android:textSize="18sp"/>
 
                 </LinearLayout>
 
@@ -136,21 +135,22 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
-                        android:fontFamily="casual"
+                        android:fontFamily="@font/itim"
                         android:gravity="center"
                         android:text="Left:"
                         android:textColor="@color/white"
-                        android:textStyle="bold" />
+                        android:textSize="18sp"/>
 
                     <TextView
                         android:id="@+id/txt_water_left"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:fontFamily="casual"
+                        android:fontFamily="@font/itim"
                         android:text="0000 ml"
                         android:textColor="@color/white"
-                        android:textStyle="bold" />
+                        android:textSize="18sp"
+                        />
                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -158,10 +158,10 @@
                     android:layout_height="50dp"
                     android:background="@drawable/curved_button_2"
                     android:layout_marginTop="20dp"
-                    android:fontFamily="casual"
+                    android:fontFamily="@font/itim"
                     android:text="Reset Water"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
+
                     android:textSize="20sp"
                     android:id="@+id/reset_water_button"
                     />

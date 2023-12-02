@@ -40,12 +40,11 @@
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:background="@color/yellow_lemon"
-            android:fontFamily="casual"
+            android:fontFamily="@font/itim"
             android:gravity="center"
             android:text="Meals"
             android:textColor="@color/white"
-            android:textSize="30sp"
-            android:textStyle="bold"
+            android:textSize="32sp"
             android:layout_gravity="center"/>
     </androidx.cardview.widget.CardView>
 
@@ -84,11 +83,11 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:text="Breakfast"
-                       android:fontFamily="casual"
+                       android:fontFamily="@font/itim"
                        android:textColor="@color/white"
                        android:layout_gravity="center"
-                       android:textSize="20sp"
-                       android:textStyle="bold"/>
+                       android:textSize="22sp"
+                      />
 
                </androidx.cardview.widget.CardView>
 
@@ -178,11 +177,11 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:text="Lunch"
-                       android:fontFamily="casual"
+                       android:fontFamily="@font/itim"
                        android:textColor="@color/white"
                        android:layout_gravity="center"
-                       android:textSize="20sp"
-                       android:textStyle="bold"/>
+                       android:textSize="22sp"
+                       />
 
                </androidx.cardview.widget.CardView>
 
@@ -273,11 +272,11 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:text="Dinner"
-                       android:fontFamily="casual"
+                       android:fontFamily="@font/itim"
                        android:textColor="@color/white"
                        android:layout_gravity="center"
-                       android:textSize="20sp"
-                       android:textStyle="bold"/>
+                       android:textSize="22sp"
+                      />
 
                </androidx.cardview.widget.CardView>
 
@@ -363,11 +362,11 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="Snacks"
-                   android:fontFamily="casual"
+                   android:fontFamily="@font/itim"
                    android:textColor="@color/white"
                    android:layout_gravity="center"
-                   android:textSize="20sp"
-                   android:textStyle="bold"/>
+                   android:textSize="22sp"
+                  />
 
            </androidx.cardview.widget.CardView>
 
