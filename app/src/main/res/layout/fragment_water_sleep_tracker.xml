@@ -208,26 +208,26 @@
 
                         <ImageView
                             android:layout_width="70dp"
-                            android:layout_height="100dp"
+                            android:layout_height="53dp"
                             android:src="@drawable/glass"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="69dp"
                             android:layout_marginRight="60dp"
                             android:layout_marginLeft="20dp"
                             />
 
                         <ImageView
                             android:layout_width="70dp"
-                            android:layout_height="100dp"
+                            android:layout_height="90dp"
                             android:src="@drawable/bottle"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="35dp"
                             android:layout_marginRight="60dp"
                             />
 
                         <ImageView
                             android:layout_width="70dp"
-                            android:layout_height="100dp"
+                            android:layout_height="120dp"
                             android:src="@drawable/thousandbottle"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="7dp"
 
                             />
 
@@ -243,6 +243,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
+                            android:layout_marginTop="30dp"
                             >
                             <TextView
                                 android:layout_width="50dp"
@@ -269,7 +270,7 @@
                             <Switch
                                 android:layout_width="50dp"
                                 android:layout_height="20dp"
-                                android:layout_marginTop="30dp"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="50dp"
                                 android:layout_marginLeft="40dp"
                                 android:id="@+id/switch_250"
@@ -277,7 +278,7 @@
                             <Switch
                                 android:layout_width="50dp"
                                 android:layout_height="20dp"
-                                android:layout_marginTop="30dp"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="30dp"
                                 android:layout_marginLeft="20dp"
                                 android:id="@+id/switch_500"
@@ -285,7 +286,7 @@
                             <Switch
                                 android:layout_width="50dp"
                                 android:layout_height="20dp"
-                                android:layout_marginTop="30dp"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginLeft="40dp"
                                 android:id="@+id/switch_1000"
                                 android:thumbTint="@color/white"
