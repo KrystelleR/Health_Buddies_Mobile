@@ -221,7 +221,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/pieCardView"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="300dp"
                 app:cardBackgroundColor="#C7A9EC"
                 app:cardCornerRadius="30dp"
                 app:cardElevation="10dp"
@@ -234,33 +234,38 @@
                 >
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_edit_meals"
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="110dp"
-                        android:layout_marginLeft="10dp"
-                        android:text="Edit"
-                        android:textColor="@color/white"
-                        android:background="@drawable/custom_btn_nutrition"
-                        android:fontFamily="@font/itim"
-                        android:textSize="16sp"
-                        />
+
 
                     <com.github.mikephil.charting.charts.PieChart
                         android:id="@+id/pieChart_nutrition"
                         android:layout_width="310dp"
                         android:layout_height="220dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginLeft="0dp"
-                        android:textAlignment="center">
+                        android:layout_marginTop="10dp"
+
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
+                        >
 
                     </com.github.mikephil.charting.charts.PieChart>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_edit_meals"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+
+                        android:text="Edit"
+                        android:textColor="@color/white"
+                        android:background="@drawable/custom_btn_nutrition"
+                        android:fontFamily="@font/itim"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
