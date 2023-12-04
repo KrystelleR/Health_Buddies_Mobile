@@ -69,6 +69,7 @@ class PFPItemsDialogFragment(private val uid: String, private val callback: Main
 
     private fun onCharacterImageClick(imageResId: String) {
         callback.onImageClick(imageResId)
+
     }
 
     private fun addImageViewToDialog(imageUrl: String) {
@@ -85,6 +86,8 @@ class PFPItemsDialogFragment(private val uid: String, private val callback: Main
         imageView.setOnClickListener {
             // When the image is clicked, invoke the callback
             callback.onCharacterImageClick(imageUrl)
+            // Close the dialog
+            (dialog as? AlertDialog)?.dismiss()
         }
 
         dialogContainer.addView(imageView)

@@ -70,6 +70,7 @@ class CharacterItemsDialogFragment(private val uid: String, private val callback
 
     private fun onImageClicked(imageUrl: String) {
         callback.onCharacterImageClick(imageUrl)
+
     }
 
     private fun addImageViewToDialog(imageUrl: String) {
@@ -86,6 +87,8 @@ class CharacterItemsDialogFragment(private val uid: String, private val callback
         imageView.setOnClickListener {
             // When the image is clicked, invoke the callback
             onImageClicked(imageUrl)
+            // Close the dialog
+            (dialog as? AlertDialog)?.dismiss()
         }
 
         dialogContainer.addView(imageView)

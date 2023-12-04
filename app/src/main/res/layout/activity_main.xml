@@ -160,6 +160,7 @@
                                 android:layout_marginRight="10dp"
                                 android:layout_width="110dp"
                                 app:cardCornerRadius="20dp"
+                                app:cardElevation="0dp"
                                 app:cardBackgroundColor="@color/foodCard"
                                 android:layout_height="match_parent">
 
@@ -196,6 +197,7 @@
                                 android:layout_marginRight="5dp"
                                 android:layout_width="110dp"
                                 app:cardCornerRadius="20dp"
+                                app:cardElevation="0dp"
                                 app:cardBackgroundColor="@color/exerciseCard"
                                 android:layout_height="match_parent">
 
@@ -229,6 +231,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_width="110dp"
                                 app:cardCornerRadius="20dp"
+                                app:cardElevation="0dp"
                                 app:cardBackgroundColor="@color/sleepCard"
                                 android:layout_height="match_parent">
 

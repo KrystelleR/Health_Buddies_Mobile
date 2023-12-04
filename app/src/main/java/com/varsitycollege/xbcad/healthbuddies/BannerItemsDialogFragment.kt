@@ -61,6 +61,7 @@ class BannerItemsDialogFragment(private val uid: String, private val callback: M
                     if (itemSnapshot.hasChild("ImageUrl")) {
                         val imageUrl = itemSnapshot.child("ImageUrl").value.toString()
                         addImageViewToDialog(imageUrl)
+
                     }
                 }
             }
@@ -90,6 +91,8 @@ class BannerItemsDialogFragment(private val uid: String, private val callback: M
         imageView.setOnClickListener {
             // When the image is clicked, invoke the callback
             callback.onImageClick(imageUrl)
+            // Close the dialog
+            (dialog as? AlertDialog)?.dismiss()
         }
 
         dialogContainer.addView(imageView)
