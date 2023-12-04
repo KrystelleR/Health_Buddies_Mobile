@@ -23,6 +23,8 @@ class Leaderboard : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Hide the ActionBar
+        supportActionBar?.hide()
         setContentView(R.layout.activity_leaderboard)
 
         val viewPager: ViewPager = findViewById(R.id.viewPager)

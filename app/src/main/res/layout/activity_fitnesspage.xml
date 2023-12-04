@@ -272,6 +272,15 @@
                             android:textColor="@color/white"
                             android:textSize="25dp" />
 
+                        <ProgressBar
+                            android:id="@+id/progresbar_nutrition"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_width="200dp"
+                            android:layout_height="10dp"
+                            android:layout_marginTop="10dp"
+                            android:progressDrawable="@drawable/custom_progressbar_nutrition"
+                            />
+
                         <TextView
                             android:id="@+id/congratsmovetxt"
                             android:layout_width="200dp"

@@ -56,6 +56,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val actionBar = supportActionBar
+        actionBar?.setDisplayShowCustomEnabled(true)
+        actionBar?.setDisplayShowTitleEnabled(false) // Hide the default title
+        actionBar?.setCustomView(R.layout.action_bar_custom_layout)
+
+
         database = FirebaseDatabase.getInstance()
         // Getting user details from db
         val currentUser = Firebase.auth.currentUser

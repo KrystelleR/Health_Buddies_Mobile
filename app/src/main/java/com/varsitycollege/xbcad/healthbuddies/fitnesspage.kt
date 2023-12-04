@@ -11,6 +11,7 @@ import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
@@ -81,6 +82,14 @@ class fitnesspage :  AppCompatActivity(), SensorEventListener {
                             leftSteps.text = calculateLeftSteps(goalSteps, totalSteps.toInt()).toString() + " steps"
                             val remainingSteps = calculateLeftSteps(stepsGoal, totalSteps.toInt())
 
+                            // Assuming you have the ProgressBar reference in your activity or fragment
+                            val progressBar: ProgressBar = findViewById(R.id.pbTimer)
+                            val maxValue = stepsGoal // Set your desired maximum value here
+                            progressBar.max = maxValue
+                            val progressValue = totalSteps.toInt() // Set your desired progress value here
+                            progressBar.progress = progressValue
+
+
                             if (remainingSteps <= 0) {
                                 leftSteps.text = "Well done on completing your goal! You have earned 10 coins!\n"
 
@@ -137,6 +146,7 @@ class fitnesspage :  AppCompatActivity(), SensorEventListener {
                             }
 
 
+
                             val userRefMinutes = database.getReference("UserMinutes").child(userUid)
                             userRefMinutes.addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -151,6 +161,12 @@ class fitnesspage :  AppCompatActivity(), SensorEventListener {
                                             val dailymovetv =
                                                 findViewById<TextView>(R.id.moveminutestxt)
                                             dailymovetv.text = " $myMoveMinutes/ $goalMove minutes"
+
+                                            val progressBarNutrition: ProgressBar = findViewById(R.id.progresbar_nutrition)
+                                            val maxValueNutrition = goalMove // Set your desired maximum value here
+                                            progressBarNutrition.max = maxValueNutrition
+                                            val progressValueNutrition = myMoveMinutes // Set your desired progress value here
+                                            progressBarNutrition.progress = progressValueNutrition
 
 
 

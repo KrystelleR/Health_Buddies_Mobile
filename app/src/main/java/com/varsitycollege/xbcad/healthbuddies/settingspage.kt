@@ -446,7 +446,6 @@ class settingspage : AppCompatActivity() {
                             dailywatertv.text = setDailyWaterGoal(myage,mygender)//set water goal based on age and sex
                             caloriestv.text = mydailycalories.toString()
                             caloriestv.text = setDailyCalorieGoal( myage,mygender)// set calories goal based on age and sex
-                            Toast.makeText(this@settingspage, "$myage and $mygender", Toast.LENGTH_SHORT).show()
 
 
                             sleeptv.text = mysleepgoal.toString()
