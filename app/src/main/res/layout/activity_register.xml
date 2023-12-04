@@ -17,7 +17,7 @@
                 android:textColor="@color/blue"
                 android:textAlignment="center"
                 android:fontFamily="@font/itim"
-                android:textSize="38sp"/>
+                android:textSize="42sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -25,73 +25,73 @@
                 android:text="Let’s make Healthy Choices Together"
                 android:textColor="@color/blue"
                 android:fontFamily="@font/itim"
-                android:textSize="20sp"/>
+                android:textSize="23sp"/>
 
-            <EditText
-                android:id="@+id/usernametxt"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:textSize="20dp"
-                android:hint="Username"
-                android:paddingHorizontal="20dp"
-                android:fontFamily="@font/itim"
-                android:textColorHint="@color/lightgrey"
-                android:textColor="@color/lightgrey"
-                android:background="@drawable/loginstyle"
-                android:inputType="textEmailAddress" />
+    <LinearLayout
+        android:layout_width="380dp"
+        android:layout_marginTop="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center"
+        android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/emailtxt"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:textSize="20dp"
-                android:hint="Email"
-                android:paddingHorizontal="20dp"
-                android:fontFamily="@font/itim"
-                android:textColorHint="@color/lightgrey"
-                android:textColor="@color/lightgrey"
-                android:background="@drawable/loginstyle"
-                android:inputType="textEmailAddress" />
+        <EditText
+            android:id="@+id/usernametxt"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/loginstyle"
+            android:fontFamily="@font/itim"
+            android:hint="Username"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/lightgrey"
+            android:textColorHint="@color/lightgrey"
+            android:textSize="20dp" />
 
-            <EditText
-                android:id="@+id/passwordtxt"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:textSize="20dp"
-                android:hint="Password"
-                android:paddingHorizontal="20dp"
-                android:fontFamily="@font/itim"
-                android:textColorHint="@color/lightgrey"
-                android:textColor="@color/lightgrey"
-                android:background="@drawable/loginstyle"
-                android:inputType="textPassword" />
+        <EditText
+            android:id="@+id/emailtxt"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/loginstyle"
+            android:fontFamily="@font/itim"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/lightgrey"
+            android:textColorHint="@color/lightgrey"
+            android:textSize="20dp" />
 
-            <EditText
-                android:id="@+id/confpasswordtxt"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:textSize="20dp"
-                android:hint="Confirm Password"
-                android:paddingHorizontal="20dp"
-                android:fontFamily="@font/itim"
-                android:textColorHint="@color/lightgrey"
-                android:textColor="@color/lightgrey"
-                android:background="@drawable/loginstyle"
-                android:inputType="textPassword" />
+        <EditText
+            android:id="@+id/passwordtxt"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/loginstyle"
+            android:fontFamily="@font/itim"
+            android:layout_marginTop="20dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/lightgrey"
+            android:textColorHint="@color/lightgrey"
+            android:textSize="20dp" />
 
-            <androidx.appcompat.widget.AppCompatButton
+        <EditText
+            android:id="@+id/confpasswordtxt"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/loginstyle"
+            android:fontFamily="@font/itim"
+            android:layout_marginTop="20dp"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/lightgrey"
+            android:textColorHint="@color/lightgrey"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/registerbtn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -103,92 +103,8 @@
                 android:textColor="@color/white"
                 android:background="@drawable/gradient_bttn"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="180dp"
-                    android:layout_height="2dp"
-                    android:layout_gravity="center"
-                    android:background="@color/blue" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_gravity="right"
-                    android:text="or"
-                    android:textColor="@color/blue"
-                    android:fontFamily="@font/itim"
-                    android:textSize="20sp"/>
-
-                <View
-                    android:layout_width="180dp"
-                    android:layout_height="2dp"
-                    android:layout_gravity="center"
-                    android:background="@color/blue" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="80dp"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/googleBttn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:backgroundTint="#00FFFFFF"
-                    android:text="Sign up here"
-                    android:src="@drawable/google"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/itim"
-                    android:textColor="#00DA9A"
-                    android:textAllCaps="false"
-                    style="?android:attr/borderlessButtonStyle"/>
-
-                <ImageButton
-                    android:id="@+id/facebookBttn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="60dp"
-                    android:backgroundTint="#00FFFFFF"
-                    android:text="Sign up here"
-                    android:src="@drawable/facebook"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/itim"
-                    android:textColor="#00DA9A"
-                    android:textAllCaps="false"
-                    style="?android:attr/borderlessButtonStyle"/>
-
-                <ImageButton
-                    android:id="@+id/twitterBttn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="60dp"
-                    android:backgroundTint="#00FFFFFF"
-                    android:text="Sign up here"
-                    android:src="@drawable/twitter"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/itim"
-                    android:textColor="#00DA9A"
-                    android:textAllCaps="false"
-                    style="?android:attr/borderlessButtonStyle"/>
-            </LinearLayout>
-
     <Button
+        android:layout_marginTop="20dp"
         android:id="@+id/Signinbtn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -197,5 +113,5 @@
         android:backgroundTint="@android:color/transparent"
         android:text="@string/signIn"
         android:textAllCaps="false"
-        android:textSize="12dp" />
+        android:textSize="15dp" />
 </LinearLayout>

@@ -427,7 +427,7 @@ class Register : AppCompatActivity() {
     //see why authentication failed (email taken)
 
     private fun updateUI() {
-        val Intent = Intent(this, MainActivity::class.java)
+        val Intent = Intent(this, settingspage::class.java)
         startActivity(Intent)
     }
 

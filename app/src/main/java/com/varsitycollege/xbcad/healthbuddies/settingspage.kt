@@ -15,6 +15,7 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.cardview.widget.CardView
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -54,6 +55,7 @@ class settingspage : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         setContentView(R.layout.activity_settingspage)
 
 
@@ -88,6 +90,11 @@ class settingspage : AppCompatActivity() {
 
 
 
+
+        val changePasswordButton = findViewById<Button>(R.id.changepasswordbtn)
+        changePasswordButton.setOnClickListener {
+            showChangePasswordDialog()
+        }
 
 
 
@@ -769,18 +776,24 @@ class settingspage : AppCompatActivity() {
                 state = "healthy weight"
             }
 
+            val recommendHeightCalc = findViewById<TextView>(R.id.heighttxt)
             var recommendedGoalWeight = 0.0
+            val currentparts1 = recommendHeightCalc.text.toString().split(" ")
+            var chosen = currentparts1.firstOrNull()?.toIntOrNull() ?: 0
+
+            var myNumber = chosen.toDouble()
+
             if(gender == "M"){
-                recommendedGoalWeight = 22 * mycurrentheight * 2
+
+                recommendedGoalWeight = 22 * (myNumber.toDouble()/100) * 2
             }
             else{
-                recommendedGoalWeight = (22 * (mycurrentheight - 10) * 2)
-                Toast.makeText(this@settingspage, "$mycurrentheight", Toast.LENGTH_SHORT).show()
+                recommendedGoalWeight = (22 * (myNumber.toDouble()/100 - 10) * 2)
             }
 
             val recommendedGoalWeightInt = recommendedGoalWeight.roundToInt()
             val bmigoal = dialog.findViewById<TextView>(R.id.bmitxt)
-            bmigoal.text = "Your current BMI is: $bmiInInt ($state) \nThe best weight for you would be:$recommendedGoalWeightInt kg\n\nBut pick a goal that is realistic for you!\""
+            bmigoal.text = "Your current BMI is: $bmiInInt ($state) \n You're recommended Goal Weight is: $recommendedGoalWeight kg \nPick a goal that is realistic for you!\""
 
             weightPicker.value = recommendedGoalWeightInt
             val okButton: Button = dialog.findViewById(R.id.okButton)
@@ -829,25 +842,27 @@ class settingspage : AppCompatActivity() {
                 state = "healthy weight"
             }
 
+            val recommendHeightCalc = findViewById<TextView>(R.id.heighttxt)
             var recommendedGoalWeight = 0.0
+            val currentparts1 = recommendHeightCalc.text.toString().split(" ")
+            var chosen = currentparts1.firstOrNull()?.toIntOrNull() ?: 0
+
+            var myNumber = chosen.toDouble() * 2.54
+
             if(gender == "M"){
-                recommendedGoalWeight = 22 * mycurrentheight * 2
+
+                recommendedGoalWeight = 22 * (myNumber.toDouble()/100) * 2
             }
             else{
-                recommendedGoalWeight = 22 * (mycurrentheight - 10) * 2
+                recommendedGoalWeight = (22 * (myNumber.toDouble()/100 - 10) * 2)
             }
 
-            recommendedGoalWeight = recommendedGoalWeight * 2.20462
+            recommendedGoalWeight = recommendedGoalWeight* 2.20462
             val recommendedGoalWeightInt = recommendedGoalWeight.roundToInt()
-
-
-
             val bmigoal = dialog.findViewById<TextView>(R.id.bmitxt)
-            bmigoal.text = "Your current BMI is: $bmiInInt ($state) \nThe best weight for you would be:$recommendedGoalWeightInt pounds\n\nBut pick a goal that is realistic for you!\""
+            bmigoal.text = "Your current BMI is: $bmiInInt ($state) \n You're recommended Goal Weight is: $recommendedGoalWeight pounds \nPick a goal that is realistic for you!\""
+
             weightPicker.value = recommendedGoalWeightInt
-
-
-
 
 
             val okButton: Button = dialog.findViewById(R.id.okButton)
@@ -950,6 +965,66 @@ class settingspage : AppCompatActivity() {
     private fun saveCharacterImageUrl(imageUrl: String) {
         val userRef = FirebaseDatabase.getInstance().getReference("Users").child(myuid)
         userRef.child("profileImage").setValue(imageUrl)
+    }
+
+
+    private fun showChangePasswordDialog() {
+        val builder = AlertDialog.Builder(this)
+        val inflater = layoutInflater
+        val dialogView = inflater.inflate(R.layout.change_password_dialog, null)
+
+        // Get references to the EditTexts in your dialog layout
+        val oldPasswordEditText = dialogView.findViewById<EditText>(R.id.editTextOldPassword)
+        val newPasswordEditText = dialogView.findViewById<EditText>(R.id.editTextNewPassword)
+        val confirmPasswordEditText = dialogView.findViewById<EditText>(R.id.editTextConfirmPassword)
+
+        builder.setView(dialogView)
+            .setTitle("Change Password")
+            .setPositiveButton("Change") { dialog, _ ->
+                // Get the text from the EditTexts
+                val oldPassword = oldPasswordEditText.text.toString()
+                val newPassword = newPasswordEditText.text.toString()
+                val confirmPassword = confirmPasswordEditText.text.toString()
+
+                // Check if new password and confirm password match
+                if (newPassword == confirmPassword) {
+                    // Change the password using Firebase Authentication
+                    changePassword(oldPassword, newPassword)
+                } else {
+                    // Display an error message if new password and confirm password do not match
+                    Toast.makeText(this, "New password and confirm password do not match", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.cancel()
+            }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+    }
+
+    private fun changePassword(oldPassword: String, newPassword: String) {
+        // Get the current user
+        val user = Firebase.auth.currentUser
+
+        // Reauthenticate the user with their old password
+        val credential = EmailAuthProvider.getCredential(user?.email.orEmpty(), oldPassword)
+        user?.reauthenticate(credential)
+            ?.addOnCompleteListener { reauthTask ->
+                if (reauthTask.isSuccessful) {
+                    // Change the password
+                    user.updatePassword(newPassword)
+                        .addOnCompleteListener { updatePasswordTask ->
+                            if (updatePasswordTask.isSuccessful) {
+                                Toast.makeText(this, "Password changed successfully", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(this, "Failed to change password: ${updatePasswordTask.exception?.message}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                } else {
+                    Toast.makeText(this, "Failed to reauthenticate: ${reauthTask.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
 
