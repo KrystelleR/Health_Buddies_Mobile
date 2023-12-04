@@ -22,9 +22,8 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="30dp"
                 android:text="When did I sleep? "
-                android:fontFamily="casual"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/itim"
+                android:textSize="26sp"
                 android:textColor="@color/black"
                 android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
@@ -72,9 +71,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="10dp"
                 android:text="Time I went to bed: "
-                android:fontFamily="casual"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/itim"
+                android:textSize="26sp"
+
                 android:textColor="@color/black"
                 android:gravity="center"/>
 
@@ -103,9 +102,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="20dp"
                 android:text="Time I woke up: "
-                android:fontFamily="casual"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/itim"
+                android:textSize="26sp"
                 android:textColor="@color/black"
                 android:gravity="center"/>
 
@@ -139,9 +137,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:text="Hours slept: "
-                    android:fontFamily="casual"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/itim"
+                    android:textSize="26sp"
                     android:textColor="@color/black"
                     android:gravity="center"
                     android:layout_marginRight="20dp"
@@ -153,9 +150,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:text="add hours"
-                android:fontFamily="casual"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/itim"
+                android:textSize="26sp"
                 android:textColor="@color/black"
                 android:gravity="center"
 
@@ -173,9 +169,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="50dp"
                 android:text="How much water I drank:"
-                android:fontFamily="casual"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/itim"
+                android:textSize="26sp"
                 android:textColor="@color/black"
                 android:gravity="center"/>
 
@@ -208,26 +203,26 @@
 
                         <ImageView
                             android:layout_width="70dp"
-                            android:layout_height="100dp"
+                            android:layout_height="53dp"
                             android:src="@drawable/glass"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="69dp"
                             android:layout_marginRight="60dp"
                             android:layout_marginLeft="20dp"
                             />
 
                         <ImageView
                             android:layout_width="70dp"
-                            android:layout_height="100dp"
+                            android:layout_height="90dp"
                             android:src="@drawable/bottle"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="35dp"
                             android:layout_marginRight="60dp"
                             />
 
                         <ImageView
                             android:layout_width="70dp"
-                            android:layout_height="100dp"
+                            android:layout_height="120dp"
                             android:src="@drawable/thousandbottle"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="7dp"
 
                             />
 
@@ -243,22 +238,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
+                            android:layout_marginTop="30dp"
                             >
                             <TextView
                                 android:layout_width="50dp"
                                 android:layout_height="30dp"
                                 android:text="125ml"
-                                android:layout_marginLeft="40dp"/>
+                                android:layout_marginLeft="40dp"
+                                android:fontFamily="@font/itim"/>
                             <TextView
                                 android:layout_width="50dp"
                                 android:layout_height="30dp"
                                 android:text="500ml"
-                                android:layout_marginLeft="70dp"/>
+                                android:layout_marginLeft="70dp"
+                                android:fontFamily="@font/itim"/>
                             <TextView
                                 android:layout_width="50dp"
                                 android:layout_height="30dp"
                                 android:text="1000ml"
-                                android:layout_marginLeft="70dp"/>
+                                android:layout_marginLeft="70dp"
+                                android:fontFamily="@font/itim"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -269,7 +268,7 @@
                             <Switch
                                 android:layout_width="50dp"
                                 android:layout_height="20dp"
-                                android:layout_marginTop="30dp"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="50dp"
                                 android:layout_marginLeft="40dp"
                                 android:id="@+id/switch_250"
@@ -277,7 +276,7 @@
                             <Switch
                                 android:layout_width="50dp"
                                 android:layout_height="20dp"
-                                android:layout_marginTop="30dp"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="30dp"
                                 android:layout_marginLeft="20dp"
                                 android:id="@+id/switch_500"
@@ -285,7 +284,7 @@
                             <Switch
                                 android:layout_width="50dp"
                                 android:layout_height="20dp"
-                                android:layout_marginTop="30dp"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginLeft="40dp"
                                 android:id="@+id/switch_1000"
                                 android:thumbTint="@color/white"
@@ -319,9 +318,8 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="10dp"
                     android:text="Custom amount of water (ml)"
-                    android:fontFamily="casual"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/itim"
+                    android:textSize="26sp"
                     android:textColor="@color/black"
                    android:layout_gravity="center"/>
 
@@ -337,7 +335,7 @@
                     android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
-                    android:fontFamily="casual"
+                    android:fontFamily="@font/itim"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@color/white"

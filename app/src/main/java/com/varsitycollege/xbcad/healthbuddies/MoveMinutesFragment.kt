@@ -81,7 +81,11 @@ class MoveMinutesFragment : Fragment() {
                             // Create a list of day labels
                             val variables = listOf("Current", "My Goal")
 
-                            val dataSet = BarDataSet(entries, "Label for DataSet")
+                            val dataSet = BarDataSet(entries, "My Move Minutes")
+                            dataSet.colors = listOf(resources.getColor(R.color.teal_200), resources.getColor(R.color.orange))
+                            dataSet.valueTextSize = 12f // Set text size
+                            dataSet.valueTextColor = resources.getColor(R.color.black)
+
 
                             val data = BarData(dataSet)
 

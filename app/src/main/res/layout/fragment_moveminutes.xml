@@ -2,5 +2,5 @@
 android:id="@+id/barChart"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="#FF9D6D"
+android:background="#FFD5C0"
 android:layout_gravity="center"/>

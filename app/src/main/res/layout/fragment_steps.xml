@@ -2,5 +2,5 @@
     android:id="@+id/lineChart"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#91F482"
+    android:background="#ADDDA3"
     android:layout_gravity="center"/>

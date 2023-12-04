@@ -44,12 +44,11 @@
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:background="#99DAD4"
-            android:fontFamily="casual"
+            android:fontFamily="@font/itim"
             android:gravity="center"
             android:text="Water and Sleep Tracker"
             android:textColor="@color/white"
             android:textSize="30sp"
-            android:textStyle="bold"
             android:layout_gravity="center"
             android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp"/>

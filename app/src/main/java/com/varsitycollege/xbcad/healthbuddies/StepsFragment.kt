@@ -98,9 +98,12 @@ class StepsFragment:  Fragment() {
 
 
                     // Create a dataset and set properties
-                    val dataSet = LineDataSet(entries, "Steps")
-                    dataSet.color = resources.getColor(R.color.tealBlue)
-                    dataSet.valueTextColor = resources.getColor(R.color.teal_700)
+                    val dataSet = LineDataSet(entries, "Steps per hour")
+                    dataSet.color = resources.getColor(R.color.teal_200)
+                    dataSet.valueTextColor = resources.getColor(R.color.white)
+                    dataSet.valueTextSize = 12f // Set text size
+                    dataSet.lineWidth = 3f // Set line thickness
+                    dataSet.mode = LineDataSet.Mode.LINEAR // Set line style
 
                     // Create a LineData object with the dataset
                     val lineData = LineData(dataSet)
@@ -117,10 +120,14 @@ class StepsFragment:  Fragment() {
 
                     // Customize Y-axis
                     val yAxis: YAxis = lineChart.axisLeft
-                    yAxis.setDrawGridLines(false)
+                    yAxis.setDrawGridLines(true)
 
                     // Set data to the chart
                     lineChart.data = lineData
+
+                    lineChart.description.text = "My Steps Progress"
+                    lineChart.description.textColor= resources.getColor(R.color.white)
+                    lineChart.description.textSize=12f
 
                     // Refresh the chart
                     lineChart.invalidate()
