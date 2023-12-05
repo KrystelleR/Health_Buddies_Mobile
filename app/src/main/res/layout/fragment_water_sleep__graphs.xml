@@ -38,7 +38,7 @@
                     android:textColor="@color/black"
                     android:textSize="26sp"
                     android:layout_marginTop="20dp"
-                    android:text="Hours of Sleep for the week "
+                    android:text="Sleep Routine"
                     android:layout_gravity="center"
                     android:layout_marginLeft="60dp"
                     />
@@ -80,7 +80,7 @@
                 <TextView
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="0dp"
                     android:fontFamily="@font/itim"
                     android:gravity="center"
                     android:text="Today's water level"
@@ -150,6 +150,8 @@
                         android:text="0000 ml"
                         android:textColor="@color/white"
                         android:textSize="18sp"
+
+
                         />
                 </LinearLayout>
 

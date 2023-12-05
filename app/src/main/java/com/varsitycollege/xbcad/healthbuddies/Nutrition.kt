@@ -258,7 +258,7 @@ class Nutrition : AppCompatActivity() {
         pieChart.description.textColor = Color.BLACK
         pieChart.description.textSize = 15f
         pieChart.description.textColor = Color.WHITE
-        pieChart.description.setPosition(555f, 480f)
+
         pieChart.legend.xOffset=-58f
         pieChart.legend.textSize = 15f
         pieChart.legend.formSize = 15f
