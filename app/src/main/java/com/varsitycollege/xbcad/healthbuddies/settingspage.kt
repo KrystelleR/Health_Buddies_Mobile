@@ -215,7 +215,7 @@ class settingspage : AppCompatActivity() {
         val emailtv = findViewById<TextView>(R.id.emailtxt)
         val metricsw = findViewById<Switch>(R.id.metricswitch)
         val imperialsw = findViewById<Switch>(R.id.imperialswitch)
-        val myweighttv = findViewById<TextView>(R.id.myweighttxt)
+        val myweighttv = findViewById<TextView>(R.id.goalweighttxt)
         val stepstv = findViewById<Spinner>(R.id.stepsSpinner)
         val minutestv= findViewById<Spinner>(R.id.minutesSpinner)
         val dailywatertv = findViewById<TextView>(R.id.dailywatertxt)
@@ -238,13 +238,13 @@ class settingspage : AppCompatActivity() {
             metricsw.isChecked = !isChecked
 
             // Change weight and goal weight and height to pounds
-            val goalweight = findViewById<TextView>(R.id.weighttxt)
+            val goalweight = findViewById<TextView>(R.id.goalweighttxt)
             val currentparts1 = goalweight.text.toString().split(" ")
             val mycurrentweight1 = currentparts1.firstOrNull()?.toDoubleOrNull() ?: 0.0
             val weightinpoundsgoal = if (isChecked) mycurrentweight1 / 0.453592 else mycurrentweight1
             goalweight.text = "${weightinpoundsgoal.roundToInt()} ${if (isChecked) "pounds" else "kg"}"
 
-            val weight = findViewById<TextView>(R.id.myweighttxt)
+            val weight = findViewById<TextView>(R.id.weighttxt)
             val currentparts = weight.text.toString().split(" ")
             val mycurrentweight = currentparts.firstOrNull()?.toDoubleOrNull() ?: 0.0
             val weightinpounds = if (isChecked) mycurrentweight / 0.453592 else mycurrentweight
@@ -262,13 +262,13 @@ class settingspage : AppCompatActivity() {
         metricsw.setOnCheckedChangeListener { _, isChecked ->
             imperialsw.isChecked = !isChecked
             // Change weight and goal weight and height to kg
-            val goalweight = findViewById<TextView>(R.id.weighttxt)
+            val goalweight = findViewById<TextView>(R.id.goalweighttxt)
             val currentparts1 = goalweight.text.toString().split(" ")
             val mycurrentweight1 = currentparts1.firstOrNull()?.toDoubleOrNull() ?: 0.0
             val weightinkggoal = if (isChecked) mycurrentweight1 * 0.453592 else mycurrentweight1
             goalweight.text = "${weightinkggoal.roundToInt()} ${if (isChecked) "kg" else "pounds"}"
 
-            val weight = findViewById<TextView>(R.id.myweighttxt)
+            val weight = findViewById<TextView>(R.id.weighttxt)
             val currentparts = weight.text.toString().split(" ")
             val mycurrentweight = currentparts.firstOrNull()?.toDoubleOrNull() ?: 0.0
             val weightinkg = if (isChecked) mycurrentweight * 0.453592 else mycurrentweight
@@ -541,7 +541,7 @@ class settingspage : AppCompatActivity() {
         val metricsw = findViewById<Switch>(R.id.metricswitch)
         val imperialsw = findViewById<Switch>(R.id.imperialswitch)
         val stepstv = findViewById<Spinner>(R.id.stepsSpinner)
-        val myweighttv = findViewById<TextView>(R.id.myweighttxt)
+        val myweighttv = findViewById<TextView>(R.id.goalweighttxt)
         val dailywatertv = findViewById<TextView>(R.id.dailywatertxt)
         val caloriestv = findViewById<TextView>(R.id.caloriestxt)
         val sleeptv = findViewById<TextView>(R.id.sleeptxt)
@@ -552,52 +552,65 @@ class settingspage : AppCompatActivity() {
         val parts = selectedMinutesString.split(" ")
         val selectedMinutesInt = parts.firstOrNull()?.toIntOrNull() ?: 0
 
-
-
         val selectedStepsString = stepstv.selectedItem.toString()
         val theparts = selectedStepsString.split(" ")
         val selectedStepsInt = theparts.firstOrNull()?.toIntOrNull() ?: 0
+
+
+        var currentProfilePictureUrl = ""
 
         val currentUser = Firebase.auth.currentUser
         if (currentUser != null) {
             val userUid = currentUser.uid
             val userRef = FirebaseDatabase.getInstance().getReference("Users").child(userUid)
 
+            userRef.child("profileImage").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    // Check if the value exists
+                    if (snapshot.exists()) {
+                        currentProfilePictureUrl = snapshot.value.toString()
 
-            // Create an instance of UserDetails with the updated values
-            val updatedUserDetails = currentUser.email?.let {
-                data.UserDetails(
-                    currentUser.uid,
-                    usernametv.text.toString(),
-                    it,
-                    agetv.selectedItem.toString().toInt(),
-                    heighttv.text.toString(),
-                    myweighttv.text.toString(),
-                    metricsw.isChecked,
-                    imperialsw.isChecked,
-                    currentProfileImageResourceId,
-                    true,  // Assuming this should always be set to true when saving changes
-                    gendertv.selectedItem.toString(),
-                    aboutmetv.text.toString(),
-                    myusercurrency,
-                    mycurrentcalories,
-                    selectedStepsInt,  // Assuming steps can be converted to Int
-                    weighttv.text.toString(),
-                    selectedMinutesInt,
-                    sleeptv.text.toString().toInt(), // Assuming minutes can be converted to Int
-                    dailywatertv.text.toString().toInt(),  // Assuming water goal can be converted to Int // Assuming sleep goal can be converted to Int
-                    caloriestv.text.toString().toInt(),
-                    mybackground,
-                    mycharacter
-                )
-            }
+                        // Create an instance of UserDetails with the updated values
+                        val updatedUserDetails = currentUser.email?.let {
+                            data.UserDetails(
+                                currentUser.uid,
+                                usernametv.text.toString(),
+                                it,
+                                agetv.selectedItem.toString().toInt(),
+                                heighttv.text.toString(),
+                                myweighttv.text.toString(),
+                                metricsw.isChecked,
+                                imperialsw.isChecked,
+                                currentProfilePictureUrl,
+                                true,  // Assuming this should always be set to true when saving changes
+                                gendertv.selectedItem.toString(),
+                                aboutmetv.text.toString(),
+                                myusercurrency,
+                                mycurrentcalories,
+                                selectedStepsInt,  // Assuming steps can be converted to Int
+                                weighttv.text.toString(),
+                                selectedMinutesInt,
+                                sleeptv.text.toString().toInt(), // Assuming minutes can be converted to Int
+                                dailywatertv.text.toString().toInt(),  // Assuming water goal can be converted to Int // Assuming sleep goal can be converted to Int
+                                caloriestv.text.toString().toInt(),
+                                mybackground,
+                                mycharacter
+                            )
+                        }
 
-            // Update the values in the database using the UserDetails instance
-            userRef.setValue(updatedUserDetails)
+                        // Update the values in the database using the UserDetails instance
+                        userRef.setValue(updatedUserDetails)
 
-            Toast.makeText(this, "Changes saved successfully", Toast.LENGTH_SHORT).show()
-            val intent =Intent(this,MainActivity::class.java)
-            startActivity(intent)//nav to main when changes have been saved
+                        Toast.makeText(this@settingspage, "Changes saved successfully", Toast.LENGTH_SHORT).show()
+                        val intent =Intent(this@settingspage,MainActivity::class.java)
+                        startActivity(intent)//nav to main when changes have been saved
+                    } else {
+
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
         }
     }
 
@@ -778,27 +791,24 @@ class settingspage : AppCompatActivity() {
             val recommendHeightCalc = findViewById<TextView>(R.id.heighttxt)
             var recommendedGoalWeight = 0.0
             val currentparts1 = recommendHeightCalc.text.toString().split(" ")
-            var chosen = currentparts1.firstOrNull()?.toIntOrNull() ?: 0
+            var chosen = currentparts1.firstOrNull()?.toDoubleOrNull() ?: 0.0
 
-            var myNumber = chosen.toDouble()
-
-            if(gender == "M"){
-
-                recommendedGoalWeight = 22 * (myNumber.toDouble()/100) * 2
-            }
-            else{
-                recommendedGoalWeight = (22 * (myNumber.toDouble()/100 - 10) * 2)
+            var myNumber = chosen
+            if (gender == "M") {
+                recommendedGoalWeight = 22 * (myNumber / 100) * 2
+            } else {
+                recommendedGoalWeight = (22 * ((myNumber - 10)/100)) * 2
             }
 
             val recommendedGoalWeightInt = recommendedGoalWeight.roundToInt()
             val bmigoal = dialog.findViewById<TextView>(R.id.bmitxt)
-            bmigoal.text = "Your current BMI is: $bmiInInt ($state) \n You're recommended Goal Weight is: $recommendedGoalWeight kg \nPick a goal that is realistic for you!\""
+            bmigoal.text = "Your current BMI is: $bmiInInt ($state) \n You're recommended Goal Weight is: $recommendedGoalWeight kg \nPick a goal that is realistic for you!\n"
 
             weightPicker.value = recommendedGoalWeightInt
             val okButton: Button = dialog.findViewById(R.id.okButton)
             okButton.setOnClickListener {
                 // Update the TextView with the selected height
-                val weightTextView = findViewById<TextView>(R.id.myweighttxt)
+                val weightTextView = findViewById<TextView>(R.id.goalweighttxt)
                 weightTextView.text = "${weightPicker.value} kg"
                 dialog.dismiss()
             }
@@ -845,21 +855,20 @@ class settingspage : AppCompatActivity() {
             var recommendedGoalWeight = 0.0
             val currentparts1 = recommendHeightCalc.text.toString().split(" ")
             var chosen = currentparts1.firstOrNull()?.toIntOrNull() ?: 0
+            Toast.makeText(this, "$chosen", Toast.LENGTH_SHORT).show()
 
-            var myNumber = chosen.toDouble() * 2.54
-
-            if(gender == "M"){
-
-                recommendedGoalWeight = 22 * (myNumber.toDouble()/100) * 2
-            }
-            else{
-                recommendedGoalWeight = (22 * (myNumber.toDouble()/100 - 10) * 2)
+            var myNumber = chosen * 2.54 // Convert inches to meters
+            if (gender == "M") {
+                recommendedGoalWeight = (22 * (myNumber/100) * 2)
+            } else {
+                recommendedGoalWeight = 22 * ((myNumber - 10)/100) * 2
             }
 
-            recommendedGoalWeight = recommendedGoalWeight* 2.20462
+            //convert kg to pounds
+            recommendedGoalWeight = recommendedGoalWeight * 2.20462
             val recommendedGoalWeightInt = recommendedGoalWeight.roundToInt()
             val bmigoal = dialog.findViewById<TextView>(R.id.bmitxt)
-            bmigoal.text = "Your current BMI is: $bmiInInt ($state) \n You're recommended Goal Weight is: $recommendedGoalWeight pounds \nPick a goal that is realistic for you!\""
+            bmigoal.text = "Your current BMI is: $bmiInInt ($state) \n You're recommended Goal Weight is: $recommendedGoalWeight pounds \nPick a goal that is realistic for you!\n"
 
             weightPicker.value = recommendedGoalWeightInt
 
@@ -867,7 +876,7 @@ class settingspage : AppCompatActivity() {
             val okButton: Button = dialog.findViewById(R.id.okButton)
             okButton.setOnClickListener {
                 // Update the TextView with the selected height
-                val weightTextView = findViewById<TextView>(R.id.myweighttxt)
+                val weightTextView = findViewById<TextView>(R.id.goalweighttxt)
                 weightTextView.text = "${weightPicker.value} pounds"
                 dialog.dismiss()
             }
