@@ -508,7 +508,7 @@
                                                 android:textStyle="bold" />
 
                                             <TextView
-                                                android:id="@+id/myweighttxt"
+                                                android:id="@+id/goalweighttxt"
                                                 android:layout_width="150dp"
                                                 android:layout_height="30dp"
                                                 android:background="@drawable/rounded_edittext"
