@@ -80,11 +80,14 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
 
         if (selectedItem != null) {
             handleBannerPurchase(selectedItem)
+
         } else if (selectedPfpItem != null) {
             handleProfilePicturePurchase(selectedPfpItem)
+
         }
         if(selectedCharItem != null) {
             handleCharacterPurchase(selectedCharItem)
+
         }
     }
 
@@ -126,6 +129,7 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
                                     // Handle this case if needed
                                 }
                             }
+                            fetchUserData()
                         }
                         .addOnFailureListener {
                             // Transaction failed
@@ -362,6 +366,7 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
                                     // Handle this case if needed
                                 }
                             }
+                            fetchUserData() // This will be executed regardless of the purchase status
                         }
                         .addOnFailureListener {
                             // Transaction failed
@@ -425,6 +430,7 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
                                     // Handle this case if needed
                                 }
                             }
+                            fetchUserData()
                         }
                         .addOnFailureListener {
                             // Transaction failed
