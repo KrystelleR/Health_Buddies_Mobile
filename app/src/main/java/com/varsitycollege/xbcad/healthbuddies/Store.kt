@@ -89,58 +89,62 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
     }
 
     private fun handleBannerPurchase(selectedItem: StoreItem) {
-        // Your existing banner purchase logic here
-        val selectedPoints = selectedItem.points
-
         // Reference to the user's currency node
-        val userCurrencyRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUid).child("userCurrency")
+        val userCurrencyRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUid)
 
-        userCurrencyRef.runTransaction(object : Transaction.Handler {
-            override fun doTransaction(mutableData: MutableData): Transaction.Result {
-                val currentCurrency = mutableData.getValue(Long::class.java) ?: 0
+        // Fetch the current user currency value
+        userCurrencyRef.child("userCurrency").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val currentCurrencyBefore = dataSnapshot.getValue(Long::class.java) ?: 0
 
                 // Ensure the user has enough currency to make the purchase
-                return if (currentCurrency >= selectedPoints) {
-                    mutableData.value = currentCurrency - selectedPoints
-                    Transaction.success(mutableData)
+                if (currentCurrencyBefore >= selectedItem.points) {
+                    // Deduct the points from the user's currency
+                    userCurrencyRef.child("userCurrency").setValue(currentCurrencyBefore - selectedItem.points)
+                        .addOnSuccessListener {
+                            // Purchase successful
+                            Toast.makeText(this@Store, "Item purchased!", Toast.LENGTH_SHORT).show()
+
+                            // Update the PurchasedItems in the database under the new structure
+                            val userPurchasedItemsRef = FirebaseDatabase.getInstance().getReference("PurchasedItems")
+                                .child(currentUserUid)
+                                .child("banner")
+                                .child(selectedItem.storeId)
+
+                            // Add additional information to the database
+                            userPurchasedItemsRef.child("ID").setValue(selectedItem.storeId)
+                            userPurchasedItemsRef.child("ImageUrl").setValue(selectedItem.imageUrl)
+                            userPurchasedItemsRef.child("setValueTrue").setValue(true)
+
+                            // Check if the item is still available (not purchased by another user)
+                            isItemPurchased(selectedItem) { isPurchased ->
+                                if (!isPurchased) {
+                                    // Refresh user currency display
+                                    fetchUserData()
+                                } else {
+                                    // The item was purchased by another user
+                                    // Handle this case if needed
+                                }
+                            }
+                        }
+                        .addOnFailureListener {
+                            // Transaction failed
+                            Toast.makeText(this@Store, "Purchase failed: Transaction failed", Toast.LENGTH_SHORT).show()
+                        }
                 } else {
-                    Transaction.abort()
+                    // Insufficient currency
+                    Toast.makeText(this@Store, "Purchase failed: Insufficient currency", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onComplete(databaseError: DatabaseError?, committed: Boolean, dataSnapshot: DataSnapshot?) {
-                if (committed) {
-                    // Purchase successful
-                    Toast.makeText(this@Store, "Item purchased!", Toast.LENGTH_SHORT).show()
-
-                    // Update the PurchasedItems in the database under the new structure
-                    val userPurchasedItemsRef = FirebaseDatabase.getInstance().getReference("PurchasedItems")
-                        .child(currentUserUid)
-                        .child("banner")
-                        .child(selectedItem.storeId)
-
-                    // Add additional information to the database
-                    userPurchasedItemsRef.child("ID").setValue(selectedItem.storeId)
-                    userPurchasedItemsRef.child("ImageUrl").setValue(selectedItem.imageUrl)
-                    userPurchasedItemsRef.child("setValueTrue").setValue(true)
-
-                    // Check if the item is still available (not purchased by another user)
-                    isItemPurchased(selectedItem) { isPurchased ->
-                        if (!isPurchased) {
-                            // Refresh user currency display
-                            fetchUserData()
-                        } else {
-                            // The item was purchased by another user
-                            // Handle this case if needed
-                        }
-                    }
-                } else {
-                    // Insufficient currency or transaction failed
-                    Toast.makeText(this@Store, "Purchase failed: Insufficient currency or transaction failed", Toast.LENGTH_SHORT).show()
-                }
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle the error
+                Log.e("FirebaseData", "Error: ${databaseError.message}")
+                Toast.makeText(this@Store, "Purchase failed: ${databaseError.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
+
 
 
     override fun onCancelClicked() {
@@ -321,111 +325,125 @@ class Store : AppCompatActivity(), ConfirmationDialogFragment.ConfirmationDialog
         //endregion
     }
     private fun handleProfilePicturePurchase(selectedPfpItem: StoreItem) {
-        // Your existing banner purchase logic here
-        val selectedPoints = selectedPfpItem.points
-
         // Reference to the user's currency node
-        val userCurrencyRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUid).child("userCurrency")
+        val userCurrencyRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUid)
 
-        userCurrencyRef.runTransaction(object : Transaction.Handler {
-            override fun doTransaction(mutableData: MutableData): Transaction.Result {
-                val currentCurrency = mutableData.getValue(Long::class.java) ?: 0
+        // Fetch the current user currency value
+        userCurrencyRef.child("userCurrency").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val currentCurrencyBefore = dataSnapshot.getValue(Long::class.java) ?: 0
 
                 // Ensure the user has enough currency to make the purchase
-                return if (currentCurrency >= selectedPoints) {
-                    mutableData.value = currentCurrency - selectedPoints
-                    Transaction.success(mutableData)
+                if (currentCurrencyBefore >= selectedPfpItem.points) {
+                    // Deduct the points from the user's currency
+                    userCurrencyRef.child("userCurrency").setValue(currentCurrencyBefore - selectedPfpItem.points)
+                        .addOnSuccessListener {
+                            // Purchase successful
+                            Toast.makeText(this@Store, "Item purchased!", Toast.LENGTH_SHORT).show()
+
+                            // Update the PurchasedItems in the database under the new structure
+                            val userPurchasedItemsRef = FirebaseDatabase.getInstance().getReference("PurchasedItems")
+                                .child(currentUserUid)
+                                .child("pfp")
+                                .child(selectedPfpItem.storeId)
+
+                            // Add additional information to the database
+                            userPurchasedItemsRef.child("ID").setValue(selectedPfpItem.storeId)
+                            userPurchasedItemsRef.child("ImageUrl").setValue(selectedPfpItem.imageUrl)
+                            userPurchasedItemsRef.child("setValueTrue").setValue(true)
+
+                            // Check if the item is still available (not purchased by another user)
+                            isPFPPurchased(selectedPfpItem) { isPurchased ->
+                                if (!isPurchased) {
+                                    // Refresh user currency display
+                                    fetchUserData()
+                                } else {
+                                    // The item was purchased by another user
+                                    // Handle this case if needed
+                                }
+                            }
+                        }
+                        .addOnFailureListener {
+                            // Transaction failed
+                            Toast.makeText(this@Store, "Purchase failed: Transaction failed", Toast.LENGTH_SHORT).show()
+                        }
                 } else {
-                    Transaction.abort()
+                    // Insufficient currency
+                    Toast.makeText(this@Store, "Purchase failed: Insufficient currency", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onComplete(databaseError: DatabaseError?, committed: Boolean, dataSnapshot: DataSnapshot?) {
-                if (committed) {
-                    // Purchase successful
-                    Toast.makeText(this@Store, "Item purchased!", Toast.LENGTH_SHORT).show()
-
-                    // Update the PurchasedItems in the database under the new structure
-                    val userPurchasedItemsRef = FirebaseDatabase.getInstance().getReference("PurchasedItems")
-                        .child(currentUserUid)
-                        .child("pfp")
-                        .child(selectedPfpItem.storeId)
-
-                    // Add additional information to the database
-                    userPurchasedItemsRef.child("ID").setValue(selectedPfpItem.storeId)
-                    userPurchasedItemsRef.child("ImageUrl").setValue(selectedPfpItem.imageUrl)
-                    userPurchasedItemsRef.child("setValueTrue").setValue(true)
-
-                    // Check if the item is still available (not purchased by another user)
-                    isPFPPurchased(selectedPfpItem) { isPurchased ->
-                        if (!isPurchased) {
-                            // Refresh user currency display
-                            fetchUserData()
-                        } else {
-                            // The item was purchased by another user
-                            // Handle this case if needed
-                        }
-                    }
-                } else {
-                    // Insufficient currency or transaction failed
-                    Toast.makeText(this@Store, "Purchase failed: Insufficient currency or transaction failed", Toast.LENGTH_SHORT).show()
-                }
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle the error
+                Log.e("FirebaseData", "Error: ${databaseError.message}")
+                Toast.makeText(this@Store, "Purchase failed: ${databaseError.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
+
+
+
+
+
+
+
     private fun handleCharacterPurchase(selectedCharItem: StoreItem) {
-        // Your existing banner purchase logic here
-        val selectedPoints = selectedCharItem.points
-
         // Reference to the user's currency node
-        val userCurrencyRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUid).child("userCurrency")
+        val userCurrencyRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserUid)
 
-        userCurrencyRef.runTransaction(object : Transaction.Handler {
-            override fun doTransaction(mutableData: MutableData): Transaction.Result {
-                val currentCurrency = mutableData.getValue(Long::class.java) ?: 0
+        // Fetch the current user currency value
+        userCurrencyRef.child("userCurrency").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val currentCurrencyBefore = dataSnapshot.getValue(Long::class.java) ?: 0
 
                 // Ensure the user has enough currency to make the purchase
-                return if (currentCurrency >= selectedPoints) {
-                    mutableData.value = currentCurrency - selectedPoints
-                    Transaction.success(mutableData)
+                if (currentCurrencyBefore >= selectedCharItem.points) {
+                    // Deduct the points from the user's currency
+                    userCurrencyRef.child("userCurrency").setValue(currentCurrencyBefore - selectedCharItem.points)
+                        .addOnSuccessListener {
+                            // Purchase successful
+                            Toast.makeText(this@Store, "Item purchased!", Toast.LENGTH_SHORT).show()
+
+                            // Update the PurchasedItems in the database under the new structure
+                            val userPurchasedItemsRef = FirebaseDatabase.getInstance().getReference("PurchasedItems")
+                                .child(currentUserUid)
+                                .child("characters")
+                                .child(selectedCharItem.storeId)
+
+                            // Add additional information to the database
+                            userPurchasedItemsRef.child("ID").setValue(selectedCharItem.storeId)
+                            userPurchasedItemsRef.child("ImageUrl").setValue(selectedCharItem.imageUrl)
+                            userPurchasedItemsRef.child("setValueTrue").setValue(true)
+
+                            // Check if the item is still available (not purchased by another user)
+                            isCharPurchased(selectedCharItem) { isPurchased ->
+                                if (!isPurchased) {
+                                    // Refresh user currency display
+                                    fetchUserData()
+                                } else {
+                                    // The item was purchased by another user
+                                    // Handle this case if needed
+                                }
+                            }
+                        }
+                        .addOnFailureListener {
+                            // Transaction failed
+                            Toast.makeText(this@Store, "Purchase failed: Transaction failed", Toast.LENGTH_SHORT).show()
+                        }
                 } else {
-                    Transaction.abort()
+                    // Insufficient currency
+                    Toast.makeText(this@Store, "Purchase failed: Insufficient currency", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onComplete(databaseError: DatabaseError?, committed: Boolean, dataSnapshot: DataSnapshot?) {
-                if (committed) {
-                    // Purchase successful
-                    Toast.makeText(this@Store, "Item purchased!", Toast.LENGTH_SHORT).show()
-
-                    // Update the PurchasedItems in the database under the new structure
-                    val userPurchasedItemsRef = FirebaseDatabase.getInstance().getReference("PurchasedItems")
-                        .child(currentUserUid)
-                        .child("characters")
-                        .child(selectedCharItem.storeId)
-
-                    // Add additional information to the database
-                    userPurchasedItemsRef.child("ID").setValue(selectedCharItem.storeId)
-                    userPurchasedItemsRef.child("ImageUrl").setValue(selectedCharItem.imageUrl)
-                    userPurchasedItemsRef.child("setValueTrue").setValue(true)
-
-                    // Check if the item is still available (not purchased by another user)
-                    isCharPurchased(selectedCharItem) { isPurchased ->
-                        if (!isPurchased) {
-                            // Refresh user currency display
-                            fetchUserData()
-                        } else {
-                            // The item was purchased by another user
-                            // Handle this case if needed
-                        }
-                    }
-                } else {
-                    // Insufficient currency or transaction failed
-                    Toast.makeText(this@Store, "Purchase failed: Insufficient currency or transaction failed", Toast.LENGTH_SHORT).show()
-                }
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle the error
+                Log.e("FirebaseData", "Error: ${databaseError.message}")
+                Toast.makeText(this@Store, "Purchase failed: ${databaseError.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
+
 
     //region IsPurchased
     private fun isItemPurchased(storeItem: StoreItem, callback: (Boolean) -> Unit) {
