@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -221,6 +222,7 @@ class WaterSleepTracker : Fragment(),TimePickerDialog.OnTimeSetListener {
 
         // Update UserWater node in the database based on the selected radio button
         if (userId != null) {
+            Log.d("WaterTracker","ondatachange triggered")
             // Retrieve the current amount
             userWaterRef.child("Amount").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -235,6 +237,7 @@ class WaterSleepTracker : Fragment(),TimePickerDialog.OnTimeSetListener {
                     Toast.makeText(requireContext(), "Database error: ${error.message}", Toast.LENGTH_SHORT).show()
                 }
             })
+            Log.d("WaterTracker","after onDataChange")
         }
     }
 
