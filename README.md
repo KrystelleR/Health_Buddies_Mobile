@@ -48,7 +48,7 @@ This repository contains the source code and documentation for the Health Buddie
 
 1. *Video link:*
    
-   Link to Demo Video: [[Demo Video Link](https://drive.google.com/drive/folders/1-BJ6g9T-ZRRhjeY7Bl8G7GlTGn0Lsd1x)
+   Link to Demo Video: [Demo Video Link](https://drive.google.com/drive/folders/1-BJ6g9T-ZRRhjeY7Bl8G7GlTGn0Lsd1x)
 
 *Authors:*
 -Krystelle Rupnarain (ST10091197)
